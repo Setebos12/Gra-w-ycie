@@ -3,7 +3,7 @@
 #
 
 # Add source to this project's executable.
-add_executable (CMakeTarget "Gra w życie.cpp" "Gra w życie.h")
+add_executable (CMakeTarget "Gra w życie.cpp" "Gra w życie.h" "core/Logger.h" "core/Simulation.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)
