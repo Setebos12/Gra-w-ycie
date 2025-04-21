@@ -12,4 +12,4 @@ endif()
 project ("Gra w życie")
 
 # Include sub-projects.
-add_subdirectory ("Gra w życie")
+add_subdirectory ("src")
