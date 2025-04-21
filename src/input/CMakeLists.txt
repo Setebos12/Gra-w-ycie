@@ -1,0 +1,11 @@
+# src/input/CMakeLists.txt
+
+# Add a library for the input module
+add_library(InputTarget
+    Input.cpp
+    Input.h
+    ParserKeyboard.h
+    InputToken.h)
+
+# Include the current directory for header files
+target_include_directories(InputTarget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
