@@ -1,12 +1,15 @@
-﻿# CMakeList.txt : CMake project for Gra w życie, include source and define
-# project specific logic here.
-#
+# src/CMakeLists.txt
 
-# Add source to this project's executable.
-add_executable (CMakeTarget "Gra w życie.cpp" "Gra w życie.h")
+# Add the input subdirectory
+add_subdirectory(input)
 
+# Add the main executable
+add_executable(CMakeTarget "main.cpp")
+
+# Link the input library to the main executable
+target_link_libraries(CMakeTarget PRIVATE InputTarget)
+
+# Set the C++ standard
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)
+    set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)
 endif()
-
-# TODO: Add tests and install targets if needed.

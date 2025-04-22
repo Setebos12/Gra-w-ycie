@@ -1,8 +1,7 @@
-﻿// Gra w życie.cpp : Defines the entry point for the application.
+// Gra w �ycie.cpp : Defines the entry point for the application.
 //
 
 #include <iostream>
-
 using namespace std;
 
 int main()
