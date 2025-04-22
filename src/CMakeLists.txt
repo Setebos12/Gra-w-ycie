@@ -1,0 +1,15 @@
+# src/CMakeLists.txt
+
+# Add the logic subdirectory
+add_subdirectory(logic)
+
+# Add the main executable
+add_executable(CMakeTarget "main.cpp")
+
+# Link the logic library to the main executable
+target_link_libraries(CMakeTarget PRIVATE LogicTarget)
+
+# Set the C++ standard
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+    set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)
+endif()
