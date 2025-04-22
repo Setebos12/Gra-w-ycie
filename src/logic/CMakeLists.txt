@@ -1,6 +1,6 @@
-﻿# src/logic/CMakeLists.txt
+# src/logic/CMakeLists.txt
 
-# Add a library for the input module
+# Add a library for the logic module
 add_library(LogicTarget
     board.cpp
     board.h
