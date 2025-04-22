@@ -64,7 +64,6 @@ The project is organized into the following classes and modules:
 
 #### **PointHandle**
 - Stateless class that determines whether a cell should live or die based on its neighbors.
-- Optimized for performance by processing rows in batches.
 
 #### **Logger**
 - Static class for logging messages.
