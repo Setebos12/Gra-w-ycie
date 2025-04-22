@@ -3,7 +3,7 @@
 #
 
 # Add source to this project's executable.
-add_executable (CMakeTarget "Gra w życie.cpp" "Gra w życie.h" "board.h" "Container.h")
+add_executable (CMakeTarget "board.cpp" "board.h" "Container.h" "PointHandle.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)
