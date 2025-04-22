@@ -1,12 +1,14 @@
 # src/CMakeLists.txt
 
-# Add the input subdirectory
+# Add the logic subdirectory
+add_subdirectory(logic)
 add_subdirectory(input)
-
 # Add the main executable
 add_executable(CMakeTarget "main.cpp")
+# src/CMakeLists.txt
 
-# Link the input library to the main executable
+# Link the logic library to the main executable
+target_link_libraries(CMakeTarget PRIVATE LogicTarget)
 target_link_libraries(CMakeTarget PRIVATE InputTarget)
 
 # Set the C++ standard
