@@ -8,7 +8,7 @@
 #pragma once
 
 #include <string>
-#include "drawer.h"
+#include "../render/drawer.h"
 
 class GameObject {
 public:

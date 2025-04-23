@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "gameobject.h"
+#include "../core/gameobject.h"
 
 class Hud : GameObject {
 public:

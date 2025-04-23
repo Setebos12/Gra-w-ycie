@@ -6,4 +6,4 @@ add_library(UITarget
     hud.h)
 
 # Include the current directory for header files
-target_include_directories(UITarget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(UITarget PUBLIC ${CMAKE_SOURCE_DIR})
