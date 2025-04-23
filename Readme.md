@@ -119,3 +119,4 @@ If one class won't be enough to display everything it can be easily split into s
 - **Piotr**: `Renderer`, `GameObject`, `HUD`, `Logic`, `FileIO`, `Main`.
 - **Bartosz**: `Board`, `Container`, `PointHandle`, `GameState`.
 - **Krzysztof**: `Simulation`, `Logger`, `Input`, `CurrentInput`.
+Tests will be written by the person that is below the class.
