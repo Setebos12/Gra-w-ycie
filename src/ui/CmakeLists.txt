@@ -1,0 +1,9 @@
+# src/ui/CMakeLists.txt
+
+# Add a library for the input module
+add_library(UITarget
+    hud.cpp
+    hud.h)
+
+# Include the current directory for header files
+target_include_directories(UITarget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
