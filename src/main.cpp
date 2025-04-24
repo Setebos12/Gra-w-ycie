@@ -13,7 +13,7 @@ int main()
 	window.setFramerateLimit(144);
 	
 	sf::Font font;
-	if (!font.openFromFile("../../assets/arial.ttf")) {
+	if (!font.openFromFile("../assets/arial.ttf")) {
         std::cerr << "Failed to load font." << std::endl;
         return -1;
     }

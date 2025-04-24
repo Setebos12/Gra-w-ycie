@@ -23,3 +23,6 @@ FetchContent_Declare(SFML
     EXCLUDE_FROM_ALL
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
+
+# assets - make it so it updates after changes
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
