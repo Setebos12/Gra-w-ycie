@@ -3,8 +3,8 @@
 # Add a library for the input module
 add_library(RenderTarget
     drawer.cpp
-    drawer.h
-    renderer.h)
+    "drawer.h"
+    "Renderer.h")
 
 # Include the current directory for header files
 target_include_directories(RenderTarget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

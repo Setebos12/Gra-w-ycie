@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameObject.h"
+#include "../core/GameObject.h"
 #include "Container.h"
 #include "PointHandle.h"
 #include <memory>

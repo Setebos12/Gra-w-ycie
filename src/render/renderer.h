@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <memory>
-#include "gameobject.h"
+#include "../core/gameobject.h"
 
 class Renderer {
 public:
