@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <memory>
-#include "gameobject.h"
+#include "../core/gameobject.h"
 
 // replace with a real class
 using GameState = int;
