@@ -34,11 +34,6 @@ void Container::setCellState(int x, int y, bool state)
 
 void Container::resetContainer()
 {
-	for (int x = 0; x < width; x++)
-	{
-		for (int y = 0; y < height; y++)
-		{
-			setCellState(x, y, 0);
-		}
-	}
+	for (auto& column : grid)
+		std::fill(column.begin(), column.end(), false);
 }
