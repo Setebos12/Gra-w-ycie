@@ -10,9 +10,10 @@ public:
     void setCellState(int x, int y, bool state);
     int getWidth() const;
     int getHeight() const;
+    void resetContainer();
 
 private:
-    std::vector<std::vector<bool>> grid_;
-    int width_;
-    int height_;
+    std::vector<std::vector<bool>> grid;
+    int width;
+    int height;
 };

@@ -9,7 +9,7 @@ public:
     bool shouldCellLive(int x, int y) const;
 
 private:
-    const Container& container_;
+    const Container& container;
 
     int countLiveNeighbors(int x, int y) const;
 };

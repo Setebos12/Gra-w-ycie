@@ -7,7 +7,7 @@
 # add_subdirectory(ui)
 # add_subdirectory(render)
 # Add the main executable
-add_executable(CMakeTarget "main.cpp")
+add_executable(CMakeTarget "main.cpp" "logic/Container.cpp" "logic/PointHandle.cpp")
 # src/CMakeLists.txt
 
 # Link the logic library to the main executable
