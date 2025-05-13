@@ -10,9 +10,11 @@ if (POLICY CMP0141)
 endif()
 
 project ("Gra w życie")
-
+ 
 # Include sub-projects.
 add_subdirectory ("src")
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # sfml
 include(FetchContent)

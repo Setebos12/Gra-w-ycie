@@ -8,11 +8,16 @@
 
 #include <vector>
 #include <memory>
-#include "../core/gameobject.h"
+#include "drawer.h"
+#include "irenderobj.h"
 
+namespace MVC {
 class Renderer {
 public:
-	void draw(std::vector<std::unique_ptr<GameObject>>& all_objects);
+	Renderer(std::unique_ptr<Render::Drawer>&& drawer) : drawer_(std::move(drawer)) {}
+	Renderer(const std::string& name, unsigned int height, unsigned int width) : drawer_(std::make_unique<Render::Drawer>(name, height, width, 60)) {}
+	void draw(const std::vector<std::unique_ptr<Render::IRenderObject>>& all_objects);
 private:
-	Drawer drawer;
+	std::unique_ptr<Render::Drawer> drawer_;
 };
+}

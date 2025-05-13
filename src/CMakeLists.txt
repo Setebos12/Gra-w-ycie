@@ -5,7 +5,7 @@
 # add_subdirectory(input)
 #add_subdirectory(core)
 # add_subdirectory(ui)
-# add_subdirectory(render)
+add_subdirectory(render)
 # Add the main executable
 add_executable(CMakeTarget "main.cpp")
 # src/CMakeLists.txt
@@ -16,7 +16,7 @@ add_executable(CMakeTarget "main.cpp")
 #target_link_libraries(CMakeTarget PRIVATE CoreTarget)
 
 #target_link_libraries(CMakeTarget PRIVATE UITarget)
-#target_link_libraries(CMakeTarget PRIVATE RenderTarget)
+target_link_libraries(CMakeTarget PRIVATE Renderer)
 
 # sfml
 target_link_libraries (CMakeTarget PRIVATE SFML::Graphics)
