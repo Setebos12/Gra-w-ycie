@@ -4,10 +4,13 @@
 //
 //Author: Piotr Pyrak
 
+#pragma once
+
 #include "drawer.h"
 
 namespace Render {
 class IRenderObject {
+public:
 	virtual void draw(const Drawer& draw) = 0;
 };
 }

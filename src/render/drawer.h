@@ -1,28 +1,31 @@
-//Filename: drawer.h
+// Filename: drawer.h
 //
-//Provides methods for gameobjects for them to not interact with graphics directly.
-//The only class to interact with graphics
+// Provides methods for gameobjects for them to not interact with graphics
+// directly. The only class to interact with graphics
 //
-//Author: Piotr Pyrak
+// Author: Piotr Pyrak
 
 #pragma once
 
-#include <string>
+#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-
-//replace with double ints, in a real class
-using Vector2 = int;
+#include <SFML/System/Vector2.hpp>
+#include <string>
+#include <vector>
 
 namespace Render {
 class Drawer {
 public:
-	Drawer(const std::string& name, unsigned int height, unsigned int width, int maxFPS);
-	void refresh();
+  Drawer(const std::string &name, const sf::Vector2u &size, int maxFPS);
+  void refresh();
 
-	//methods for gameobjects to use (will add more as needed)
-	void drawRect(const Vector2& start, const Vector2& end);
-	void drawText(const std::string& text);
+  // methods for gameobjects to use (will add more as needed)
+  void drawRect(const sf::Vector2f &position, const sf::Vector2f &size,
+                const sf::Color &fill);
+  void drawText(const std::string &text);
+
 private:
-	sf::RenderWindow window_;
+  sf::RenderWindow window_;
+  std::vector<std::unique_ptr<sf::Drawable>> buffer_;
 };
-}
+} // namespace Render
