@@ -1,26 +1,23 @@
 #pragma once
 
-#include <memory>
 #include "../input/Input.h"
-#include "../logic/Logic.h" 
-#include "../render/Renderer.h"
-#include "GameObject.h"
+#include "../logic/logic.h"
+#include "../render/renderer.h"
+#include "gameobject.h"
+#include <memory>
 
+namespace MVC {
 class Simulation {
 public:
-Simulation();
+  Simulation();
 
-void run();
+  void run();
+
 private:
-std::unique_ptr<Input> input;
-std::unique_ptr<Logic> logic;
-std::unique_ptr<Renderer> render;
+  std::unique_ptr<Input> input_;
+  std::unique_ptr<MVC::Logic> logic_;
+  std::unique_ptr<MVC::Renderer> render_;
 
-std::unique_ptr<GameObject> gameobject;
-
-bool running;
-
-void processInput();
-void updateLogic();
-void render();
+  std::vector<std::unique_ptr<MVC::GameObject>> gameobjects_;
 };
+} // namespace MVC
