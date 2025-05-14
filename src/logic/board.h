@@ -17,8 +17,9 @@ public:
     int getGenerationCount() const;
 
 private:
-    std::unique_ptr<Container> container_;
-    int generationCount_;
+    std::unique_ptr<Container> container;
+    std::unique_ptr<PointHandle> pointHandle;
+    int generationCount;
 
     void incrementGeneration();
 };
