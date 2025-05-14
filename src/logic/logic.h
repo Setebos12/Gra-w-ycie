@@ -10,11 +10,17 @@
 #include <memory>
 #include "../core/gameobject.h"
 
-// replace with a real class
-using GameState = int;
-
+namespace MVC {
 class Logic {
 public:
-	void step(std::vector<std::unique_ptr<GameObject>>& all_objects); 
+	//Should also take input, gameobjects maybe should to in update, or a third method for control is needed
+	void step(std::vector<std::unique_ptr<GameObject>>& all_objects);
+	
+	void start();
+	void pause();
+
+	bool isRunning() { return running_; }
 private:
+	bool running_;
 };
+}
