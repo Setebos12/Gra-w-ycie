@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Container.h"
 
 Container::Container(int width, int height)

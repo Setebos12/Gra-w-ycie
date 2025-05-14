@@ -2,10 +2,7 @@
 
 # Add a library for the logic module
 add_library(CoreTarget
-    Simulation.h
     Simulation.cpp
-    Logger.h
-    gameobject.h
 	gameobject.cpp
 )
 
@@ -13,3 +10,5 @@ add_library(CoreTarget
 target_include_directories(CoreTarget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(CoreTarget PRIVATE SFML::Graphics)
+target_link_libraries(CoreTarget PRIVATE Renderer)
+target_link_libraries(CoreTarget PRIVATE LogicModel)

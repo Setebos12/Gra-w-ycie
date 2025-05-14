@@ -16,9 +16,10 @@ namespace MVC {
 class GameObject : public Render::IRenderObject {
 public:
   GameObject(const std::string &name) : name_(name) {}
+  virtual ~GameObject() = default;
 
   // recivers renderer object where it will be able to call drawing methods
-  virtual void draw(const Render::Drawer &drawer) = 0;
+  virtual void draw(const Render::Drawer &drawer) override = 0;
   virtual void update() = 0;
 
   const auto &getName() { return name_; }

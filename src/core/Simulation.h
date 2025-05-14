@@ -1,9 +1,8 @@
 #pragma once
 
 #include "../input/Input.h"
-#include "../logic/logic.h"
-#include "../render/renderer.h"
-#include "gameobject.h"
+#include "logic.h"
+#include "renderer.h"
 #include <memory>
 
 namespace MVC {

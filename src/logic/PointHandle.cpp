@@ -1,5 +1,3 @@
-#pragma once
-
 #include "PointHandle.h"
 
 PointHandle::PointHandle(const Container& container) 

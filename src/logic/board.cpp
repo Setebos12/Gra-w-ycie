@@ -1,5 +1,3 @@
-#pragma once
-
 #include "board.h"
 #include <utility>
 
@@ -9,7 +7,7 @@ Board::Board(const std::string& name, int width, int height)
 	pointHandle(std::make_unique<PointHandle>(*container)),
 	generationCount(0) {}
 
-Board::update()
+void Board::update()
 {
 	if (!container || !pointHandle) return;
 
@@ -24,7 +22,7 @@ Board::update()
 		{
 			if (container->getCellState(x, y) != pointHandle->shouldCellLive(x, y))
 			{
-				cellsToToggle.emplace_back({x, y});
+				cellsToToggle.push_back({x, y});
 			}
 		}
 	}

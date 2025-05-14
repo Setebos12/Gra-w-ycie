@@ -1,12 +1,18 @@
 # src/logic/CMakeLists.txt
 
+project("LogicModel")
+
+set(SOURCE
+	board.cpp
+	Container.cpp
+	PointHandle.cpp
+	logic.cpp
+)
+
 # Add a library for the logic module
-add_library(LogicTarget
-    board.cpp
-    board.h
-    Container.h
-    PointHandle.h
-    logic.h)
+add_library(${PROJECT_NAME} ${SOURCE})
 
 # Include the current directory for header files
-target_include_directories(LogicTarget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(${PROJECT_NAME} PUBLIC SFML::Graphics)

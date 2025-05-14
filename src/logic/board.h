@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../core/GameObject.h"
+#include "../core/gameobject.h"
 #include "Container.h"
 #include "PointHandle.h"
 #include <memory>
 
-class Board : public GameObject {
+class Board : public MVC::GameObject {
 public:
     Board(const std::string& name, int width, int height);
 
-    void draw(const Drawer& drawer) override;
+    void draw(const Render::Drawer& drawer) override;
     void update() override;
 
     void toggleCellState(int x, int y);

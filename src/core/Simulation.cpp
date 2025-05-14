@@ -9,7 +9,8 @@ Simulation::Simulation()
 
 void Simulation::run() {
   while (true) {
-    logic_->step(gameobjects_);
+	//logic_->step(gameobjects_);
+    logic_->start();
     render_->draw(gameobjects_);
   }
 }
