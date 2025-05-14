@@ -3,7 +3,7 @@
 # Add the logic subdirectory
 #add_subdirectory(logic)
 # add_subdirectory(input)
-#add_subdirectory(core)
+add_subdirectory(core)
 # add_subdirectory(ui)
 add_subdirectory(render)
 # Add the main executable
@@ -13,7 +13,7 @@ add_executable(CMakeTarget "main.cpp")
 # Link the logic library to the main executable
 #target_link_libraries(CMakeTarget PRIVATE LogicTarget)
 #target_link_libraries(CMakeTarget PRIVATE InputTarget)
-#target_link_libraries(CMakeTarget PRIVATE CoreTarget)
+target_link_libraries(CMakeTarget PRIVATE CoreTarget)
 
 #target_link_libraries(CMakeTarget PRIVATE UITarget)
 target_link_libraries(CMakeTarget PRIVATE Renderer)
