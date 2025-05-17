@@ -6,6 +6,7 @@ add_subdirectory(logic)
 add_subdirectory(core)
 # add_subdirectory(ui)
 add_subdirectory(render)
+add_subdirectory(util)
 # Add the main executable
 add_executable(${PROJECT_NAME} main.cpp)
 # src/CMakeLists.txt
@@ -16,6 +17,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE LogicModel)
 target_link_libraries(${PROJECT_NAME} PRIVATE CoreTarget)
 #target_link_libraries(CMakeTarget PRIVATE UITarget)
 target_link_libraries(${PROJECT_NAME} PRIVATE Renderer)
+target_link_libraries(${PROJECT_NAME} PRIVATE Logger)
 
 # sfml
 target_link_libraries (${PROJECT_NAME} PRIVATE SFML::Graphics)
