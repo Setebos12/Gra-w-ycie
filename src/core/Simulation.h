@@ -1,9 +1,10 @@
 #pragma once
 
 #include "../input/Input.h"
-#include "logic.h"
-#include "renderer.h"
+#include "logic/logic.h"
 #include <memory>
+#include "../render/renderer.h"
+
 
 namespace MVC {
 class Simulation {
