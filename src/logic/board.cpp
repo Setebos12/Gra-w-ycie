@@ -87,7 +87,7 @@ void Board::draw(const Render::Drawer& drawer) {
             sf::Vector2f size(cellSize, cellSize);
             sf::Color color = alive ? sf::Color::Green : sf::Color::Black;
 
-            drawer.drawRect(position, size, color);
+            //drawer.drawRect(position, size, color);
         }
     }
 }

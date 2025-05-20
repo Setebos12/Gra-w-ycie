@@ -17,8 +17,8 @@ public:
     int getGenerationCount() const;
 
 
-    std::string printString() const;
-    void readString(const std::string& read);
+    std::string printString() const override;
+    void readString(const std::string& read) override;
 
 private:
     std::unique_ptr<Container> container;
