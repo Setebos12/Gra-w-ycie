@@ -17,7 +17,7 @@ void MVC::Input::pollEvents(sf::RenderWindow& window) {
     }
 }
 
-void Input::addToken(const InputToken token) {
+void MVC::Input::addToken(const InputToken token) {
     Tokens.push(token);
 }
 
@@ -29,7 +29,7 @@ InputToken MVC::Input::nextToken() {
     return token;
 }
 
-void Input::clear() {
+void MVC::Input::clear() {
     while (!Tokens.empty()) {
         Tokens.pop();
     }
