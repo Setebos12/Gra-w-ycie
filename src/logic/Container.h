@@ -11,7 +11,8 @@ public:
     int getWidth() const;
     int getHeight() const;
     void resetContainer();
-
+    std::pair<int, int> findMinMaxX() const;
+    std::pair<int, int> findMinMaxY() const;
 private:
     std::vector<std::vector<bool>> grid;
     int width;
