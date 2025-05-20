@@ -12,10 +12,11 @@ class Hud : GameObject {
 public:
 	Hud(const std::string& name) : GameObject(name) {}
 
-	//more added as needed
 	void update_values(const int& generation_number, const int& alive_cells);
 
 	void draw(const Drawer& drawer) override;
 	void update() override;
 private:
+	int generation_;
+	int alive_cells_;
 };
