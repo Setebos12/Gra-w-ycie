@@ -95,23 +95,33 @@ void Board::draw(const Render::Drawer& drawer) {
 std::string Board::printString() const {
     std::string result;
 
-    result += toString(container->getWidth()) + " ";
-    result += toString(container->getHeight()) + " ";
-    result += toString(generationCount) + " ";
+    int aliveCount = 0;
+    std::string gridData;
 
-    for (int x = 0; x < container->getWidth(); ++x) {
-        for (int y = 0; y < container->getHeight(); ++y) {
-            result += container->getCellState(x, y) ? '1' : '0';
+    int width = container->getWidth();
+    int height = container->getHeight();
+
+    for (int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; ++y) {
+            bool alive = container->getCellState(x, y);
+            if (alive) aliveCount++;
+            gridData += alive ? '1' : '0';
         }
     }
+
+    result += toString(width) + " ";
+    result += toString(height) + " ";
+    result += toString(generationCount) + " ";
+    result += toString(aliveCount) + " ";
+    result += gridData;
 
     return result;
 }
 
 void Board::readString(const std::string& read) {
     std::istringstream iss(read);
-    int width, height, generation;
-    iss >> width >> height >> generation;
+    int width, height, generation, aliveCount;
+    iss >> width >> height >> generation >> aliveCount;
 
     container = std::make_unique<Container>(width, height);
     pointHandle = std::make_unique<PointHandle>(*container);
