@@ -3,10 +3,10 @@
 #include "ParserKeyboard.h"
 
 
-constexpr int KEY_S = 83; // 'S' for Start
-constexpr int KEY_P = 80; // 'P' for Stop
-constexpr int KEY_E = 69; // 'E' for End
-constexpr int KEY_D = 68; // 'D' for ToggleDraw
+constexpr int KEY_S = 18; // 'S' for Start
+constexpr int KEY_P = 15; // 'P' for Stop
+constexpr int KEY_E = 4; // 'E' for End
+constexpr int KEY_D = 3; // 'D' for ToggleDraw
 
 InputToken ParseKeyBoard::parseKey(const int key) const {
     switch (key) {

@@ -1,21 +1,26 @@
-#include "Input.h"
-#include "Input.h"
 #pragma once
 
 #include "Input.h"
-
-Input::Input() {}
+#include <iostream>
 
 void MVC::Input::pollEvents(sf::RenderWindow& window) {
-    sf::Event event;
-    ParseKeyBoard parser;
-    while (window.pollEvent(event)) {
-        if (event.type == sf::Event::KeyPressed) {
-            InputToken token = parser.parseKey(event.key.code);
+    ParseKeyBoard parser; // parser
+
+    std::optional<sf::Event> eventOpt;
+    while ((eventOpt = window.pollEvent())) {
+        const sf::Event& event = *eventOpt;
+
+        if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
+            InputToken token = parser.parseKey(static_cast<int>(keyPressed->scancode));
             addToken(token);
+        }
+
+        if (const auto* closed = event.getIf<sf::Event::Closed>()) {
+            window.close();
         }
     }
 }
+
 
 void MVC::Input::addToken(const InputToken token) {
     Tokens.push(token);

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../input/Input.h"
-#include "logic/logic.h"
+#include "../logic/logic.h"
 #include <memory>
 #include "../render/renderer.h"
 
@@ -14,6 +14,9 @@ public:
   void run();
 
 private:
+
+  sf::RenderWindow window;
+
   std::unique_ptr<Input> input_;
   std::unique_ptr<MVC::Logic> logic_;
   std::unique_ptr<MVC::Renderer> render_;

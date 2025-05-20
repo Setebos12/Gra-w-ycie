@@ -2,7 +2,7 @@
 //
 //Display that shows most important information from simulation to screen
 //
-//Author: Piotr Pyrak
+//Author: Piotr Pyrak, Krzysztof Rutkowski
 
 #pragma once
 
