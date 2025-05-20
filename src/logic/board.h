@@ -16,6 +16,10 @@ public:
     void resetBoard();
     int getGenerationCount() const;
 
+
+    std::string printString() const;
+    void readString(const std::string& read);
+
 private:
     std::unique_ptr<Container> container;
     std::unique_ptr<PointHandle> pointHandle;

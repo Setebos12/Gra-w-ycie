@@ -1,5 +1,8 @@
 #include "Simulation.h"
 #include <iostream>
+#include "board.h"
+
+
 using namespace MVC;
 
 Simulation::Simulation()
@@ -9,6 +12,7 @@ Simulation::Simulation()
         sf::Vector2u{ 1920u, 1800u })),*/
     window(sf::RenderWindow(sf::VideoMode({ 1920u, 1080u }), "Simulation")) // temporary for input tests , no idea how to get from rederer window ;) 
 {
+    gameobjects_.emplace_back(std::make_unique<Board>("Game of Life Board", 100, 100));
 }
 
 void Simulation::run() {
