@@ -1,13 +1,13 @@
 #pragma once
 
-#include <set>
+#include <queue>
 #include <string>
 #include "InputToken.h"
 
 
 class Input {
 private:
-	std::set<InputToken> Tokens;
+	std::queue<InputToken> Tokens;
 public:
 	Input();
 	void addToken(const InputToken token);
