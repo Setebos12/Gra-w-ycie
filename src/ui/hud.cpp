@@ -11,7 +11,7 @@ void Hud::update_values(const int& generation_number, const int& alive_cells) {
     alive_cells_ = alive_cells;
 }
 
-void Hud::draw(const Drawer& drawer) {
+void Hud::draw(Drawer& drawer) {
     std::ostringstream ss;
     ss << "Generation: " << generation_ << "  Alive: " << alive_cells_;
     drawer.drawText(ss.str(), 10, 10);

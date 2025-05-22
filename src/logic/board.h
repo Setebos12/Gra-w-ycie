@@ -9,7 +9,7 @@ class Board : public MVC::GameObject {
 public:
     Board(const std::string& name, int width, int height);
 
-    void draw(const Render::Drawer& drawer) override;
+    void draw(Render::Drawer& drawer) override;
     void update() override;
 
     void toggleCellState(int x, int y);

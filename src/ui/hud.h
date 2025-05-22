@@ -14,7 +14,7 @@ public:
 
 	void update_values(const int& generation_number, const int& alive_cells);
 
-	void draw(const Drawer& drawer) override;
+	void draw(Drawer& drawer) override;
 	void update() override;
 private:
 	int generation_;

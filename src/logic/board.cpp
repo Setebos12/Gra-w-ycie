@@ -74,7 +74,7 @@ void Board::incrementGeneration()
 	generationCount++;
 }
 
-void Board::draw(const Render::Drawer& drawer) {
+void Board::draw(Render::Drawer& drawer) {
     if (!container) return;
 
     float cellSize = 10.0f;
@@ -87,7 +87,7 @@ void Board::draw(const Render::Drawer& drawer) {
             sf::Vector2f size(cellSize, cellSize);
             sf::Color color = alive ? sf::Color::Green : sf::Color::Black;
 
-            //drawer.drawRect(position, size, color);
+            drawer.drawRect(position, size, color);
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Render {
 class IRenderObject {
 public:
 	virtual ~IRenderObject() = default;
-	virtual void draw(const Drawer& draw) = 0;
+	virtual void draw(Drawer& draw) = 0;
 };
 }

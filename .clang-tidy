@@ -1,0 +1,15 @@
+Checks: >
+  clang-analyzer-*,
+  bugprone-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  cppcoreguidelines-*,
+  misc-*,
+  portability-*,
+  google-*,
+  -clang-analyzer-cplusplus.NewDeleteLeaks
+
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*'
+FormatStyle: file
