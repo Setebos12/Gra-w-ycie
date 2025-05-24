@@ -85,26 +85,22 @@ void Simulation::run() {
 
     while (running) {
         auto* drawer = render_->getDrawer();
-        auto& window = drawer->getWindow();        
+        auto& window = drawer->getWindow();
         input_->pollEvents(window);
         render_->draw(gameobjects_);
 
         InputToken token;
         while ((token = input_->nextToken()) != InputToken::Unknown) {
-            std::cout << "Token received: " << static_cast<int>(token) << std::endl;
             if (token == InputToken::Start) {
                 // s
                 logic_->start();
-                std::cout << "Start action triggered" << std::endl;
             }
             // key p
             else if (token == InputToken::Stop) {
                 logic_->pause();
-                std::cout << "Stop action triggered" << std::endl;
             }
             // key e
             else if (token == InputToken::End) {
-                std::cout << "End action triggered - exiting" << std::endl;
                 running = false;
                 window.close();
             }
@@ -112,14 +108,26 @@ void Simulation::run() {
             else if (token == InputToken::ToggleDraw) {
                 logic_->pause();
 
-                std::cout << "ToggleDraw action triggered" << std::endl;
             }
         }
+        sf::Vector2i pos;
+        while ((pos = input_->NextPos()) != sf::Vector2i(-1, -1)) {
+            // Find the board object
+            Board* board = nullptr;
+            if (!gameobjects_.empty()) {
+                board = dynamic_cast<Board*>(gameobjects_.front().get());
+            }
+            if (board) {
+                board->toggleCellState(pos.x, pos.y);
+            }
+        }
+
+
         logic_->step(gameobjects_);
 
         input_->clear();
 
-        sf::sleep(sf::seconds(1));
+        sf::sleep(sf::milliseconds(20));
     }
 }
 

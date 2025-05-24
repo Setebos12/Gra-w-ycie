@@ -1,9 +1,11 @@
+#include "Input.h"
+#include "Input.h"
+#include "Input.h"
 #pragma once
 
-#include "Input.h"
 #include <iostream>
 
-void MVC::Input::pollEvents(sf::RenderWindow& window) {
+void MVC::Input::pollEvents(sf::RenderWindow& window, int mode) {
    ParseKeyBoard parser; // parser
 
    std::optional<sf::Event> eventOpt;
@@ -16,12 +18,24 @@ void MVC::Input::pollEvents(sf::RenderWindow& window) {
        }
 
        if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>()) {
+           sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+           if (auto pos = readBoard(mousePos)) {
+               boardClicks.push(*pos);
+           }
+       }
+
+       if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+           sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+           if (auto pos = readBoard(mousePos)) {
+               boardClicks.push(*pos);
+           }
+       }
+
+       if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>()) {
            sf::Vector2i mousePos = sf::Mouse::getPosition(window); 
-           std::cout << mousePos.x << std::endl;
            for (auto& btn : buttons) {
                const auto& pos = btn->position_;
                const auto& size = btn->size_;
-               std::cout << btn->label_ << std::endl;
                if (mousePos.x >= pos.x && mousePos.x <= pos.x + size.x &&
                    mousePos.y >= pos.y && mousePos.y <= pos.y + size.y) {
                    btn->setPressed(true);
@@ -37,11 +51,45 @@ void MVC::Input::pollEvents(sf::RenderWindow& window) {
            }
        }
 
+
+
        if (const auto* closed = event.getIf<sf::Event::Closed>()) {
            window.close();
        }
    }
 }
+
+std::optional<sf::Vector2i> MVC::Input::readBoard(sf::Vector2i& mousePos) {
+    float cellSize = 10.f;
+    int boardWidth = 100;   // Set this to your actual board width
+    int boardHeight = 100;  // Set this to your actual board height
+
+    int cellX = static_cast<int>(mousePos.x / cellSize);
+    int cellY = static_cast<int>(mousePos.y / cellSize);
+
+    if (cellX >= 0 && cellX < boardWidth && cellY >= 0 && cellY < boardHeight) {
+        return sf::Vector2i(cellX, cellY);
+    }
+    return std::nullopt;
+}
+
+//void Board::draw(Render::Drawer& drawer) {
+//    if (!container) return;
+//
+//    float cellSize = 10.0f;
+//
+//    for (int x = 0; x < container->getWidth(); ++x) {
+//        for (int y = 0; y < container->getHeight(); ++y) {
+//            bool alive = container->getCellState(x, y);
+//
+//            sf::Vector2f position(x * cellSize, y * cellSize);
+//            sf::Vector2f size(cellSize, cellSize);
+//            sf::Color color = alive ? sf::Color::Green : sf::Color::Black;
+//
+//            drawer.drawRect(position, size, color);
+//        }
+//    }
+//}
 
 
 void MVC::Input::addToken(const InputToken token) {
@@ -60,4 +108,17 @@ void MVC::Input::clear() {
    while (!Tokens.empty()) {
        Tokens.pop();
    }
+
+   while (!boardClicks.empty()) {
+       boardClicks.pop();
+   }
+}
+
+
+sf::Vector2i MVC::Input::NextPos() {
+    if (boardClicks.empty())
+        return sf::Vector2i(-1, -1);
+    sf::Vector2i pos = boardClicks.front();
+    boardClicks.pop();
+    return pos;
 }
