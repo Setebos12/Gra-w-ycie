@@ -6,7 +6,7 @@ add_library(InputTarget
     Input.h
     ParserKeyboard.h
     ParserKeyboard.cpp
-    InputToken.h)
+    InputToken.h "InputButton.h")
 
 # Include the current directory for header files
 target_link_libraries(InputTarget PRIVATE sfml-graphics sfml-window sfml-system)
