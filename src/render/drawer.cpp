@@ -21,6 +21,10 @@ void Drawer::drawRect(const sf::Vector2f &position, const sf::Vector2f &size,
   auto rect{std::make_unique<sf::RectangleShape>(size)};
   rect->setPosition(position);
   rect->setFillColor(fill);
+
+  rect->setOutlineColor(sf::Color::White);
+  rect->setOutlineThickness(0.5f);
+
   buffer_.emplace_back(std::move(rect));
 }
 

@@ -15,7 +15,6 @@ Simulation::Simulation()
     if (!gameobjects_.empty()) {
         Board* board = dynamic_cast<Board*>(gameobjects_.front().get());
         if (board) {
-            // Teraz mo¿esz wywo³ywaæ metody Board, np.:
             board->resetBoard();
             int gen = board->getGenerationCount();
             int centerX = 50;
@@ -37,7 +36,7 @@ Simulation::Simulation()
 
     auto stopBtn = std::make_unique<InputButton>(
         "StopButton",
-        sf::Vector2f{ 1700.f, 700.f },
+        sf::Vector2f{ 1700.f, 600.f },
         sf::Vector2f{ 180.f, 60.f },
         "STOP"
     );
@@ -46,7 +45,7 @@ Simulation::Simulation()
 
     auto endBtn = std::make_unique<InputButton>(
         "EndButton",
-        sf::Vector2f{ 1700.f, 800.f },
+        sf::Vector2f{ 1700.f, 700.f },
         sf::Vector2f{ 180.f, 60.f },
         "END"
     );
@@ -55,13 +54,19 @@ Simulation::Simulation()
 
     auto toggleDrawBtn = std::make_unique<InputButton>(
         "ToggleDrawButton",
-        sf::Vector2f{ 1700.f, 1000.f },
+        sf::Vector2f{ 1700.f, 800.f },
         sf::Vector2f{ 180.f, 60.f },
         "TOGGLE DRAW"
     );
     input_->buttons.push_back(toggleDrawBtn.get());
     gameobjects_.push_back(std::move(toggleDrawBtn));
 
+
+    auto hud = std::make_unique<Hud>(
+        "Hud",    
+        sf::Vector2f{ 1700.f, 900.f }
+    );
+    gameobjects_.push_back(std::move(hud));
 }
 
 //void Simulation::run() {

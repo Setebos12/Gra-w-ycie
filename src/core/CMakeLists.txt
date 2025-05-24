@@ -13,3 +13,5 @@ target_link_libraries(CoreTarget PRIVATE SFML::Graphics)
 target_link_libraries(CoreTarget PRIVATE Renderer)
 target_link_libraries(CoreTarget PRIVATE LogicModel)
 target_link_libraries(CoreTarget PRIVATE InputTarget)
+target_link_libraries(CoreTarget PRIVATE ui)
+

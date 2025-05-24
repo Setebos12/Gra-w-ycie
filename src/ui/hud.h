@@ -8,15 +8,27 @@
 
 #include "../core/gameobject.h"
 
-class Hud : GameObject {
+class Hud : public MVC::GameObject {
 public:
-	Hud(const std::string& name) : GameObject(name) {}
+    Hud(const std::string& name, const sf::Vector2f& pos)
+        : MVC::GameObject(name), position_(pos) {
+    }
 
-	void update_values(const int& generation_number, const int& alive_cells);
+    void update_values(const int& generation_number, const int& alive_cells);
 
-	void draw(Drawer& drawer) override;
-	void update() override;
+    void draw(Render::Drawer& drawer) override;
+    void update() override;
+
+    std::string printString() const { 
+        return "name";
+    }
+
+    void readString(const std::string& read) {
+    }
+
 private:
-	int generation_;
-	int alive_cells_;
+    sf::Vector2f position_;
+
+    int generation_;
+    int alive_cells_;
 };

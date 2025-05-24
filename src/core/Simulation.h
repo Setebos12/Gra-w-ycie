@@ -4,8 +4,7 @@
 #include "../logic/logic.h"
 #include <memory>
 #include "../render/renderer.h"
-
-
+#include "../ui/hud.h"
 namespace MVC {
 class Simulation {
 public:

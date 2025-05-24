@@ -1,9 +1,14 @@
 # src/ui/CMakeLists.txt
+project("ui")
 
 # Add a library for the input module
-add_library(UITarget
-    hud.cpp
-    hud.h)
+set(SOURCE
+	hud.cpp
+)
 
 # Include the current directory for header files
-target_include_directories(UITarget PUBLIC ${CMAKE_SOURCE_DIR})
+add_library(${PROJECT_NAME} ${SOURCE})
+
+# Include the current directory for header files
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(${PROJECT_NAME} PUBLIC SFML::Graphics)
