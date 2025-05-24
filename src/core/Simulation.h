@@ -12,8 +12,14 @@ public:
 
   void run();
 
-private:
+  void updateHud();
+  void handleInput(sf::RenderWindow& window);
+  void handleBoardClicks();
+  void handleSimulationStep(sf::Clock& simClock);
 
+private:
+	int simulationDelayMs_;
+	bool running;
   sf::RenderWindow window;
 
   std::unique_ptr<Input> input_;

@@ -1,4 +1,8 @@
 #include "Simulation.h"
+#include "Simulation.h"
+#include "Simulation.h"
+#include "Simulation.h"
+#include "Simulation.h"
 #include <iostream>
 #include "board.h"
 #include "../input/InputButton.h"
@@ -93,81 +97,88 @@ Simulation::Simulation()
         sf::Vector2f{ buttonX, buttonY + 400.f }
     );
     gameobjects_.push_back(std::move(hud));
+
+    simulationDelayMs_ = 100;
+    running = true;
+
 }
 
-//void Simulation::run() {
-//    while (true) {
-//        render_->draw(gameobjects_);
-//
-//        sf::sleep(sf::seconds(2));
-//
-//    }
-//     
-//}
+
 
 void Simulation::run() {
-    bool running = true;
     logic_->pause();
 
-    int simulationDelayMs_ = 100; // Adjustable delay (can be changed by input)
     sf::Clock simClock;
 
     while (running) {
         auto* drawer = render_->getDrawer();
         auto& window = drawer->getWindow();
-        input_->pollEvents(window);
-        render_->draw(gameobjects_);
 
-        InputToken token;
-        while ((token = input_->nextToken()) != InputToken::Unknown) {
-            if (token == InputToken::Start) {
-                // s
-                logic_->start();
-                input_->setmode(0);
-
-            }
-            // key p
-            else if (token == InputToken::Stop) {
-                logic_->pause();
-            }
-            // key e
-            else if (token == InputToken::End) {
-                running = false;
-                window.close();
-            }
-            // key d
-            else if (token == InputToken::ToggleDraw) {
-                logic_->pause();
-                input_->setmode(1);
-
-            }
-            else if (token == InputToken::SpeedUp) {
-                simulationDelayMs_ = std::max(1, simulationDelayMs_ - 10);
-            }
-            else if (token == InputToken::SpeedDown) {
-                simulationDelayMs_ += 10;
-            }
-        }
-        sf::Vector2i pos;
-        while ((pos = input_->NextPos()) != sf::Vector2i(-1, -1)) {
-            // Find the board object
-            Board* board = nullptr;
-            if (!gameobjects_.empty()) {
-                board = dynamic_cast<Board*>(gameobjects_.front().get());
-            }
-            if (board) {
-                board->toggleCellState(pos.x, pos.y);
-            }
-        }
-
-        if (simClock.getElapsedTime().asMilliseconds() >= simulationDelayMs_) {
-            logic_->step(gameobjects_);
-            simClock.restart();
-        }
+        updateHud();
+        handleInput(window);
+        handleBoardClicks();
+        handleSimulationStep(simClock);
 
         input_->clear();
+        sf::sleep(sf::milliseconds(10));
+    }
+    auto* drawer = render_->getDrawer();
+    drawer->getWindow().close();
+}
 
-        sf::sleep(sf::milliseconds(5));
+void Simulation::updateHud() {
+    std::unique_ptr<MVC::GameObject> hudobj = std::move(gameobjects_.back());
+    if (auto hi = dynamic_cast<Hud*>(hudobj.get())) {
+        hi->update_values(0, simulationDelayMs_);
+    }
+    gameobjects_.back() = std::move(hudobj);
+}
+
+void Simulation::handleInput(sf::RenderWindow& window) {
+    input_->pollEvents(window);
+    render_->draw(gameobjects_);
+
+    InputToken token;
+    while ((token = input_->nextToken()) != InputToken::Unknown) {
+        if (token == InputToken::Start) {
+            logic_->start();
+            input_->setmode(0);
+        }
+        else if (token == InputToken::Stop) {
+            logic_->pause();
+        }
+        else if (token == InputToken::End) {
+            running = false;
+        }
+        else if (token == InputToken::ToggleDraw) {
+            logic_->pause();
+            input_->setmode(1);
+        }
+        else if (token == InputToken::SpeedUp) {
+            simulationDelayMs_ = std::max(10, simulationDelayMs_ - 10);
+        }
+        else if (token == InputToken::SpeedDown) {
+            simulationDelayMs_ += 10;
+        }
     }
 }
 
+void Simulation::handleBoardClicks() {
+    sf::Vector2i pos;
+    while ((pos = input_->NextPos()) != sf::Vector2i(-1, -1)) {
+        if (!gameobjects_.empty()) {
+            std::unique_ptr<MVC::GameObject> obj = std::move(gameobjects_.front());
+            if (auto boardPtr = dynamic_cast<Board*>(obj.get())) {
+                boardPtr->toggleCellState(pos.x, pos.y);
+            }
+            gameobjects_.front() = std::move(obj);
+        }
+    }
+}
+
+void Simulation::handleSimulationStep(sf::Clock& simClock) {
+    if (simClock.getElapsedTime().asMilliseconds() >= simulationDelayMs_) {
+        logic_->step(gameobjects_);
+        simClock.restart();
+    }
+}

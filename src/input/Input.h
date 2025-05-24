@@ -28,5 +28,6 @@ namespace MVC {
 
 		void setmode(const int mode_) { mode = mode_; }
 		void clear();
+
 	};
 }

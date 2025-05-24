@@ -6,14 +6,15 @@
 #include <string>
 #include <sstream>
 
-void Hud::update_values(const int& generation_number, const int& alive_cells = 0) {
-    generation_ = generation_number;
+void Hud::update_values(const int alive_cells, const int speed_) {
     alive_cells_ = alive_cells;
+    speed = speed_;
 }
 
 void Hud::draw(Render::Drawer& drawer) {
     std::ostringstream ss;
-    ss << "Generation: " << generation_ << std::endl <<"  Alive: " << alive_cells_;
+    ss << "Generation: " << generation_;
+    ss << std::endl << "Time Speed: " << speed;
     drawer.drawText(ss.str(), position_, 24, sf::Color::Red);
 }
 
