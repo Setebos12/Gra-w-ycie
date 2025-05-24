@@ -7,28 +7,46 @@ using namespace MVC;
 
 Simulation::Simulation()
     : input_(std::make_unique<Input>()),
-    logic_(std::make_unique<MVC::Logic>()), 
-    render_(std::make_unique<MVC::Renderer>("Simulation",
-        sf::Vector2u{ 1920u, 1800u }))
+    logic_(std::make_unique<MVC::Logic>())
 {
-    gameobjects_.emplace_back(std::make_unique<Board>("Game of Life Board", 100, 100));
+    const int boardWidth = 100;
+    const int boardHeight = 100;
+    const int cellSize = 10; 
+
+    const int uiPanelWidth = 300;
+    const int margin = 20;
+
+    sf::Vector2u windowSize{
+        static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth + margin * 2),
+        static_cast<unsigned int>(std::max(boardHeight * cellSize, 1000) + margin * 2)
+    };
+
+    render_ = std::make_unique<MVC::Renderer>("Simulation", windowSize);
+
+    gameobjects_.emplace_back(std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight));
     if (!gameobjects_.empty()) {
         Board* board = dynamic_cast<Board*>(gameobjects_.front().get());
         if (board) {
             board->resetBoard();
             int gen = board->getGenerationCount();
-            int centerX = 50;
-            int centerY = 50;
+            int centerX = boardWidth / 2;
+            int centerY = boardHeight / 2;
             board->toggleCellState(centerX, centerY);
             board->toggleCellState(centerX + 1, centerY);
             board->toggleCellState(centerX - 1, centerY);
         }
         logic_->start();
     }
+
+    float buttonX = static_cast<float>(windowSize.x - uiPanelWidth + margin);
+    float buttonWidth = 180.f;
+    float buttonHeight = 60.f;
+    float buttonY = 500.f;
+
     auto startBtn = std::make_unique<InputButton>(
         "StartButton",
-        sf::Vector2f{ 1700.f, 500.f },
-        sf::Vector2f{ 180.f, 60.f },
+        sf::Vector2f{ buttonX, buttonY },
+        sf::Vector2f{ buttonWidth, buttonHeight },
         "START"
     );
     input_->buttons.push_back(startBtn.get());
@@ -36,8 +54,8 @@ Simulation::Simulation()
 
     auto stopBtn = std::make_unique<InputButton>(
         "StopButton",
-        sf::Vector2f{ 1700.f, 600.f },
-        sf::Vector2f{ 180.f, 60.f },
+        sf::Vector2f{ buttonX, buttonY + 100.f },
+        sf::Vector2f{ buttonWidth, buttonHeight },
         "STOP"
     );
     input_->buttons.push_back(stopBtn.get());
@@ -45,8 +63,8 @@ Simulation::Simulation()
 
     auto endBtn = std::make_unique<InputButton>(
         "EndButton",
-        sf::Vector2f{ 1700.f, 700.f },
-        sf::Vector2f{ 180.f, 60.f },
+        sf::Vector2f{ buttonX, buttonY + 200.f },
+        sf::Vector2f{ buttonWidth, buttonHeight },
         "END"
     );
     input_->buttons.push_back(endBtn.get());
@@ -54,17 +72,16 @@ Simulation::Simulation()
 
     auto toggleDrawBtn = std::make_unique<InputButton>(
         "ToggleDrawButton",
-        sf::Vector2f{ 1700.f, 800.f },
-        sf::Vector2f{ 180.f, 60.f },
+        sf::Vector2f{ buttonX, buttonY + 300.f },
+        sf::Vector2f{ buttonWidth, buttonHeight },
         "TOGGLE DRAW"
     );
     input_->buttons.push_back(toggleDrawBtn.get());
     gameobjects_.push_back(std::move(toggleDrawBtn));
 
-
     auto hud = std::make_unique<Hud>(
-        "Hud",    
-        sf::Vector2f{ 1700.f, 900.f }
+        "Hud",
+        sf::Vector2f{ buttonX, buttonY + 400.f }
     );
     gameobjects_.push_back(std::move(hud));
 }
@@ -94,6 +111,8 @@ void Simulation::run() {
             if (token == InputToken::Start) {
                 // s
                 logic_->start();
+                input_->setmode(0);
+
             }
             // key p
             else if (token == InputToken::Stop) {
@@ -107,6 +126,7 @@ void Simulation::run() {
             // key d
             else if (token == InputToken::ToggleDraw) {
                 logic_->pause();
+                input_->setmode(1);
 
             }
         }
@@ -121,7 +141,6 @@ void Simulation::run() {
                 board->toggleCellState(pos.x, pos.y);
             }
         }
-
 
         logic_->step(gameobjects_);
 

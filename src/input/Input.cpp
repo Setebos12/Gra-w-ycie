@@ -12,22 +12,26 @@ void MVC::Input::pollEvents(sf::RenderWindow& window, int mode) {
    while ((eventOpt = window.pollEvent())) {
        const sf::Event& event = *eventOpt;
 
+
+
        if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
            InputToken token = parser.parseKey(static_cast<int>(keyPressed->scancode));
            addToken(token);
        }
 
-       if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>()) {
-           sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-           if (auto pos = readBoard(mousePos)) {
-               boardClicks.push(*pos);
+       if (this->mode != 0) {
+           if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>()) {
+               sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+               if (auto pos = readBoard(mousePos)) {
+                   boardClicks.push(*pos);
+               }
            }
-       }
 
-       if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-           sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-           if (auto pos = readBoard(mousePos)) {
-               boardClicks.push(*pos);
+           if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+               sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+               if (auto pos = readBoard(mousePos)) {
+                   boardClicks.push(*pos);
+               }
            }
        }
 

@@ -12,10 +12,13 @@ namespace MVC {
 	private:
 		std::queue<InputToken> Tokens;
 		std::queue<sf::Vector2i> boardClicks;
+		int mode;
+
 	public:
+
+		Input(const int mode_ = 0) : mode(mode_) {}
 		std::vector<InputButton*> buttons;
 
-		Input() = default;
 		void pollEvents(sf::RenderWindow& window, int mode=0);
 		std::optional<sf::Vector2i> readBoard(sf::Vector2i& mousePos);
 
@@ -23,6 +26,7 @@ namespace MVC {
 		InputToken nextToken();
 		sf::Vector2i NextPos();
 
+		void setmode(const int mode_) { mode = mode_; }
 		void clear();
 	};
 }
