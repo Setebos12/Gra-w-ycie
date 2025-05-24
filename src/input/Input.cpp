@@ -19,6 +19,8 @@ void MVC::Input::pollEvents(sf::RenderWindow& window, int mode) {
            addToken(token);
        }
 
+
+
        if (this->mode != 0) {
            if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>()) {
                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -47,6 +49,8 @@ void MVC::Input::pollEvents(sf::RenderWindow& window, int mode) {
                    if (btn->label_ == "START") addToken(InputToken::Start);
                    else if (btn->label_ == "STOP") addToken(InputToken::Stop);
                    else if (btn->label_ == "END") addToken(InputToken::End);
+                   else if (btn->label_ == "SPEED UP") addToken(InputToken::SpeedUp);
+                   else if (btn->label_ ==  "SPEED DOWN") addToken(InputToken::SpeedDown);
                    else if (btn->label_ == "TOGGLE DRAW") addToken(InputToken::ToggleDraw);
                }
                else {

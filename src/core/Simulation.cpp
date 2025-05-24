@@ -24,24 +24,33 @@ Simulation::Simulation()
     render_ = std::make_unique<MVC::Renderer>("Simulation", windowSize);
 
     gameobjects_.emplace_back(std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight));
-    if (!gameobjects_.empty()) {
-        Board* board = dynamic_cast<Board*>(gameobjects_.front().get());
-        if (board) {
-            board->resetBoard();
-            int gen = board->getGenerationCount();
-            int centerX = boardWidth / 2;
-            int centerY = boardHeight / 2;
-            board->toggleCellState(centerX, centerY);
-            board->toggleCellState(centerX + 1, centerY);
-            board->toggleCellState(centerX - 1, centerY);
-        }
-        logic_->start();
-    }
 
     float buttonX = static_cast<float>(windowSize.x - uiPanelWidth + margin);
     float buttonWidth = 180.f;
     float buttonHeight = 60.f;
     float buttonY = 500.f;
+
+
+    // SPEED UP above START
+    auto speedUpBtn = std::make_unique<InputButton>(
+        "SpeedUpButton",
+        sf::Vector2f{ buttonX, buttonY - 140.f }, // 2 slots above START
+        sf::Vector2f{ buttonWidth, buttonHeight },
+        "SPEED UP"
+    );
+    input_->buttons.push_back(speedUpBtn.get());
+    gameobjects_.push_back(std::move(speedUpBtn));
+
+    // SPEED DOWN above START
+    auto speedDownBtn = std::make_unique<InputButton>(
+        "SpeedDownButton",
+        sf::Vector2f{ buttonX, buttonY - 70.f }, // 1 slot above START
+        sf::Vector2f{ buttonWidth, buttonHeight },
+        "SPEED DOWN"
+    );
+    input_->buttons.push_back(speedDownBtn.get());
+    gameobjects_.push_back(std::move(speedDownBtn));
+
 
     auto startBtn = std::make_unique<InputButton>(
         "StartButton",
@@ -100,6 +109,9 @@ void Simulation::run() {
     bool running = true;
     logic_->pause();
 
+    int simulationDelayMs_ = 100; // Adjustable delay (can be changed by input)
+    sf::Clock simClock;
+
     while (running) {
         auto* drawer = render_->getDrawer();
         auto& window = drawer->getWindow();
@@ -129,6 +141,12 @@ void Simulation::run() {
                 input_->setmode(1);
 
             }
+            else if (token == InputToken::SpeedUp) {
+                simulationDelayMs_ = std::max(1, simulationDelayMs_ - 10);
+            }
+            else if (token == InputToken::SpeedDown) {
+                simulationDelayMs_ += 10;
+            }
         }
         sf::Vector2i pos;
         while ((pos = input_->NextPos()) != sf::Vector2i(-1, -1)) {
@@ -142,11 +160,14 @@ void Simulation::run() {
             }
         }
 
-        logic_->step(gameobjects_);
+        if (simClock.getElapsedTime().asMilliseconds() >= simulationDelayMs_) {
+            logic_->step(gameobjects_);
+            simClock.restart();
+        }
 
         input_->clear();
 
-        sf::sleep(sf::milliseconds(20));
+        sf::sleep(sf::milliseconds(5));
     }
 }
 

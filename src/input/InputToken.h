@@ -6,4 +6,6 @@ enum class InputToken {
 	End,
 	ToggleDraw,
 	Unknown,
+	SpeedUp,
+	SpeedDown  
 };
