@@ -8,6 +8,11 @@ add_subdirectory(core)
 add_subdirectory(render)
 add_subdirectory(util)
 # Add the main executable
+add_subdirectory(input)
+
+add_subdirectory(ui)
+
+
 add_executable(${PROJECT_NAME} main.cpp)
 # src/CMakeLists.txt
 
@@ -18,6 +23,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE CoreTarget)
 #target_link_libraries(CMakeTarget PRIVATE UITarget)
 target_link_libraries(${PROJECT_NAME} PRIVATE Renderer)
 target_link_libraries(${PROJECT_NAME} PRIVATE Logger)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE InputTarget)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE  ui)
 
 # sfml
 target_link_libraries (${PROJECT_NAME} PRIVATE SFML::Graphics)

@@ -9,12 +9,16 @@ class Board : public MVC::GameObject {
 public:
     Board(const std::string& name, int width, int height);
 
-    void draw(const Render::Drawer& drawer) override;
+    void draw(Render::Drawer& drawer) override;
     void update() override;
 
     void toggleCellState(int x, int y);
     void resetBoard();
     int getGenerationCount() const;
+
+
+    std::string printString() const override;
+    void readString(const std::string& read) override;
 
 private:
     std::unique_ptr<Container> container;

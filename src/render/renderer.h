@@ -24,6 +24,10 @@ public:
   void draw(const std::vector<std::unique_ptr<T>> &all_objects)
     requires std::is_base_of_v<Render::IRenderObject, T>;
 
+   Render::Drawer* getDrawer() {
+      return drawer_.get();
+  }
+
 private:
   std::unique_ptr<Render::Drawer> drawer_;
 };

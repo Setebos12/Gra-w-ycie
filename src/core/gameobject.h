@@ -19,7 +19,7 @@ public:
   virtual ~GameObject() = default;
 
   // recivers renderer object where it will be able to call drawing methods
-  virtual void draw(const Render::Drawer &drawer) override = 0;
+  virtual void draw(Render::Drawer &drawer) override = 0;
   virtual void update() = 0;
 
   const auto &getName() { return name_; }

@@ -22,7 +22,10 @@ public:
   // methods for gameobjects to use (will add more as needed)
   void drawRect(const sf::Vector2f &position, const sf::Vector2f &size,
                 const sf::Color &fill);
-  void drawText(const std::string &text);
+  void drawText(const std::string& text, const sf::Vector2f& position, unsigned int fontSize = 24, const sf::Color& color = sf::Color::Black);
+
+
+  sf::RenderWindow& getWindow() { return window_; }
 
 private:
   sf::RenderWindow window_;
