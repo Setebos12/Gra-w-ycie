@@ -19,11 +19,11 @@ public:
     void draw(Render::Drawer& drawer) override;
     void update() override;
 
-    std::string printString() const { 
+    std::string printString() const override { 
         return "name";
     }
 
-    void readString(const std::string& read) {
+    void readString(const std::string& read) override {
     }
 
 private:

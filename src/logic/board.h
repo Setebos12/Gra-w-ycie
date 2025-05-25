@@ -7,7 +7,7 @@
 
 class Board : public MVC::GameObject {
 public:
-    Board(const std::string& name, int width, int height);
+    Board(const std::string& name, int width, int height, std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent);
 
     void draw(Render::Drawer& drawer) override;
     void update() override;
@@ -15,7 +15,6 @@ public:
     void toggleCellState(int x, int y);
     void resetBoard();
     int getGenerationCount() const;
-
 
     std::string printString() const override;
     void readString(const std::string& read) override;

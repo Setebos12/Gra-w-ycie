@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <string>
 #include <iostream>
+
 class InputButton : public MVC::GameObject {
 public:
     InputButton(const std::string& name, const sf::Vector2f& position, const sf::Vector2f& size, const std::string& label)

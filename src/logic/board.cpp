@@ -13,8 +13,8 @@ std::string toString(const T& value) {
     return oss.str();
 }
 
-Board::Board(const std::string& name, int width, int height)
-	: GameObject(name),
+Board::Board(const std::string& name, int width, int height, std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent)
+	: GameObject(name, logEvent),
 	container(std::make_unique<Container>(width, height)),
 	pointHandle(std::make_unique<PointHandle>(*container)),
 	generationCount(0) {}
@@ -85,7 +85,7 @@ void Board::draw(Render::Drawer& drawer) {
 
             sf::Vector2f position(x * cellSize, y * cellSize);
             sf::Vector2f size(cellSize, cellSize);
-            sf::Color color = alive ? sf::Color::Green : sf::Color::Black;
+            sf::Color color = alive ? sf::Color::Green : sf::Color::Blue;
 
             drawer.drawRect(position, size, color);
         }
