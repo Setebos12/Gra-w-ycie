@@ -8,7 +8,8 @@ using namespace MVC;
 Simulation::Simulation()
     : input_(std::make_unique<Input>()), logic_(std::make_unique<Logic>()),
       logger_(std::make_shared<Util::Logger>(Util::Level::INFO)) {
-  logEvent_.subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
+  logEvent_ = std::make_shared<Util::Event<const std::string&, Util::Level>>();
+  logEvent_->subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
 
   const int boardWidth = 100;
   const int boardHeight = 100;
@@ -26,7 +27,7 @@ Simulation::Simulation()
   render_ = std::make_unique<MVC::Renderer>("Simulation", windowSize);
 
   gameobjects_.emplace_back(
-      std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight));
+      std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_));
 
   float buttonX = static_cast<float>(windowSize.x - uiPanelWidth + margin);
   float buttonWidth = 180.f;

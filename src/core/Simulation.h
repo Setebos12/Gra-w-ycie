@@ -25,7 +25,7 @@ private:
   sf::RenderWindow window;
 
   std::shared_ptr<Util::Logger> logger_;
-  Util::Event<const std::string&, Util::Level> logEvent_;
+  std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent_;
 
   std::unique_ptr<MVC::Input> input_;
   std::unique_ptr<MVC::Logic> logic_;
