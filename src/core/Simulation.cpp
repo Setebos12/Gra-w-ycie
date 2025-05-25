@@ -1,11 +1,5 @@
 #include "Simulation.h"
-#include "Simulation.h"
-#include "Simulation.h"
-#include "Simulation.h"
-#include "Simulation.h"
-#include <iostream>
-#include "board.h"
-#include "../input/InputButton.h"
+
 
 using namespace MVC;
 

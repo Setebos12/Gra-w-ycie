@@ -7,6 +7,7 @@
 #include <SFML/Window.hpp>
 #include "ParserKeyboard.h"
 #include "InputButton.h"
+
 namespace MVC {
 	class Input {
 	private:

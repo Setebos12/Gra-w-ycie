@@ -1,12 +1,9 @@
-#include "Input.h"
-#include "Input.h"
-#include "Input.h"
 #pragma once
+#include "Input.h"
 
-#include <iostream>
 
 void MVC::Input::pollEvents(sf::RenderWindow& window, int mode) {
-   ParseKeyBoard parser; // parser
+   ParseKeyBoard parser;
 
    std::optional<sf::Event> eventOpt;
    while ((eventOpt = window.pollEvent())) {
@@ -32,7 +29,8 @@ void MVC::Input::pollEvents(sf::RenderWindow& window, int mode) {
            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                if (auto pos = readBoard(mousePos)) {
-                   boardClicks.push(*pos);
+                   if (boardClicks.empty() || boardClicks.back() != *pos)
+                       boardClicks.push(*pos);
                }
            }
        }
@@ -80,25 +78,6 @@ std::optional<sf::Vector2i> MVC::Input::readBoard(sf::Vector2i& mousePos) {
     }
     return std::nullopt;
 }
-
-//void Board::draw(Render::Drawer& drawer) {
-//    if (!container) return;
-//
-//    float cellSize = 10.0f;
-//
-//    for (int x = 0; x < container->getWidth(); ++x) {
-//        for (int y = 0; y < container->getHeight(); ++y) {
-//            bool alive = container->getCellState(x, y);
-//
-//            sf::Vector2f position(x * cellSize, y * cellSize);
-//            sf::Vector2f size(cellSize, cellSize);
-//            sf::Color color = alive ? sf::Color::Green : sf::Color::Black;
-//
-//            drawer.drawRect(position, size, color);
-//        }
-//    }
-//}
-
 
 void MVC::Input::addToken(const InputToken token) {
    Tokens.push(token);

@@ -5,6 +5,9 @@
 #include <memory>
 #include "../render/renderer.h"
 #include "../ui/hud.h"
+#include "../logic/board.h"
+#include "../input/InputButton.h"
+
 namespace MVC {
 class Simulation {
 public:
