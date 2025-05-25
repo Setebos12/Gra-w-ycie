@@ -1,8 +1,8 @@
-//Filename: event.impl.h
+// Filename: event.impl.h
 //
-//Implemenatation of template methods for event class
+// Implemenatation of template methods for event class
 //
-//Author: Piotr Pyrak
+// Author: Piotr Pyrak
 
 template <typename... Args>
 void Util::Event<Args...>::invoke(Args... invokeArgs) {
@@ -17,13 +17,14 @@ void Util::Event<Args...>::invoke(Args... invokeArgs) {
 template <typename... Args>
 template <typename T>
 void Util::Event<Args...>::subscribe(std::weak_ptr<T> &&obj,
-                                     void (T::*listener)(Args...)) {
+                                     void (T::*listener)(Args...) const) {
   listeners_.emplace_back(
       [obj = std::move(obj), listener](Args... invokeArgs) -> bool {
-        if (obj.expired())
-          return true;
-        obj->listener(invokeArgs...);
-        return false;
+        if (auto sp = obj.lock()) {
+          ((*sp).*listener)(invokeArgs...);
+          return false;
+        }
+        return true;
       },
       obj);
 }
@@ -31,13 +32,13 @@ void Util::Event<Args...>::subscribe(std::weak_ptr<T> &&obj,
 template <typename... Args>
 template <typename T>
 void Util::Event<Args...>::unsubscribe(std::weak_ptr<T> &&obj,
-                                       void (T::*listener)(Args...)) {
+                                       void (T::*listener)(Args...) const) {
   listeners_.erase(
       std::remove_if(listeners_.begin(), listeners_.end(),
                      [obj = std::move(obj), listener](const auto &pair) {
                        return pair.second == obj &&
                                   pair.first.target_type() ==
-                                      [&obj, listener]() -> bool {};
+                                      [&obj, listener]() -> bool { return false; };
                      }),
       listeners_.end());
 }

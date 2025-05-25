@@ -19,14 +19,14 @@ public:
 
   void invoke(Args... args);
   template <typename T>
-  void subscribe(std::weak_ptr<T> &&obj, void (T::*listener)(Args...));
+  void subscribe(std::weak_ptr<T> &&obj, void (T::*listener)(Args...) const); //overload also for non const
   template <typename T>
-  void unsubscribe(std::weak_ptr<T> &&obj, void (T::*listener)(Args...));
+  void unsubscribe(std::weak_ptr<T> &&obj, void (T::*listener)(Args...) const);
   inline void clearListeners() { listeners_.clear(); }
 
 private:
   // lambdas binding obj and func, returns true if should be removed
-  std::vector<std::pair<std::function<bool(Args...)>, std::any>> listeners_;
+  std::vector<std::pair<std::function<bool(Args...)>, std::any>> listeners_; //for unsub have a struct
 };
 } // namespace Util
 #include "event.impl.h"

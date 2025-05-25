@@ -18,7 +18,7 @@ public:
   void setLoggerLevel(Level newLevel) { loggerLevel_ = newLevel; }
   Level getLoggerLevel() const { return loggerLevel_; }
 
-  void log(const std::string &message, Level level);
+  void log(const std::string &message, Level level) const;
 
 private:
   Level loggerLevel_;
