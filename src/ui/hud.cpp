@@ -1,5 +1,3 @@
-#pragma once
-
 #include "hud.h"
 #include "../render/drawer.h"
 

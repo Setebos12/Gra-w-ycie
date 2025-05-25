@@ -21,11 +21,11 @@ public:
   void handleSimulationStep(sf::Clock& simClock);
 
 private:
-	int simulationDelayMs_;
-	bool running;
+  int simulationDelayMs_;
+  bool running;
   sf::RenderWindow window;
 
-  std::unique_ptr<Input> input_;
+  std::unique_ptr<MVC::Input> input_;
   std::unique_ptr<MVC::Logic> logic_;
   std::unique_ptr<MVC::Renderer> render_;
 

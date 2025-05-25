@@ -1,6 +1,5 @@
 #include "Simulation.h"
 
-
 using namespace MVC;
 
 Simulation::Simulation()
@@ -97,8 +96,6 @@ Simulation::Simulation()
 
 }
 
-
-
 void Simulation::run() {
     logic_->pause();
 
@@ -159,7 +156,7 @@ void Simulation::handleInput(sf::RenderWindow& window) {
 
 void Simulation::handleBoardClicks() {
     sf::Vector2i pos;
-    while ((pos = input_->NextPos()) != sf::Vector2i(-1, -1)) {
+    while ((pos = input_->nextPos()) != sf::Vector2i(-1, -1)) {
         if (!gameobjects_.empty()) {
             std::unique_ptr<MVC::GameObject> obj = std::move(gameobjects_.front());
             if (auto boardPtr = dynamic_cast<Board*>(obj.get())) {
