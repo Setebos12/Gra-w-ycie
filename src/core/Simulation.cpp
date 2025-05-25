@@ -21,7 +21,7 @@ Simulation::Simulation()
   sf::Vector2u windowSize{
       static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth +
                                 margin * 2),
-      static_cast<unsigned int>(std::max(boardHeight * cellSize, 1000) +
+      static_cast<unsigned int>(std::max(boardHeight * cellSize, 1200) +
                                 margin * 2)};
 
   render_ = std::make_unique<MVC::Renderer>("Simulation", windowSize);
