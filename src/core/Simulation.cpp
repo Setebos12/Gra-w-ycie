@@ -39,7 +39,7 @@ Simulation::Simulation()
       "SpeedUpButton",
       sf::Vector2f{buttonX, buttonY - 140.f}, // 2 slots above START
       sf::Vector2f{buttonWidth, buttonHeight}, "SPEED UP");
-  input_->buttons.emplace_back(speedUpBtn.get());
+  input_->addbutton(speedUpBtn);
   gameobjects_.emplace_back(std::move(speedUpBtn));
 
   // SPEED DOWN above START
@@ -47,31 +47,31 @@ Simulation::Simulation()
       "SpeedDownButton",
       sf::Vector2f{buttonX, buttonY - 70.f}, // 1 slot above START
       sf::Vector2f{buttonWidth, buttonHeight}, "SPEED DOWN");
-  input_->buttons.emplace_back(speedDownBtn.get());
+  input_->addbutton(speedDownBtn);
   gameobjects_.emplace_back(std::move(speedDownBtn));
 
   auto startBtn = std::make_unique<InputButton>(
       "StartButton", sf::Vector2f{buttonX, buttonY},
       sf::Vector2f{buttonWidth, buttonHeight}, "START");
-  input_->buttons.emplace_back(startBtn.get());
+  input_->addbutton(startBtn);
   gameobjects_.emplace_back(std::move(startBtn));
 
   auto stopBtn = std::make_unique<InputButton>(
       "StopButton", sf::Vector2f{buttonX, buttonY + 100.f},
       sf::Vector2f{buttonWidth, buttonHeight}, "STOP");
-  input_->buttons.emplace_back(stopBtn.get());
+  input_->addbutton(stopBtn);
   gameobjects_.emplace_back(std::move(stopBtn));
 
   auto endBtn = std::make_unique<InputButton>(
       "EndButton", sf::Vector2f{buttonX, buttonY + 200.f},
       sf::Vector2f{buttonWidth, buttonHeight}, "END");
-  input_->buttons.emplace_back(endBtn.get());
+  input_->addbutton(endBtn);
   gameobjects_.emplace_back(std::move(endBtn));
 
   auto toggleDrawBtn = std::make_unique<InputButton>(
       "ToggleDrawButton", sf::Vector2f{buttonX, buttonY + 300.f},
       sf::Vector2f{buttonWidth, buttonHeight}, "TOGGLE DRAW");
-  input_->buttons.emplace_back(toggleDrawBtn.get());
+  input_->addbutton(toggleDrawBtn);
   gameobjects_.emplace_back(std::move(toggleDrawBtn));
 
   auto hud =
