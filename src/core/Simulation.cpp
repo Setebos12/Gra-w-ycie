@@ -22,7 +22,7 @@ Simulation::Simulation()
   sf::Vector2u windowSize{
       static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth +
                                 margin * 2),
-      static_cast<unsigned int>(std::max(boardHeight * cellSize, 1200) +
+      static_cast<unsigned int>(std::max(boardHeight * cellSize, 1000) +
                                 margin * 2)};
 
   window_ = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize), "Game Of Life");
@@ -31,8 +31,7 @@ Simulation::Simulation()
   input_ = std::make_unique<Input>(window_);
   render_ = std::make_unique<MVC::Renderer>(window_);
 
-  gameobjects_.emplace_back(
-      std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_));
+  uipanel_ = std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight);
 
   running = true;
 }

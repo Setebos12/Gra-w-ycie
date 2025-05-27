@@ -18,6 +18,7 @@ std::optional<sf::Vector2i> MVC::Input::readBoard(sf::Vector2i &mousePos) {
   return std::nullopt;
 }
 
+
 void MVC::Input::addToken(const InputToken token) { Tokens.push(token); }
 
 InputToken MVC::Input::nextToken() {
@@ -45,3 +46,4 @@ sf::Vector2i MVC::Input::nextPos() {
   boardClicks.pop();
   return pos;
 }
+

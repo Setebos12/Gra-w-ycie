@@ -15,7 +15,6 @@ private:
   std::queue<InputToken> Tokens;
   std::queue<sf::Vector2i> boardClicks;
   int mode;
-
 public:
   Input(std::shared_ptr<sf::Window> window, const int mode_ = 0) : mode(mode_) {}
   std::vector<InputButton *> buttons;

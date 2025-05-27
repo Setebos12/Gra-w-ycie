@@ -4,7 +4,7 @@ project("ui")
 # Add a library for the input module
 set(SOURCE
 	hud.cpp
-)
+ uipanel.cpp)
 
 # Include the current directory for header files
 add_library(${PROJECT_NAME} ${SOURCE})
