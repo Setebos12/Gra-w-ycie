@@ -17,7 +17,12 @@ Board::Board(const std::string& name, int width, int height, std::shared_ptr<Uti
 	: GameObject(name, logEvent),
 	container(std::make_unique<Container>(width, height)),
 	pointHandle(std::make_unique<PointHandle>(*container)),
-	generationCount(0) {}
+	generationCount(0) {
+    toggleCellState(50,50);
+    toggleCellState(51,50);
+    toggleCellState(50,51);
+    toggleCellState(51,51);
+}
 
 void Board::update()
 {

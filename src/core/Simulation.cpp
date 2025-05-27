@@ -33,6 +33,9 @@ Simulation::Simulation()
   input_ = std::make_unique<Input>(window_);
   render_ = std::make_unique<MVC::Renderer>(window_);
 
+  gameobjects_.emplace_back(
+      std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_));
+
   uipanel_ = std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight);
 
   running = true;
