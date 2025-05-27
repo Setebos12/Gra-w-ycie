@@ -36,13 +36,14 @@ Simulation::Simulation()
   gameobjects_.emplace_back(
       std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_));
 
-  uipanel_ = std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight);
+  gameobjects_.emplace_back(
+      std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight));
 
   running = true;
 }
 
 void Simulation::run() {
-  logic_->pause();
+  logic_->start();
 
   while (running) {
       input_->pollEvents(gameobjects_);

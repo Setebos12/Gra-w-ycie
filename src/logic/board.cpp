@@ -19,9 +19,10 @@ Board::Board(const std::string& name, int width, int height, std::shared_ptr<Uti
 	pointHandle(std::make_unique<PointHandle>(*container)),
 	generationCount(0) {
     toggleCellState(50,50);
-    toggleCellState(51,50);
+    toggleCellState(49,51);
     toggleCellState(50,51);
-    toggleCellState(51,51);
+    toggleCellState(50,52);
+    toggleCellState(51,52);
 }
 
 void Board::update()
