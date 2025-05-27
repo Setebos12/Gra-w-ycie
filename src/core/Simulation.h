@@ -27,7 +27,6 @@ private:
   std::unique_ptr<MVC::Renderer> render_;
   std::unique_ptr<Uipanel> uipanel_;
 
-
-  std::vector<std::shared_ptr<MVC::GameObject>> gameobjects_;
+  std::vector<std::unique_ptr<MVC::GameObject>> gameobjects_;
 };
 } // namespace MVC

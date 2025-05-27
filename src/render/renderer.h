@@ -21,7 +21,7 @@ public:
   Renderer(std::shared_ptr<sf::RenderWindow> window)
       : drawer_(std::make_unique<Render::Drawer>(window)) {}
   template <typename T>
-  void draw(const std::vector<std::shared_ptr<T>> &all_objects)
+  void draw(const std::vector<std::unique_ptr<T>> &all_objects)
     requires std::is_base_of_v<Render::IRenderObject, T>;
 
 private:
