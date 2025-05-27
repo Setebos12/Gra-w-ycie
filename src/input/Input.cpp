@@ -1,6 +1,6 @@
 #include "Input.h"
 
-void MVC::Input::pollEvents(sf::RenderWindow &window, int mode) {
+void MVC::Input::pollEvents(sf::RenderWindow &window, std::vector<std::shared_ptr<InputButton>>& buttons) {
   ParseKeyBoard parser;
 
   std::optional<sf::Event> eventOpt;
@@ -79,10 +79,6 @@ std::optional<sf::Vector2i> MVC::Input::readBoard(sf::Vector2i &mousePos) {
   return std::nullopt;
 }
 
-void MVC::Input::addbutton(std::unique_ptr<InputButton>& but)
-{
-    buttons.emplace_back(but.get());
-}
 
 void MVC::Input::addToken(const InputToken token) { Tokens.push(token); }
 

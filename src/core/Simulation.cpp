@@ -26,57 +26,9 @@ Simulation::Simulation()
 
   render_ = std::make_unique<MVC::Renderer>("Simulation", windowSize);
 
-  gameobjects_.emplace_back(
-      std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_));
+  uipanel_ = std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight);
 
-  float buttonX = static_cast<float>(windowSize.x - uiPanelWidth + margin);
-  float buttonWidth = 180.f;
-  float buttonHeight = 60.f;
-  float buttonY = 500.f;
-
-  // SPEED UP above START
-  auto speedUpBtn = std::make_unique<InputButton>(
-      "SpeedUpButton",
-      sf::Vector2f{buttonX, buttonY - 140.f}, // 2 slots above START
-      sf::Vector2f{buttonWidth, buttonHeight}, "SPEED UP");
-  input_->addbutton(speedUpBtn);
-  gameobjects_.emplace_back(std::move(speedUpBtn));
-
-  // SPEED DOWN above START
-  auto speedDownBtn = std::make_unique<InputButton>(
-      "SpeedDownButton",
-      sf::Vector2f{buttonX, buttonY - 70.f}, // 1 slot above START
-      sf::Vector2f{buttonWidth, buttonHeight}, "SPEED DOWN");
-  input_->addbutton(speedDownBtn);
-  gameobjects_.emplace_back(std::move(speedDownBtn));
-
-  auto startBtn = std::make_unique<InputButton>(
-      "StartButton", sf::Vector2f{buttonX, buttonY},
-      sf::Vector2f{buttonWidth, buttonHeight}, "START");
-  input_->addbutton(startBtn);
-  gameobjects_.emplace_back(std::move(startBtn));
-
-  auto stopBtn = std::make_unique<InputButton>(
-      "StopButton", sf::Vector2f{buttonX, buttonY + 100.f},
-      sf::Vector2f{buttonWidth, buttonHeight}, "STOP");
-  input_->addbutton(stopBtn);
-  gameobjects_.emplace_back(std::move(stopBtn));
-
-  auto endBtn = std::make_unique<InputButton>(
-      "EndButton", sf::Vector2f{buttonX, buttonY + 200.f},
-      sf::Vector2f{buttonWidth, buttonHeight}, "END");
-  input_->addbutton(endBtn);
-  gameobjects_.emplace_back(std::move(endBtn));
-
-  auto toggleDrawBtn = std::make_unique<InputButton>(
-      "ToggleDrawButton", sf::Vector2f{buttonX, buttonY + 300.f},
-      sf::Vector2f{buttonWidth, buttonHeight}, "TOGGLE DRAW");
-  input_->addbutton(toggleDrawBtn);
-  gameobjects_.emplace_back(std::move(toggleDrawBtn));
-
-  auto hud =
-      std::make_unique<Hud>("Hud", sf::Vector2f{buttonX, buttonY + 400.f});
-  gameobjects_.emplace_back(std::move(hud));
+  gameobjects_ = uipanel_->getGameObjects();
 
   simulationDelayMs_ = 100;
   running = true;
@@ -92,7 +44,7 @@ void Simulation::run() {
     auto &window = drawer->getWindow();
 
     updateHud();
-    input_->pollEvents(window);
+    input_->pollEvents(window, uipanel_->inputbuttons);
     render_->draw(gameobjects_);
     logic_->handleControl(*input_, simulationDelayMs_, running);
     handleBoardClicks();
@@ -106,7 +58,7 @@ void Simulation::run() {
 }
 
 void Simulation::updateHud() {
-  std::unique_ptr<MVC::GameObject> hudobj = std::move(gameobjects_.back());
+  std::shared_ptr<MVC::GameObject> hudobj = std::move(gameobjects_.back());
   if (auto hi = dynamic_cast<Hud *>(hudobj.get())) {
     hi->update_values(0, simulationDelayMs_);
   }
@@ -117,7 +69,7 @@ void Simulation::handleBoardClicks() {
   sf::Vector2i pos;
   while ((pos = input_->nextPos()) != sf::Vector2i(-1, -1)) {
     if (!gameobjects_.empty()) {
-      std::unique_ptr<MVC::GameObject> obj = std::move(gameobjects_.front());
+      std::shared_ptr<MVC::GameObject> obj = std::move(gameobjects_.front());
       if (auto boardPtr = dynamic_cast<Board *>(obj.get())) {
         boardPtr->toggleCellState(pos.x, pos.y);
       }

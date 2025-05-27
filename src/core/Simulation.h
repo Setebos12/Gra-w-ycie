@@ -6,6 +6,8 @@
 #include "../util/logger.h"
 #include "../util/event.h"
 #include <memory>
+#include "../ui/uipanel.h"
+
 
 namespace MVC {
 class Simulation {
@@ -15,7 +17,6 @@ public:
   void run();
 
   void updateHud();
-  void handleInput(sf::RenderWindow &window);
   void handleBoardClicks();
   void handleSimulationStep(sf::Clock &simClock);
 
@@ -30,7 +31,9 @@ private:
   std::unique_ptr<MVC::Input> input_;
   std::unique_ptr<MVC::Logic> logic_;
   std::unique_ptr<MVC::Renderer> render_;
+  std::unique_ptr<Uipanel> uipanel_;
 
-  std::vector<std::unique_ptr<MVC::GameObject>> gameobjects_;
+
+  std::vector<std::shared_ptr<MVC::GameObject>> gameobjects_;
 };
 } // namespace MVC

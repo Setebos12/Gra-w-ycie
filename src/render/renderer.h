@@ -21,7 +21,7 @@ public:
   Renderer(const std::string &name, const sf::Vector2u &size)
       : drawer_(std::make_unique<Render::Drawer>(name, size, 60)) {}
   template <typename T>
-  void draw(const std::vector<std::unique_ptr<T>> &all_objects)
+  void draw(const std::vector<std::shared_ptr<T>> &all_objects)
     requires std::is_base_of_v<Render::IRenderObject, T>;
 
   Render::Drawer *getDrawer() { return drawer_.get(); }

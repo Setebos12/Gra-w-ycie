@@ -8,7 +8,7 @@
 
 using namespace MVC;
 
-void Logic::step(std::vector<std::unique_ptr<GameObject>>& all_objects) {
+void Logic::step(std::vector<std::shared_ptr<GameObject>>& all_objects) {
 	if (!running_)
 		return;
 
