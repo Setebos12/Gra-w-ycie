@@ -7,6 +7,7 @@
 #include <SFML/Window.hpp>
 #include <queue>
 #include <string>
+#include "../core/gameobject.h"
 
 namespace MVC {
 class Input {
@@ -16,10 +17,10 @@ private:
   int mode;
 
 public:
-  Input(const int mode_ = 0) : mode(mode_) {}
+  Input(std::shared_ptr<sf::Window> window, const int mode_ = 0) : mode(mode_) {}
   std::vector<InputButton *> buttons;
 
-  void pollEvents(sf::RenderWindow &window, int mode = 0);
+  void pollEvents(const std::vector<std::unique_ptr<MVC::GameObject>>& all_objects, int mode = 0);
   std::optional<sf::Vector2i> readBoard(sf::Vector2i &mousePos);
 
   void addToken(const InputToken token);

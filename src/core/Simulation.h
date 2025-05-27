@@ -13,16 +13,9 @@ public:
   Simulation();
 
   void run();
-
-  void updateHud();
-  void handleInput(sf::RenderWindow &window);
-  void handleBoardClicks();
-  void handleSimulationStep(sf::Clock &simClock);
-
 private:
-  int simulationDelayMs_;
   bool running;
-  sf::RenderWindow window;
+  std::shared_ptr<sf::RenderWindow> window_;
 
   std::shared_ptr<Util::Logger> logger_;
   std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent_;

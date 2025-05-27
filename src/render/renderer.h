@@ -18,13 +18,11 @@ class Renderer {
 public:
   Renderer(std::unique_ptr<Render::Drawer> &&drawer)
       : drawer_(std::move(drawer)) {}
-  Renderer(const std::string &name, const sf::Vector2u &size)
-      : drawer_(std::make_unique<Render::Drawer>(name, size, 60)) {}
+  Renderer(std::shared_ptr<sf::RenderWindow> window)
+      : drawer_(std::make_unique<Render::Drawer>(window)) {}
   template <typename T>
   void draw(const std::vector<std::unique_ptr<T>> &all_objects)
     requires std::is_base_of_v<Render::IRenderObject, T>;
-
-  Render::Drawer *getDrawer() { return drawer_.get(); }
 
 private:
   std::unique_ptr<Render::Drawer> drawer_;
