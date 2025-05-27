@@ -9,7 +9,7 @@ void Util::Event<Args...>::invoke(Args... invokeArgs) {
   // iterator for loop to remove elements
   for (auto it = listeners_.begin(); it != listeners_.end();) {
       // remove if returns false, increment only if not removed
-      if (!((*it)(invokeArgs...)))
+      if (!((**it)(invokeArgs...)))
         it = listeners_.erase(it);
       else
         ++it;

@@ -11,6 +11,8 @@ Simulation::Simulation()
   logEvent_ = std::make_shared<Util::Event<const std::string&, Util::Level>>();
   logEvent_->subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
 
+  logEvent_->invoke("game started", Util::Level::INFO);
+
   constexpr int boardWidth = 100;
   constexpr int boardHeight = 100;
   constexpr int cellSize = 10;
