@@ -21,7 +21,7 @@ Simulation::Simulation()
   sf::Vector2u windowSize{
       static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth +
                                 margin * 2),
-      static_cast<unsigned int>(std::max(boardHeight * cellSize, 1200) +
+      static_cast<unsigned int>(std::max(boardHeight * cellSize, 1000) +
                                 margin * 2)};
 
   render_ = std::make_unique<MVC::Renderer>("Simulation", windowSize);
@@ -46,10 +46,7 @@ void Simulation::run() {
     updateHud();
     input_->pollEvents(window, uipanel_->inputbuttons);
     render_->draw(gameobjects_);
-    logic_->handleControl(*input_, simulationDelayMs_, running);
-    handleBoardClicks();
-    handleSimulationStep(simClock);
-
+    logic_->handleControl(*input_, simulationDelayMs_, running, *uipanel_->board, simClock, gameobjects_);
     input_->clear();
     sf::sleep(sf::milliseconds(10));
   }
@@ -65,22 +62,4 @@ void Simulation::updateHud() {
   gameobjects_.back() = std::move(hudobj);
 }
 
-void Simulation::handleBoardClicks() {
-  sf::Vector2i pos;
-  while ((pos = input_->nextPos()) != sf::Vector2i(-1, -1)) {
-    if (!gameobjects_.empty()) {
-      std::shared_ptr<MVC::GameObject> obj = std::move(gameobjects_.front());
-      if (auto boardPtr = dynamic_cast<Board *>(obj.get())) {
-        boardPtr->toggleCellState(pos.x, pos.y);
-      }
-      gameobjects_.front() = std::move(obj);
-    }
-  }
-}
 
-void Simulation::handleSimulationStep(sf::Clock &simClock) {
-  if (simClock.getElapsedTime().asMilliseconds() >= simulationDelayMs_) {
-    logic_->step(gameobjects_);
-    simClock.restart();
-  }
-}

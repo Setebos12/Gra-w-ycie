@@ -17,7 +17,13 @@ void Logic::step(std::vector<std::shared_ptr<GameObject>>& all_objects) {
 	}
 }
 
-void Logic::handleControl(Input& input, int& simDelayMs, bool& running) {
+void Logic::handleControl(MVC::Input& input,
+    int& simDelayMs,
+    bool& running,
+    Board& board,
+    sf::Clock& simClock,
+    std::vector<std::shared_ptr<MVC::GameObject>>& objects) {
+
     InputToken token;
     while ((token = input.nextToken()) != InputToken::Unknown) {
         switch (token) {
@@ -45,7 +51,18 @@ void Logic::handleControl(Input& input, int& simDelayMs, bool& running) {
             break;
         }
     }
+
+    sf::Vector2i pos;
+    while ((pos = input.nextPos()) != sf::Vector2i(-1, -1)) {
+        board.toggleCellState(pos.x, pos.y);
+    }
+
+    if (simClock.getElapsedTime().asMilliseconds() >= simDelayMs) {
+        step(objects);
+        simClock.restart();
+    }
 }
+
 
 void Logic::start() {
 	running_ = true;
