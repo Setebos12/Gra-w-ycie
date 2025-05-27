@@ -11,11 +11,6 @@
 
 using namespace Render;
 
-Drawer::Drawer(const std::string &name, const sf::Vector2u &size, int maxFPS)
-    : window_(sf::RenderWindow(sf::VideoMode(size), name)) {
-  window_.setFramerateLimit(maxFPS);
-}
-
 void Drawer::drawRect(const sf::Vector2f &position, const sf::Vector2f &size,
                       const sf::Color &fill) {
   auto rect{std::make_unique<sf::RectangleShape>(size)};
@@ -25,9 +20,6 @@ void Drawer::drawRect(const sf::Vector2f &position, const sf::Vector2f &size,
 
   buffer_.emplace_back(std::move(rect));
 }
-
-
-
 
 void Drawer::drawText(const std::string & textStr, const sf::Vector2f & position, unsigned int fontSize, const sf::Color & color) {
     static sf::Font font;
@@ -50,15 +42,14 @@ void Drawer::drawText(const std::string & textStr, const sf::Vector2f & position
     buffer_.emplace_back(std::move(text));
 }
 
-
 void Drawer::refresh() {
-  window_.clear();
+  window_->clear();
 
   for (const auto &drw : buffer_) {
-    window_.draw(*drw);
+    window_->draw(*drw);
   }
 
   buffer_.clear();
 
-  window_.display();
+  window_->display();
 }

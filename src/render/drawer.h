@@ -16,7 +16,7 @@
 namespace Render {
 class Drawer {
 public:
-  Drawer(const std::string &name, const sf::Vector2u &size, int maxFPS);
+  Drawer(std::shared_ptr<sf::RenderWindow> window) : window_(window) {}
   void refresh();
 
   // methods for gameobjects to use (will add more as needed)
@@ -24,11 +24,8 @@ public:
                 const sf::Color &fill);
   void drawText(const std::string& text, const sf::Vector2f& position, unsigned int fontSize = 24, const sf::Color& color = sf::Color::Black);
 
-
-  sf::RenderWindow& getWindow() { return window_; }
-
 private:
-  sf::RenderWindow window_;
-  std::vector<std::unique_ptr<sf::Drawable>> buffer_;
+  std::shared_ptr<sf::RenderWindow> window_;
+  std::vector<std::shared_ptr<sf::Drawable>> buffer_;
 };
 } // namespace Render

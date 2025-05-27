@@ -6,17 +6,18 @@
 using namespace MVC;
 
 Simulation::Simulation()
-    : input_(std::make_unique<Input>()), logic_(std::make_unique<Logic>()),
+    : logic_(std::make_unique<Logic>()),
       logger_(std::make_shared<Util::Logger>(Util::Level::INFO)) {
   logEvent_ = std::make_shared<Util::Event<const std::string&, Util::Level>>();
   logEvent_->subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
 
-  const int boardWidth = 100;
-  const int boardHeight = 100;
-  const int cellSize = 10;
-
-  const int uiPanelWidth = 300;
-  const int margin = 20;
+  constexpr int boardWidth = 100;
+  constexpr int boardHeight = 100;
+  constexpr int cellSize = 10;
+       
+  constexpr int uiPanelWidth = 300;
+  constexpr int margin = 20;
+  constexpr int maxFps = 60;
 
   sf::Vector2u windowSize{
       static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth +
@@ -24,42 +25,23 @@ Simulation::Simulation()
       static_cast<unsigned int>(std::max(boardHeight * cellSize, 1000) +
                                 margin * 2)};
 
-  render_ = std::make_unique<MVC::Renderer>("Simulation", windowSize);
+  window_ = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize), "Game Of Life");
+  window_->setFramerateLimit(maxFps);
+
+  input_ = std::make_unique<Input>(window_);
+  render_ = std::make_unique<MVC::Renderer>(window_);
 
   uipanel_ = std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight);
 
-  gameobjects_ = uipanel_->getGameObjects();
-
-  simulationDelayMs_ = 100;
   running = true;
 }
 
 void Simulation::run() {
   logic_->pause();
 
-  sf::Clock simClock;
-
   while (running) {
-    auto *drawer = render_->getDrawer();
-    auto &window = drawer->getWindow();
-
-    updateHud();
-    input_->pollEvents(window, uipanel_->inputbuttons);
-    render_->draw(gameobjects_);
-    logic_->handleControl(*input_, simulationDelayMs_, running, *uipanel_->board, simClock, gameobjects_);
-    input_->clear();
-    sf::sleep(sf::milliseconds(10));
+      input_->pollEvents(gameobjects_);
+      logic_->step(gameobjects_);
+      render_->draw(gameobjects_);
   }
-  auto *drawer = render_->getDrawer();
-  drawer->getWindow().close();
 }
-
-void Simulation::updateHud() {
-  std::shared_ptr<MVC::GameObject> hudobj = std::move(gameobjects_.back());
-  if (auto hi = dynamic_cast<Hud *>(hudobj.get())) {
-    hi->update_values(0, simulationDelayMs_);
-  }
-  gameobjects_.back() = std::move(hudobj);
-}
-
-
