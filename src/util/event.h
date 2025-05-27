@@ -11,17 +11,28 @@
 #include <functional>
 #include <memory>
 #include <utility>
+#include <type_traits>
 
 namespace Util {
+template <typename T, typename Method, typename... Args>
+concept ValidFunc =
+	std::is_same_v<Method, void (T::*)(Args...) const> ||
+	std::is_same_v<Method, void (T::*)(Args...)>;
+
 template <typename... Args> class Event {
 public:
   Event() = default;
 
   void invoke(Args... args);
-  template <typename T>
-  void subscribe(std::weak_ptr<T> &&obj, void (T::*listener)(Args...) const); //overload also for non const
-  template <typename T>
-  void unsubscribe(std::weak_ptr<T> &&obj, void (T::*listener)(Args...) const);
+
+  template <typename T, typename Method>
+  requires ValidFunc<T, Method, Args...>
+  void subscribe(std::weak_ptr<T> &&obj, Method listener);
+
+  template <typename T, typename Method>
+  requires ValidFunc<T, Method, Args...>
+  void unsubscribe(std::weak_ptr<T> &&obj, Method listener);
+
   inline void clearListeners() { listeners_.clear(); }
 
 private:
