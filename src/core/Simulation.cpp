@@ -92,7 +92,9 @@ void Simulation::run() {
     auto &window = drawer->getWindow();
 
     updateHud();
-    handleInput(window);
+    input_->pollEvents(window);
+    render_->draw(gameobjects_);
+    logic_->handleControl(*input_, simulationDelayMs_, running);
     handleBoardClicks();
     handleSimulationStep(simClock);
 
@@ -109,30 +111,6 @@ void Simulation::updateHud() {
     hi->update_values(0, simulationDelayMs_);
   }
   gameobjects_.back() = std::move(hudobj);
-}
-
-void Simulation::handleInput(sf::RenderWindow &window) {
-  input_->pollEvents(window);
-  render_->draw(gameobjects_);
-
-  InputToken token;
-  while ((token = input_->nextToken()) != InputToken::Unknown) {
-    if (token == InputToken::Start) {
-      logic_->start();
-      input_->setmode(0);
-    } else if (token == InputToken::Stop) {
-      logic_->pause();
-    } else if (token == InputToken::End) {
-      running = false;
-    } else if (token == InputToken::ToggleDraw) {
-      logic_->pause();
-      input_->setmode(1);
-    } else if (token == InputToken::SpeedUp) {
-      simulationDelayMs_ = std::max(10, simulationDelayMs_ - 10);
-    } else if (token == InputToken::SpeedDown) {
-      simulationDelayMs_ += 10;
-    }
-  }
 }
 
 void Simulation::handleBoardClicks() {

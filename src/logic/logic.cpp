@@ -17,6 +17,36 @@ void Logic::step(std::vector<std::unique_ptr<GameObject>>& all_objects) {
 	}
 }
 
+void Logic::handleControl(Input& input, int& simDelayMs, bool& running) {
+    InputToken token;
+    while ((token = input.nextToken()) != InputToken::Unknown) {
+        switch (token) {
+        case InputToken::Start:
+            start();
+            input.setmode(0);
+            break;
+        case InputToken::Stop:
+            pause();
+            break;
+        case InputToken::End:
+            running = false;
+            break;
+        case InputToken::ToggleDraw:
+            pause();
+            input.setmode(1);
+            break;
+        case InputToken::SpeedUp:
+            simDelayMs = std::max(10, simDelayMs - 10);
+            break;
+        case InputToken::SpeedDown:
+            simDelayMs += 10;
+            break;
+        default:
+            break;
+        }
+    }
+}
+
 void Logic::start() {
 	running_ = true;
 }
