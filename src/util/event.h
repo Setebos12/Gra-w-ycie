@@ -36,8 +36,27 @@ public:
   inline void clearListeners() { listeners_.clear(); }
 
 private:
-  // lambdas binding obj and func, returns true if should be removed
-  std::vector<std::pair<std::function<bool(Args...)>, std::any>> listeners_; //for unsub have a struct
+  class IListener {
+  public:
+  	virtual ~IListener() = default;
+    //true if obj is dead and listener should be removed
+  	virtual bool operator()(Args... args) = 0;
+  	virtual bool operator==(const IListener& other) const = 0;
+  };
+  
+  template <typename T, typename Method>
+  requires ValidFunc<T, Method, Args...>
+  class Listener : public IListener {
+  public:
+      Listener(std::weak_ptr<T> &&obj, Method method) : obj_(std::move(obj)), method_(method) {}
+      bool operator()(Args... args) override;
+      bool operator==(const IListener& other) const override;
+  private:
+      std::weak_ptr<T> obj_;
+      Method method_;
+  };
+
+  std::vector<std::unique_ptr<IListener>> listeners_;
 };
 } // namespace Util
 #include "event.impl.h"
