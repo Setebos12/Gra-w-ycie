@@ -4,6 +4,7 @@ project("Logger")
 
 set (SOURCE
 	logger.cpp
+	fileIO.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCE})
