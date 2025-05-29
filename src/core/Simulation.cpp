@@ -36,8 +36,8 @@ Simulation::Simulation()
   gameobjects_.emplace_back(
       std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_));
 
-  gameobjects_.emplace_back(
-      std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight));
+  //gameobjects_.emplace_back(
+  //    std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight));
 
   running = true;
 }

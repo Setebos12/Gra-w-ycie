@@ -30,7 +30,7 @@ requires Util::ValidFunc<T, Method, Args...>
 void Util::Event<Args...>::unsubscribe(std::weak_ptr<T> &&obj, Method listener) {
   listeners_.erase(
       std::remove_if(listeners_.begin(), listeners_.end(),
-                     [&listener](const auto &listenerPtr) {
+                     [&listener, obj = std::move(obj)](const auto &listenerPtr) {
                         return *listenerPtr == Listener<T, Method>(std::move(obj), listener);
                      }),
       listeners_.end());
