@@ -3,14 +3,28 @@
 // Author: Piotr Pyrak
 
 #include "core/Simulation.h"
+#include "util/parser.h"
+#include "util/logger.h"
+#include <iostream>
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-	MVC::Simulation sim;
+	Parser parser(argc, argv);
 
-	sim.run();
+	Util::Level lvl {Util::Level::DEBUG};
+	auto optlvl {parser.getArg<Util::Level>("--level")};
+	if (optlvl.has_value()) {
+		lvl = *optlvl;
+	}
+
+	parser.getArg<std::string>("--read");
+	parser.getArg<std::string>("--write");
+	
+	//MVC::Simulation sim;
+
+	//sim.run();
 
 	return 0;
 }
