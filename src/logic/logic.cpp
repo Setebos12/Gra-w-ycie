@@ -8,19 +8,35 @@
 
 using namespace MVC;
 
-void Logic::step(std::vector<std::unique_ptr<GameObject>>& all_objects) {
-	if (!running_)
-		return;
+Logic::Logic() : running_(false), simDelayMs_(100) {}
 
-	for (const auto &obj : all_objects) {
-		obj->update();
-	}
+
+
+void Logic::step(std::vector<std::unique_ptr<GameObject>>& all_objects) {
+    if (!running_ || simClock_.getElapsedTime().asMilliseconds() < simDelayMs_)
+        return;
+
+
+    for (const auto& obj : all_objects) {
+        obj->update();
+    }
+
+    simClock_.restart();
 }
 
 void Logic::start() {
-	running_ = true;
+    running_ = true;
+    simClock_.restart();
 }
 
 void Logic::pause() {
-	running_ = false;
+    running_ = false;
+}
+
+void Logic::increaseSpeed() {
+    simDelayMs_ = std::max(10, simDelayMs_ - 10);
+}
+
+void Logic::decreaseSpeed() {
+    simDelayMs_ += 10;
 }

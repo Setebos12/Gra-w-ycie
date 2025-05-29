@@ -7,43 +7,53 @@ using namespace MVC;
 
 Simulation::Simulation()
     : logic_(std::make_unique<Logic>()),
-      logger_(std::make_shared<Util::Logger>(Util::Level::INFO)) {
-  logEvent_ = std::make_shared<Util::Event<const std::string&, Util::Level>>();
-  logEvent_->subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
+    logger_(std::make_shared<Util::Logger>(Util::Level::INFO)) {
+    logEvent_ = std::make_shared<Util::Event<const std::string&, Util::Level>>();
+    logEvent_->subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
 
-  logEvent_->invoke("game started", Util::Level::INFO);
+    logEvent_->invoke("game started", Util::Level::INFO);
 
-  constexpr int boardWidth = 100;
-  constexpr int boardHeight = 100;
-  constexpr int cellSize = 10;
-       
-  constexpr int uiPanelWidth = 300;
-  constexpr int margin = 20;
-  constexpr int maxFps = 60;
+    constexpr int boardWidth = 100;
+    constexpr int boardHeight = 100;
+    constexpr int cellSize = 10;
 
-  sf::Vector2u windowSize{
-      static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth +
-                                margin * 2),
-      static_cast<unsigned int>(std::max(boardHeight * cellSize, 1000) +
-                                margin * 2)};
+    constexpr int uiPanelWidth = 300;
+    constexpr int margin = 20;
+    constexpr int maxFps = 60;
 
-  window_ = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize), "Game Of Life");
-  window_->setFramerateLimit(maxFps);
+    sf::Vector2u windowSize{
+        static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth + margin * 2),
+        static_cast<unsigned int>(std::max(boardHeight * cellSize, 1000) + margin * 2)
+    };
 
-  input_ = std::make_unique<Input>(window_);
-  render_ = std::make_unique<MVC::Renderer>(window_);
+    window_ = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize), "Game Of Life");
+    window_->setFramerateLimit(maxFps);
 
-  gameobjects_.emplace_back(
-      std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_));
+    input_ = std::make_unique<Input>(window_);
+    render_ = std::make_unique<MVC::Renderer>(window_);
 
-  //gameobjects_.emplace_back(
-  //    std::make_unique<Uipanel>(logEvent_, windowSize, uiPanelWidth, margin, boardWidth, boardHeight));
 
-  running = true;
+    auto endCallback = [this]() {
+        running = false;
+        };
+
+    gameobjects_.emplace_back(std::make_unique<Uipanel>(
+        logEvent_,
+        windowSize,
+        uiPanelWidth,
+        margin,
+        boardWidth,
+        boardHeight,
+        logic_,
+        endCallback));
+
+
+    running = true;
 }
 
+
 void Simulation::run() {
-  logic_->start();
+  logic_->pause();
 
   while (running) {
       input_->pollEvents(gameobjects_);

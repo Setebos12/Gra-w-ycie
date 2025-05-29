@@ -1,18 +1,36 @@
 #pragma once
+
 #include "../input/InputButton.h"
-#include "../logic/board.h"
-#include <vector>
+#include "../logic/Board.h"
+#include "../logic/Logic.h"
+#include "../core/gameobject.h"
 #include "hud.h"
 
-class Uipanel /* : public MVC::GameObject */{
+#include <vector>
+#include <memory>
+#include <functional>
+
+class Uipanel : public MVC::GameObject {
 public:
-    Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent, const sf::Vector2u& windowSize, int uiPanelWidth, int margin, int boardWidth, int boardHeight);
+    Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent,
+        const sf::Vector2u& windowSize,
+        int uiPanelWidth,
+        int margin,
+        int boardWidth,
+        int boardHeight,
+        std::unique_ptr<MVC::Logic>& logic,
+        std::function<void()> endCallback);
 
-    std::vector<std::shared_ptr<MVC::GameObject>> getGameObjects();
+    void draw(Render::Drawer& drawer) override;
+    void update() override;
+    void input(InputEvent& events) override;
 
+    std::string printString() const override;
+    void readString(const std::string& read) override;
 
-public:
-    std::shared_ptr<Board> board;
-    std::vector<std::shared_ptr<InputButton>> inputbuttons;
-    std::shared_ptr<Hud> hud;
+private:
+    std::unique_ptr<Board> board;
+
+    std::vector<std::unique_ptr<InputButton>> inputbuttons;
+    std::unique_ptr<Hud> hud;
 };

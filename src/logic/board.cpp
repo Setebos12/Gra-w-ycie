@@ -14,70 +14,65 @@ std::string toString(const T& value) {
 }
 
 Board::Board(const std::string& name, int width, int height, std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent)
-	: GameObject(name, logEvent),
-	container(std::make_unique<Container>(width, height)),
-	pointHandle(std::make_unique<PointHandle>(*container)),
-	generationCount(0) {
-    toggleCellState(50,50);
-    toggleCellState(49,51);
-    toggleCellState(50,51);
-    toggleCellState(50,52);
-    toggleCellState(51,52);
+    : GameObject(name, logEvent),
+    container(std::make_unique<Container>(width, height)),
+    pointHandle(std::make_unique<PointHandle>(*container)),
+    generationCount(0) {
 }
 
 void Board::update()
 {
-	if (!container || !pointHandle) return;
+    if (!container || !pointHandle) return;
 
-	int width = container->getWidth();
-	int height = container->getHeight();
+    int width = container->getWidth();
+    int height = container->getHeight();
 
-	int min_x = container->findMinMaxX().first;
-	int max_x = container->findMinMaxX().second;
+    int min_x = container->findMinMaxX().first;
+    int max_x = container->findMinMaxX().second;
 
-	int min_y = container->findMinMaxY().first;
-	int max_y = container->findMinMaxY().second;
+    int min_y = container->findMinMaxY().first;
+    int max_y = container->findMinMaxY().second;
 
-	std::vector<std::pair<int, int>> cellsToToggle;
+    std::vector<std::pair<int, int>> cellsToToggle;
 
-	for (int x = min_x; x < max_x; ++x)
-	{
-		for (int y = min_y; y < max_y; ++y)
-		{
-			if (container->getCellState(x, y) != pointHandle->shouldCellLive(x, y))
-			{
-				cellsToToggle.push_back(std::make_pair(x, y));
-			}
-		}
-	}
+    for (int x = min_x; x < max_x; ++x)
+    {
+        for (int y = min_y; y < max_y; ++y)
+        {
+            if (container->getCellState(x, y) != pointHandle->shouldCellLive(x, y))
+            {
+                cellsToToggle.push_back(std::make_pair(x, y));
+            }
+        }
+    }
 
-	for (auto& cell : cellsToToggle)
-	{
-		toggleCellState(cell.first, cell.second);
-	}
+    for (auto& cell : cellsToToggle)
+    {
+        toggleCellState(cell.first, cell.second);
+    }
 
-	incrementGeneration();
+    incrementGeneration();
 }
 
 void Board::toggleCellState(int x, int y)
 {
-	bool currentState = container->getCellState(x, y);
-	container->setCellState(x, y, !currentState);
+    bool currentState = container->getCellState(x, y);
+    container->setCellState(x, y, !currentState);
 }
 
 void Board::resetBoard()
 {
-	container->resetContainer();
+    container->resetContainer();
 }
 
 int Board::getGenerationCount() const
 {
-	return generationCount;
+    return generationCount;
 }
 
 void Board::incrementGeneration()
 {
-	generationCount++;
+    generationCount++;
 }
 
 void Board::draw(Render::Drawer& drawer) {
@@ -145,4 +140,28 @@ void Board::readString(const std::string& read) {
             }
         }
     }
+}
+
+void Board::input(InputEvent& inputEvent) {
+    if (!drawEnabled) return;
+    int cellSize = 10;
+    sf::Vector2f v1(0.f, 0.f);
+    sf::Vector2f v2(container->getWidth() * cellSize, container->getHeight() * cellSize);
+    sf::FloatRect boardRect(v1, v2);
+
+    inputEvent.watchClickRect(
+        v1,
+        v2,
+        [this, cellSize, boardRect, &inputEvent]() {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(*inputEvent.getWindow());
+            sf::Vector2f worldPos = inputEvent.getWindow()->mapPixelToCoords(mousePos);
+
+            if (boardRect.contains(worldPos)) {
+                int x = static_cast<int>((worldPos.x - boardRect.position.x) / cellSize);
+                int y = static_cast<int>((worldPos.y - boardRect.position.y) / cellSize);
+                if (!container->getCellState(x, y))
+                    toggleCellState(x, y);
+            }
+        }
+    );
 }

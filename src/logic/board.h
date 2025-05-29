@@ -13,16 +13,22 @@ public:
     void update() override;
 
     void toggleCellState(int x, int y);
+    void input(InputEvent& inputEvent);
+
     void resetBoard();
     int getGenerationCount() const;
 
     std::string printString() const override;
     void readString(const std::string& read) override;
 
+    bool drawEnabled = false;
+
+
 private:
     std::unique_ptr<Container> container;
     std::unique_ptr<PointHandle> pointHandle;
     int generationCount;
+
 
     void incrementGeneration();
 };

@@ -7,28 +7,28 @@
 #pragma once
 
 #include "../core/gameobject.h"
+#include "../render/drawer.h"
+#include <sstream>
 
 class Hud : public MVC::GameObject {
 public:
     Hud(const std::string& name, const sf::Vector2f& pos)
-        : MVC::GameObject(name), position_(pos), speed(0), generation_(0), alive_cells_(0){
+        : MVC::GameObject(name), position_(pos), generation_(0) {
     }
-
-    void update_values(const int alive_cells = 0, const int speed_ = 0);
 
     void draw(Render::Drawer& drawer) override;
     void update() override;
 
-    std::string printString() const override { 
+    std::string printString() const override {
         return "name";
     }
 
     void readString(const std::string& read) override {
     }
 
+    void reset();
+
 private:
     sf::Vector2f position_;
-    int speed;
     int generation_;
-    int alive_cells_;
 };

@@ -9,19 +9,27 @@
 #include <vector>
 #include <memory>
 #include "../core/gameobject.h"
-#include "../input/Input.h"
 #include "board.h"
 
 namespace MVC {
-class Logic {
-public:
-	void step(std::vector<std::unique_ptr<GameObject>>& all_objects);
+	class Logic {
+	public:
+		Logic();
+		void step(std::vector<std::unique_ptr<GameObject>>& all_objects);
 
-	void start();
-	void pause();
+		void increaseSpeed();
+		void decreaseSpeed();
 
-	bool isRunning() { return running_; }
-private:
-	bool running_;
-};
+
+		void start();
+		void pause();
+
+		bool isRunning() { return running_; }
+	private:
+		bool running_;
+
+		int simDelayMs_;
+
+		sf::Clock simClock_;
+	};
 }

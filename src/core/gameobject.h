@@ -14,6 +14,8 @@
 #include <optional>
 #include <ostream>
 #include <string>
+#include "../input/InputEvent.h"
+
 
 namespace MVC {
 class GameObject : public Render::IRenderObject {
@@ -28,7 +30,8 @@ public:
   // recivers renderer object where it will be able to call drawing methods
   virtual void draw(Render::Drawer &drawer) override = 0;
   virtual void update() = 0;
-  virtual void input() {}
+  virtual void input(InputEvent& events) {}
+
 
   const auto &getName() { return name_; }
   void setName(const std::string &name) { name_ = name; }
