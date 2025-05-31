@@ -18,8 +18,9 @@ public:
         int margin,
         int boardWidth,
         int boardHeight,
-        std::unique_ptr<MVC::Logic>& logic,
-        std::function<void()> endCallback);
+        std::weak_ptr<MVC::Logic> logic,
+        std::weak_ptr<Board> board,
+        Util::Event<> && simEndEvent);
 
     void draw(Render::Drawer& drawer) override;
     void update() override;
@@ -29,8 +30,6 @@ public:
     void readString(const std::string& read) override;
 
 private:
-    std::unique_ptr<Board> board;
-
     std::vector<std::unique_ptr<InputButton>> inputbuttons;
     std::unique_ptr<Hud> hud;
 };

@@ -16,7 +16,7 @@ namespace MVC {
             : ip(InputEvent(window)) {
         }
 
-        void pollEvents(std::vector<std::unique_ptr<MVC::GameObject>>& all_objects);
+        void pollEvents(std::vector<std::shared_ptr<MVC::GameObject>>& all_objects);
 
     private:
         InputEvent ip;

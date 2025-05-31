@@ -12,7 +12,7 @@ Logic::Logic() : running_(false), simDelayMs_(100) {}
 
 
 
-void Logic::step(std::vector<std::unique_ptr<GameObject>>& all_objects) {
+void Logic::step(std::vector<std::shared_ptr<GameObject>>& all_objects) {
     if (!running_ || simClock_.getElapsedTime().asMilliseconds() < simDelayMs_)
         return;
 
@@ -34,9 +34,9 @@ void Logic::pause() {
 }
 
 void Logic::increaseSpeed() {
-    simDelayMs_ = std::max(10, simDelayMs_ - 10);
+    simDelayMs_ = std::max(10, simDelayMs_ - 25);
 }
 
 void Logic::decreaseSpeed() {
-    simDelayMs_ += 10;
+    simDelayMs_ += 25;
 }

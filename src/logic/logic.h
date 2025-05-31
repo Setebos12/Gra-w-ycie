@@ -15,7 +15,7 @@ namespace MVC {
 	class Logic {
 	public:
 		Logic();
-		void step(std::vector<std::unique_ptr<GameObject>>& all_objects);
+		void step(std::vector<std::shared_ptr<GameObject>>& all_objects);
 
 		void increaseSpeed();
 		void decreaseSpeed();

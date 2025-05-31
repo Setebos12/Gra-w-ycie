@@ -143,7 +143,7 @@ void Board::readString(const std::string& read) {
 }
 
 void Board::input(InputEvent& inputEvent) {
-    if (!drawEnabled) return;
+    if (!inputEnabled) return;
     int cellSize = 10;
     sf::Vector2f v1(0.f, 0.f);
     sf::Vector2f v2(container->getWidth() * cellSize, container->getHeight() * cellSize);

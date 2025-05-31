@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../core/gameobject.h"
+#include "../util/event.h"
 #include <SFML/System/Vector2.hpp>
 #include <string>
 #include <functional>
@@ -11,7 +12,7 @@ public:
         const sf::Vector2f& position,
         const sf::Vector2f& size,
         const std::string& label,
-        std::function<void()> onClick)
+        Util::Event<>&& onClick)
         : MVC::GameObject(name),
         position_(position),
         size_(size),
@@ -44,7 +45,7 @@ public:
 
     void input(InputEvent& events) {
         events.watchSingleClickRect(position_, size_, [this]() {
-            if (onClick_) onClick_();
+                onClick_.invoke();
             });
     }
 
@@ -56,5 +57,5 @@ public:
 private:
     bool pressed_;
 
-    std::function<void()> onClick_;
+    Util::Event<> onClick_;
 };
