@@ -9,7 +9,8 @@
 #include <SFML/System/Vector2.hpp>
 
 enum class TokenType {
-	LEFT_MOUSE_REALESED,
+	LEFT_MOUSE_RELEASED,
+	LEFT_MOUSE_PRESSED,
 	LEFT_MOUSE_DOWN
 };
 

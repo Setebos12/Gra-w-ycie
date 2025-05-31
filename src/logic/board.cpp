@@ -144,7 +144,9 @@ void Board::readString(const std::string& read) {
 
 bool Board::input(InputToken& token) {
     if (!inputEnabled) return false;
-    if (!(token.getType() ==TokenType::LEFT_MOUSE_DOWN)) return false;
+    if (!(token.getType() == TokenType::LEFT_MOUSE_DOWN) && !(token.getType() == TokenType::LEFT_MOUSE_PRESSED))
+        return false;
+
     int cellSize = 10;
     sf::Vector2f v1(0.f, 0.f);
     sf::Vector2f v2(container->getWidth() * cellSize, container->getHeight() * cellSize);
@@ -156,7 +158,12 @@ bool Board::input(InputToken& token) {
 
     int x = static_cast<int>((token.getMousePos().x - boardRect.position.x) / cellSize);
     int y = static_cast<int>((token.getMousePos().y - boardRect.position.y) / cellSize);
-    if (!container->getCellState(x, y))
+
+    if (token.getType() == TokenType::LEFT_MOUSE_PRESSED) {
+        erasing = container->getCellState(x, y);
+    }
+
+    if (container->getCellState(x, y) == erasing)
         toggleCellState(x, y);
 
     return true;

@@ -44,7 +44,7 @@ public:
     bool isPressed() const { return pressed_; }
 
     bool input(InputToken& token) override {
-        if (!(token.getType() == TokenType::LEFT_MOUSE_REALESED))
+        if (!(token.getType() == TokenType::LEFT_MOUSE_RELEASED))
             return false;
         sf::FloatRect rect(position_, size_);
         if (!rect.contains(sf::Vector2f(token.getMousePos())))

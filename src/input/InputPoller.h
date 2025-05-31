@@ -17,11 +17,15 @@ public:
 
         if (!window_ || !window_->hasFocus()) return tokens;
 
-        const auto onMousePressed = [this, &tokens](const sf::Event::MouseButtonReleased& mousePressed) {
-            tokens.emplace(InputToken(TokenType::LEFT_MOUSE_REALESED,sf::Mouse::getPosition(*window_)));
+        const auto onMouseReleased = [this, &tokens](const sf::Event::MouseButtonReleased& mousePressed) {
+            tokens.emplace(InputToken(TokenType::LEFT_MOUSE_RELEASED,sf::Mouse::getPosition(*window_)));
         };
 
-        window_->handleEvents(onMousePressed);
+        const auto onMousePressed = [this, &tokens](const sf::Event::MouseButtonPressed& mousePressed) {
+            tokens.emplace(InputToken(TokenType::LEFT_MOUSE_PRESSED, sf::Mouse::getPosition(*window_)));
+        };
+
+        window_->handleEvents(onMouseReleased, onMousePressed);
 
         bool mousePressedNow = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
 

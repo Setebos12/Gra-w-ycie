@@ -31,5 +31,7 @@ private:
 
     bool inputEnabled = false;
 
+    bool erasing = false;
+
     void incrementGeneration();
 };
