@@ -13,7 +13,7 @@ public:
     void update() override;
 
     void toggleCellState(int x, int y);
-    void input(InputEvent& inputEvent);
+    bool input(InputToken& token) override;
 
     void resetBoard();
     int getGenerationCount() const;

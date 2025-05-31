@@ -24,7 +24,7 @@ public:
 
     void draw(Render::Drawer& drawer) override;
     void update() override;
-    void input(InputEvent& events) override;
+    bool input(InputToken& events) override;
 
     std::string printString() const override;
     void readString(const std::string& read) override;

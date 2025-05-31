@@ -16,7 +16,6 @@ void Logic::step(std::vector<std::shared_ptr<GameObject>>& all_objects) {
     if (!running_ || simClock_.getElapsedTime().asMilliseconds() < simDelayMs_)
         return;
 
-
     for (const auto& obj : all_objects) {
         obj->update();
     }

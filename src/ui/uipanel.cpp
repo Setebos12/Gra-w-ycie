@@ -105,11 +105,12 @@ void Uipanel::update() {
     }
 }
 
-void Uipanel::input(InputEvent& events) {
-    if (hud) hud->input(events);
+bool Uipanel::input(InputToken& token) {
+    if (hud) hud->input(token);
     for (auto& btn : inputbuttons) {
-        if (btn) btn->input(events);
+        if (btn) btn->input(token);
     }
+    return false;
 }
 
 std::string Uipanel::printString() const {

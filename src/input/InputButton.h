@@ -43,12 +43,15 @@ public:
     void setPressed(bool pressed) { pressed_ = pressed; }
     bool isPressed() const { return pressed_; }
 
-    void input(InputEvent& events) {
-        events.watchSingleClickRect(position_, size_, [this]() {
-                onClick_.invoke();
-            });
+    bool input(InputToken& token) override {
+        if (!(token.getType() == TokenType::LEFT_MOUSE_REALESED))
+            return false;
+        sf::FloatRect rect(position_, size_);
+        if (!rect.contains(sf::Vector2f(token.getMousePos())))
+            return false;
+        onClick_.invoke();
+        return true;
     }
-
 
     sf::Vector2f position_;
     sf::Vector2f size_;

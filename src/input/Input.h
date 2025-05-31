@@ -6,20 +6,17 @@
 #include <SFML/Graphics.hpp>
 
 #include "../core/gameobject.h"
-#include "../input/InputEvent.h"
+#include "../input/InputPoller.h"
 
 namespace MVC {
+class Input {
+public:
+    Input(std::shared_ptr<sf::RenderWindow> window)
+        : ip(InputPoller(window)) {}
 
-    class Input {
-    public:
-        Input(std::shared_ptr<sf::RenderWindow> window)
-            : ip(InputEvent(window)) {
-        }
+    void pollEvents(std::vector<std::shared_ptr<MVC::GameObject>>& all_objects);
 
-        void pollEvents(std::vector<std::shared_ptr<MVC::GameObject>>& all_objects);
-
-    private:
-        InputEvent ip;
-    };
-
+private:
+    InputPoller ip;
+};
 } // namespace MVC

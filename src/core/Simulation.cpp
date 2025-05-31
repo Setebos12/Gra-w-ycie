@@ -24,7 +24,7 @@ void Simulation::initWindow(std::weak_ptr<MVC::Simulation>&& selfRef) {
 
     constexpr int uiPanelWidth = 300;
     constexpr int margin = 20;
-    constexpr int maxFps = 60;
+    constexpr int maxFps = 120;
 
     sf::Vector2u windowSize{
         static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth + margin * 2),
@@ -66,5 +66,7 @@ void Simulation::run() {
       input_->pollEvents(gameobjects_);
       logic_->step(gameobjects_);
       render_->draw(gameobjects_);
+
+      logEvent_->invoke("frame\n", Util::Level::INFO);
   }
 }

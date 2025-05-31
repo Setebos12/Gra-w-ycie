@@ -14,7 +14,8 @@
 #include <optional>
 #include <ostream>
 #include <string>
-#include "../input/InputEvent.h"
+#include "../input/InputPoller.h"
+#include "../input/InputToken.h"
 
 
 namespace MVC {
@@ -30,8 +31,7 @@ public:
   // recivers renderer object where it will be able to call drawing methods
   virtual void draw(Render::Drawer &drawer) override = 0;
   virtual void update() = 0;
-  virtual void input(InputEvent& events) {}
-
+  virtual bool input(InputToken& events) { return false; }
 
   const auto &getName() { return name_; }
   void setName(const std::string &name) { name_ = name; }
