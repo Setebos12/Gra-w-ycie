@@ -4,11 +4,12 @@
 
 Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent,
     const sf::Vector2u& windowSize, int uiPanelWidth, int margin, int boardWidth,
-    int boardHeight, std::unique_ptr<MVC::Logic>& logic, std::function<void()> endCallback)
+    int boardHeight,
+    std::weak_ptr<MVC::Logic> logic,
+    std::weak_ptr<Board> board,
+    Util::Event<> && simEndEvent)
     : MVC::GameObject("Uipanel", logEvent)
 {
-    board = std::make_unique<Board>("Game of Life Board", boardWidth, boardHeight, logEvent);
-
     float buttonX = static_cast<float>(windowSize.x - uiPanelWidth + margin);
     float buttonWidth = 180.f;
     float buttonHeight = 60.f;
@@ -17,23 +18,27 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
     using sf::Vector2f;
     hud = std::make_unique<Hud>("Hud", Vector2f{ buttonX, buttonY + 400.f });
 
-
+    Util::Event<> resetBoard;
+    resetBoard.subscribe(std::weak_ptr<Board>(board), &Board::resetBoard);
+    resetBoard.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::pause);
     inputbuttons.emplace_back(std::make_unique<InputButton>(
         "ResetButton",
         Vector2f{ buttonX, 20.f },
         Vector2f{ buttonWidth, buttonHeight },
         "RESET",
-        [this, &logic]() { this->board->resetBoard();
-    this->hud->reset();
-    logic->pause(); }
+        std::move(resetBoard)
     ));
+
+    Util::Event<> increaseSpeed, decreaseSpeed;
+    increaseSpeed.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::increaseSpeed);
+    decreaseSpeed.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::decreaseSpeed);
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
         "SpeedUpButton",
         Vector2f{ buttonX, buttonY - 140.f },
         Vector2f{ buttonWidth, buttonHeight },
         "SPEED UP",
-        [&logic]() { logic->increaseSpeed(); }
+        std::move(increaseSpeed)
     ));
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
@@ -41,16 +46,20 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY - 70.f },
         Vector2f{ buttonWidth, buttonHeight },
         "SPEED DOWN",
-        [&logic]() { logic->decreaseSpeed(); }
+        std::move(decreaseSpeed)
     ));
+
+    Util::Event<> start, stop;
+    start.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::start);
+    start.subscribe(std::weak_ptr<Board>(board), &Board::disableInput);
+    stop.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::pause);
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
         "StartButton",
         Vector2f{ buttonX, buttonY },
         Vector2f{ buttonWidth, buttonHeight },
         "START",
-        [&logic, this]() { logic->start();
-    this->board->drawEnabled = false; }
+        std::move(start)
     ));
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
@@ -58,7 +67,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY + 100.f },
         Vector2f{ buttonWidth, buttonHeight },
         "STOP",
-        [&logic]() { logic->pause(); }
+        std::move(stop)
     ));
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
@@ -66,17 +75,19 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY + 200.f },
         Vector2f{ buttonWidth, buttonHeight },
         "END",
-        endCallback
+        std::move(simEndEvent)
     ));
 
+    Util::Event<> toggleDraw;
+    toggleDraw.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::pause);
+    toggleDraw.subscribe(std::weak_ptr<Board>(board), &Board::enableInput);
     inputbuttons.emplace_back(std::make_unique<InputButton>(
         "ToggleDrawButton",
         Vector2f{ buttonX, buttonY + 300.f },
         Vector2f{ buttonWidth, buttonHeight },
-        "TOGGLE DRAW",
-        [&logic, this]() { logic->pause(); this->board->drawEnabled = true; }
+        "ENABLE DRAW",
+        std::move(toggleDraw)
     ));
-
 }
 
 
@@ -85,7 +96,6 @@ void Uipanel::draw(Render::Drawer& drawer) {
     for (auto& btn : inputbuttons) {
         if (btn) btn->draw(drawer);
     }
-    if (board) board->draw(drawer);
 }
 
 void Uipanel::update() {
@@ -93,15 +103,14 @@ void Uipanel::update() {
     for (auto& btn : inputbuttons) {
         if (btn) btn->update();
     }
-    if (board) board->update();
 }
 
-void Uipanel::input(InputEvent& events) {
-    if (hud) hud->input(events);
+bool Uipanel::input(InputToken& token) {
+    if (hud) hud->input(token);
     for (auto& btn : inputbuttons) {
-        if (btn) btn->input(events);
+        if (btn) btn->input(token);
     }
-    if (board) board->input(events);
+    return false;
 }
 
 std::string Uipanel::printString() const {
@@ -110,7 +119,6 @@ std::string Uipanel::printString() const {
     for (const auto& btn : inputbuttons) {
         if (btn) result += btn->printString();
     }
-    if (board) result += board->printString();
     return result;
 }
 
@@ -119,5 +127,4 @@ void Uipanel::readString(const std::string& read) {
     for (auto& btn : inputbuttons) {
         if (btn) btn->readString(read);
     }
-    if (board) board->readString(read);
 }

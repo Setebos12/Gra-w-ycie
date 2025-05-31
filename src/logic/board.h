@@ -13,7 +13,7 @@ public:
     void update() override;
 
     void toggleCellState(int x, int y);
-    void input(InputEvent& inputEvent);
+    bool input(InputToken& token) override;
 
     void resetBoard();
     int getGenerationCount() const;
@@ -21,14 +21,17 @@ public:
     std::string printString() const override;
     void readString(const std::string& read) override;
 
-    bool drawEnabled = false;
-
-
+    void enableInput() { inputEnabled = true; }
+    void disableInput() { inputEnabled = false; }
+    auto getInputEnabled() { return inputEnabled; }
 private:
     std::unique_ptr<Container> container;
     std::unique_ptr<PointHandle> pointHandle;
     int generationCount;
 
+    bool inputEnabled = false;
+
+    bool erasing = false;
 
     void incrementGeneration();
 };

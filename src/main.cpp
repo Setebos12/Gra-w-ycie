@@ -27,9 +27,11 @@ int main(int argc, char *argv[])
 
 	FileIO::init(readPath, writePath);
 
-	MVC::Simulation sim;
+	std::shared_ptr<MVC::Simulation> sim = std::make_shared<MVC::Simulation>();
 
-	sim.run();
+	sim->initWindow(std::weak_ptr(sim));
+
+	sim->run();
 
 	return 0;
 }

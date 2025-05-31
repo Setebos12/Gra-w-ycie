@@ -10,6 +10,11 @@ Simulation::Simulation()
     logger_(std::make_shared<Util::Logger>(Util::Level::INFO)) {
     logEvent_ = std::make_shared<Util::Event<const std::string&, Util::Level>>();
     logEvent_->subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
+}
+
+void Simulation::initWindow(std::weak_ptr<MVC::Simulation>&& selfRef) {
+    Util::Event<> simEndEvent;
+    simEndEvent.subscribe<MVC::Simulation>(std::move(selfRef), &MVC::Simulation::stopRun);
 
     logEvent_->invoke("game started", Util::Level::INFO);
 
@@ -19,45 +24,49 @@ Simulation::Simulation()
 
     constexpr int uiPanelWidth = 300;
     constexpr int margin = 20;
-    constexpr int maxFps = 60;
+    constexpr int maxFps = 120;
 
     sf::Vector2u windowSize{
         static_cast<unsigned int>(boardWidth * cellSize + uiPanelWidth + margin * 2),
         static_cast<unsigned int>(std::max(boardHeight * cellSize, 1000) + margin * 2)
     };
 
+    // window
     window_ = std::make_shared<sf::RenderWindow>(sf::VideoMode(windowSize), "Game Of Life");
     window_->setFramerateLimit(maxFps);
 
+    //mvc
     input_ = std::make_unique<Input>(window_);
     render_ = std::make_unique<MVC::Renderer>(window_);
 
+    running_ = true;
 
-    auto endCallback = [this]() {
-        running = false;
-        };
-
-    gameobjects_.emplace_back(std::make_unique<Uipanel>(
+    auto board = std::make_shared<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_);
+    
+    //gameobjects
+    auto panel = std::make_shared<Uipanel>(
         logEvent_,
         windowSize,
         uiPanelWidth,
         margin,
         boardWidth,
         boardHeight,
-        logic_,
-        endCallback));
+        std::weak_ptr(logic_),
+        std::weak_ptr(board),
+        std::move(simEndEvent));
+    gameobjects_.emplace_back(panel);
 
-
-    running = true;
+    gameobjects_.emplace_back(std::move(board));
 }
-
 
 void Simulation::run() {
   logic_->pause();
 
-  while (running) {
+  while (running_) {
       input_->pollEvents(gameobjects_);
       logic_->step(gameobjects_);
       render_->draw(gameobjects_);
+
+      logEvent_->invoke("frame\n", Util::Level::INFO);
   }
 }

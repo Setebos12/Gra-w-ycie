@@ -13,19 +13,21 @@ namespace MVC {
 class Simulation {
 public:
   Simulation();
+  void initWindow(std::weak_ptr<MVC::Simulation>&& selfRef);
 
   void run();
 private:
-  bool running;
+  void stopRun() { running_ = false; }
+  bool running_;
   std::shared_ptr<sf::RenderWindow> window_;
 
   std::shared_ptr<Util::Logger> logger_;
   std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent_;
 
-  std::unique_ptr<MVC::Input> input_;
-  std::unique_ptr<MVC::Logic> logic_;
-  std::unique_ptr<MVC::Renderer> render_;
+  std::shared_ptr<MVC::Input> input_;
+  std::shared_ptr<MVC::Logic> logic_;
+  std::shared_ptr<MVC::Renderer> render_;
 
-  std::vector<std::unique_ptr<MVC::GameObject>> gameobjects_;
+  std::vector<std::shared_ptr<MVC::GameObject>> gameobjects_;
 };
 } // namespace MVC

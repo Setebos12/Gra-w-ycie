@@ -25,13 +25,13 @@ FetchContent_MakeAvailable(SFML)
 enable_testing()
 
 #gtest
-include(FetchContent)
-FetchContent_Declare(googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG 7da55820cc32dedd6c1b048f2d4e13fdde5e8237
-  GIT_SHALLOW ON
-  OVERRIDE_FIND_PACKAGE)
-FetchContent_MakeAvailable(googletest)
+#include(FetchContent)
+#FetchContent_Declare(googletest
+#  GIT_REPOSITORY https://github.com/google/googletest.git
+#  GIT_TAG release-1.14.0
+#  GIT_SHALLOW ON
+#  OVERRIDE_FIND_PACKAGE)
+#FetchContent_MakeAvailable(googletest)
 
 # assets - make it so it updates after changes
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

@@ -142,26 +142,29 @@ void Board::readString(const std::string& read) {
     }
 }
 
-void Board::input(InputEvent& inputEvent) {
-    if (!drawEnabled) return;
+bool Board::input(InputToken& token) {
+    if (!inputEnabled) return false;
+    if (!(token.getType() == TokenType::LEFT_MOUSE_DOWN) && !(token.getType() == TokenType::LEFT_MOUSE_PRESSED))
+        return false;
+
     int cellSize = 10;
     sf::Vector2f v1(0.f, 0.f);
     sf::Vector2f v2(container->getWidth() * cellSize, container->getHeight() * cellSize);
     sf::FloatRect boardRect(v1, v2);
 
-    inputEvent.watchClickRect(
-        v1,
-        v2,
-        [this, cellSize, boardRect, &inputEvent]() {
-            sf::Vector2i mousePos = sf::Mouse::getPosition(*inputEvent.getWindow());
-            sf::Vector2f worldPos = inputEvent.getWindow()->mapPixelToCoords(mousePos);
+    sf::FloatRect rect(v1, v2);
+    if (!rect.contains(sf::Vector2f(token.getMousePos())))
+        return false;
 
-            if (boardRect.contains(worldPos)) {
-                int x = static_cast<int>((worldPos.x - boardRect.position.x) / cellSize);
-                int y = static_cast<int>((worldPos.y - boardRect.position.y) / cellSize);
-                if (!container->getCellState(x, y))
-                    toggleCellState(x, y);
-            }
-        }
-    );
+    int x = static_cast<int>((token.getMousePos().x - boardRect.position.x) / cellSize);
+    int y = static_cast<int>((token.getMousePos().y - boardRect.position.y) / cellSize);
+
+    if (token.getType() == TokenType::LEFT_MOUSE_PRESSED) {
+        erasing = container->getCellState(x, y);
+    }
+
+    if (container->getCellState(x, y) == erasing)
+        toggleCellState(x, y);
+
+    return true;
 }
