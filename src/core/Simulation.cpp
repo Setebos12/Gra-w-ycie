@@ -1,3 +1,12 @@
+// Filename: Simulation.cpp
+//
+// Description:
+//     Implements the MVC::Simulation class, handling initialization of the game window,
+//     setup of core systems (input, logic, rendering), and execution of the main game loop.
+//
+// Authors: Piotr Pyrak, Krzysztof Rutkowski, Bartosz Paszkiewicz
+
+
 #include "Simulation.h"
 #include "../input/InputButton.h"
 #include "../logic/board.h"

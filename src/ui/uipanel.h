@@ -1,3 +1,12 @@
+// Filename: uipanel.h
+//
+// Description:
+//     Declares the Uipanel class, a UI component that manages input buttons,
+//     HUD display, and interactions with game logic and board within the MVC framework.
+//
+// Authors: Krzysztof Rutkowski, Piotr Pyrak
+
+
 #pragma once
 
 #include "../input/InputButton.h"

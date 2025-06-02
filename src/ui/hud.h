@@ -17,7 +17,7 @@ public:
     }
 
     void draw(Render::Drawer& drawer) override;
-    void update() override {};
+    void update() override {}
 
     void updateGeneration(int newGeneration_) { generation_ = newGeneration_; }
 

@@ -1,3 +1,13 @@
+// Filename: InputButton.cpp
+//
+// Description:
+//     Implements the InputButton class responsible for drawing a button
+//     and handling mouse click interactions.
+//
+// Author: Krzysztof Rutkowski
+
+
+
 #include "InputButton.h"
 
 void InputButton::draw(Render::Drawer& drawer)  {

@@ -1,3 +1,9 @@
+//Filename: hud.h
+//
+//Display that shows most important information from simulation to screen
+//
+//Author: Piotr Pyrak, Krzysztof Rutkowski
+
 #include "hud.h"
 
 void Hud::draw(Render::Drawer& drawer) {

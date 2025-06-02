@@ -1,3 +1,12 @@
+// Filename: input.h
+//
+// Description:
+//     Defines the MVC::Input class, responsible for polling and processing
+//     input events from the SFML render window.
+//     
+//
+// Authors: Krzysztof Rutkowski, Piotr Pyrak
+
 #pragma once
 
 #include <memory>

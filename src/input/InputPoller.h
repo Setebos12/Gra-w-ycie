@@ -1,3 +1,11 @@
+// Filename: InputPoller.h
+//
+// Description:
+//     Declares the InputPoller class, which captures and processes mouse input events,
+//     converting them into InputTokens for further handling.
+//
+// Authors: Krzysztof Rutkowski, Piotr Pyrak
+
 #pragma once
 
 #include <SFML/Graphics.hpp>

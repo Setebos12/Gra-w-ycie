@@ -1,3 +1,12 @@
+// Filename: InputPoller.cpp
+//
+// Description:
+//     Implements the InputPoller class method for detecting and converting
+//     mouse input events into a queue of InputTokens.
+//
+// Authors: Krzysztof Rutkowski, Piotr Pyrak
+
+
 #include "InputPoller.h"
 
 std::queue<InputToken> InputPoller::processClicks() {

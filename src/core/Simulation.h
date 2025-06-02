@@ -1,3 +1,12 @@
+// Filename: Simulation.h
+//
+// Description:
+//     Declares the MVC::Simulation class, which manages the initialization,
+//     main loop, and coordination of core subsystems such as input handling,
+//     logic processing, and rendering.
+//
+// Authors: Piotr Pyrak, Krzysztof Rutkowski, Bartosz Paszkiewicz
+
 #pragma once
 
 #include "../input/Input.h"

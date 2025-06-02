@@ -1,3 +1,10 @@
+// Filename: Input.cpp
+//
+// Description:
+//     Implements the MVC::Input class method for polling and dispatching user input
+//     events to game objects using InputTokens.
+//
+// Authors: Krzysztof Rutkowski, Piotr Pyrak
 #include "Input.h"
 #include "InputToken.h"
 

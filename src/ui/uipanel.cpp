@@ -1,3 +1,12 @@
+// Filename: uipanel.cpp
+//
+// Description:
+//     Implements the Uipanel class, managing UI components such as input buttons and HUD,
+//     handling drawing, updates, and input forwarding within the MVC architecture.
+//
+// Authors: Krzysztof Rutkowski, Piotr Pyrak
+
+
 #include "uipanel.h"
 #include <memory>
 #include "../logic/Board.h"
