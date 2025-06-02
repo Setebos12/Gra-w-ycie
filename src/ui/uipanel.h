@@ -10,8 +10,8 @@
 #pragma once
 
 #include "../input/InputButton.h"
-#include "../logic/Board.h"
-#include "../logic/Logic.h"
+#include "../logic/board.h"
+#include "../logic/logic.h"
 #include "../core/gameobject.h"
 #include "hud.h"
 

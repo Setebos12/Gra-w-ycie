@@ -9,7 +9,7 @@
 
 #include "uipanel.h"
 #include <memory>
-#include "../logic/Board.h"
+#include "../logic/board.h"
 
 Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent,
     const sf::Vector2u& windowSize, int uiPanelWidth, int margin, int boardWidth,
