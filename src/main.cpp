@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
 	FileIO::init(readPath, writePath);
 
-	std::shared_ptr<MVC::Simulation> sim = std::make_shared<MVC::Simulation>();
+	std::shared_ptr<MVC::Simulation> sim = std::make_shared<MVC::Simulation>(lvl);
 
 	sim->initWindow(std::weak_ptr(sim));
 

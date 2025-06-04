@@ -15,9 +15,9 @@
 
 using namespace MVC;
 
-Simulation::Simulation()
+Simulation::Simulation(Util::Level log)
     : logic_(std::make_unique<Logic>()),
-    logger_(std::make_shared<Util::Logger>(Util::Level::INFO)),
+    logger_(std::make_shared<Util::Logger>(log)),
     running_(true) {
     logEvent_ = std::make_shared<Util::Event<const std::string&, Util::Level>>();
     logEvent_->subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
