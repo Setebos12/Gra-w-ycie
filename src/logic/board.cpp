@@ -1,3 +1,9 @@
+//Filename: board.cpp
+//
+// Implements board methods
+//
+//Author: Bartosz Paszkiewicz
+
 #include "board.h"
 #include <utility>
 #include <sstream>

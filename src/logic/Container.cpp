@@ -1,3 +1,9 @@
+//Filename: container.cpp
+//
+// Omplementation of container methods
+//
+//Author: Bartosz Paszkiewicz
+
 #include "container.h"
 
 Container::Container(int width, int height)

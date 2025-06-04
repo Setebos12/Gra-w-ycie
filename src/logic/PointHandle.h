@@ -1,3 +1,9 @@
+//Filename: pointHandle.h
+//
+//Class deciding whether a given cell should live
+//
+//Author: Bartosz Paszkiewicz
+
 #pragma once
 
 #include "container.h"

@@ -1,3 +1,11 @@
+//Filename: board.h
+//
+// Class that represents board of the game, maintains
+// its state and takes input. Ihnerits from gameobject and implements
+// override methods
+//
+//Author: Bartosz Paszkiewicz
+
 #pragma once
 
 #include "../core/gameobject.h"

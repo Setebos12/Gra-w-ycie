@@ -1,3 +1,10 @@
+//Filename: container.h
+//
+// Class that represents board as vector<vector<bool>>
+//
+//Author: Bartosz Paszkiewicz
+
+
 #pragma once
 
 #include <vector>
