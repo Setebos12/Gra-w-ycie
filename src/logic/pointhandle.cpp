@@ -1,3 +1,9 @@
+//Filename: pointHandle.cpp
+//
+//Implementation of pointHandle methods
+//
+//Author: Bartosz Paszkiewicz
+
 #include "pointHandle.h"
 
 PointHandle::PointHandle(const Container& container) 
