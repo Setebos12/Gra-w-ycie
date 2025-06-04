@@ -13,13 +13,13 @@
 
 class Parser {
 public:
-  Parser(int argc, char *argv[]) : argc_(argc) {
+  inline Parser(int argc, const char *const argv[]) : argc_(argc) {
     for (int i = 0; i < argc; ++i) {
       arguments_.push_back(std::string(argv[i]));
     }
   }
 
-  bool getFlag(const std::string &flag) {
+  inline bool getFlag(const std::string &flag) {
     for (const auto &arg : arguments_) {
       if (arg == flag)
         return true;

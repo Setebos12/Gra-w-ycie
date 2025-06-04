@@ -1,6 +1,6 @@
-# src/render/CMakeLists.txt
+# src/util/CMakeLists.txt
 
-project("Logger")
+project("Util")
 
 set (SOURCE
 	logger.cpp
