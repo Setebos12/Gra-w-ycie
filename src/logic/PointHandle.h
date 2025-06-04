@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Container.h"
+#include "container.h"
 
 class PointHandle {
 public:
@@ -9,7 +9,7 @@ public:
     bool shouldCellLive(int x, int y) const;
 
 private:
-    const Container& container;
+    const Container& container_;
 
     int countLiveNeighbors(int x, int y) const;
 };
