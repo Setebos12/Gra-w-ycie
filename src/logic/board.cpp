@@ -15,8 +15,7 @@ std::string toString(const T& value) {
 
 Board::Board(const std::string& name,
              int width, int height,
-             std::shared_ptr<Util::Event<const std::string&,
-             Util::Level>>& logEvent)
+             std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent)
     : GameObject(name, logEvent, true),
     container_(std::make_unique<Container>(width, height)),
     pointHandle_(std::make_unique<PointHandle>(*container_)),
@@ -75,7 +74,8 @@ int Board::getGenerationCount() const
 
 void Board::incrementGeneration()
 {
-    generationCount_++;
+    ++generationCount_;
+    updateGenEvent_.invoke(generationCount_);
 }
 
 void Board::draw(Render::Drawer& drawer) {

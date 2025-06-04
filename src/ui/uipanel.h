@@ -31,7 +31,8 @@ public:
         const std::weak_ptr<Board>& board,
         Util::Event<> && simEndEvent,
         Util::Event<>&& saveEvent,
-        Util::Event<>&& loadEvent);
+        Util::Event<>&& loadEvent,
+        Util::Event<int>& updateGenEvent);
 
     void draw(Render::Drawer& drawer) override;
     void update() override;
@@ -42,5 +43,5 @@ public:
 
 private:
     std::vector<std::unique_ptr<InputButton>> inputbuttons;
-    std::unique_ptr<Hud> hud;
+    std::shared_ptr<Hud> hud;
 };

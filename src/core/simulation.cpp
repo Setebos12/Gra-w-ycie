@@ -69,7 +69,8 @@ void Simulation::initWindow(const std::weak_ptr<MVC::Simulation>& selfRef) {
         std::weak_ptr(board),
         std::move(simEndEvent),
         std::move(saveEvent),
-        std::move(loadEvent));
+        std::move(loadEvent),
+        board->getUpdateGenEvent());
     gameobjects_.emplace_back(panel);
 
     gameobjects_.emplace_back(std::move(board));

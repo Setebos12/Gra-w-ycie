@@ -18,7 +18,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
     const std::weak_ptr<Board>& board,
     Util::Event<> && simEndEvent,
     Util::Event<>&& saveEvent,
-    Util::Event<>&& loadEvent)
+    Util::Event<>&& loadEvent,
+    Util::Event<int>& updateGenEvent)
     : MVC::GameObject("Uipanel", logEvent) {
     float buttonX = static_cast<float>(windowSize.x - uiPanelWidth + margin);
     float buttonWidth = 180.f;
@@ -26,7 +27,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
     float buttonY = 500.f;
 
     using sf::Vector2f;
-    hud = std::make_unique<Hud>("Hud", Vector2f{ buttonX, buttonY + 400.f });
+    hud = std::make_shared<Hud>("Hud", Vector2f{ buttonX, buttonY + 400.f });
+    updateGenEvent.subscribe<Hud>(std::weak_ptr<Hud>(hud), &Hud::updateGeneration);
 
     Util::Event<> resetBoard;
     resetBoard.subscribe(std::weak_ptr<Board>(board), &Board::resetBoard);

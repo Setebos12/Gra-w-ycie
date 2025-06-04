@@ -9,8 +9,7 @@ class Board : public MVC::GameObject {
 public:
     Board(const std::string& name,
           int width, int height,
-          std::shared_ptr<Util::Event<const std::string&,
-          Util::Level>>& logEvent);
+          std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent);
 
     void draw(Render::Drawer& drawer) override;
     void update() override;
@@ -27,6 +26,8 @@ public:
     void enableInput() { inputEnabled_ = true; }
     void disableInput() { inputEnabled_ = false; }
     auto getInputEnabled() const { return inputEnabled_; }
+
+    auto& getUpdateGenEvent() { return updateGenEvent_; }
 private:
     std::unique_ptr<Container> container_;
     std::unique_ptr<PointHandle> pointHandle_;
@@ -37,4 +38,6 @@ private:
     bool erasing_ = false;
 
     void incrementGeneration();
+
+    Util::Event<int> updateGenEvent_;
 };
