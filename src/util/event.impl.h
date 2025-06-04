@@ -28,12 +28,14 @@ template <typename... Args>
 template <typename T, typename Method>
 requires Util::ValidFunc<T, Method, Args...>
 void Util::Event<Args...>::unsubscribe(std::weak_ptr<T> &&obj, Method listener) {
-  listeners_.erase(
-      std::remove_if(listeners_.begin(), listeners_.end(),
-                     [&listener, obj = std::move(obj)](const auto &listenerPtr) {
-                        return *listenerPtr == Listener<T, Method>(std::move(obj), listener);
-                     }),
-      listeners_.end());
+    Listener<T, Method> compare(std::move(obj), listener);
+    listeners_.erase(
+    std::remove_if(listeners_.begin(), listeners_.end(),
+        [&compare](const auto& listenerPtr) {
+            return *listenerPtr == compare;
+        }),
+    listeners_.end()
+    );
 }
 
 template <typename... Args>
@@ -51,9 +53,9 @@ template <typename... Args>
 template <typename T, typename Method>
 requires Util::ValidFunc<T, Method, Args...>
 bool Util::Event<Args...>::Listener<T, Method>::operator==(const IListener& other) const {
-    if (!std::is_convertible<IListener, Listener<T, Method>>())
+    if (typeid(other) != typeid(Listener<T, Method>))
         return false;
-    const Listener<T, Method>& convert = dynamic_cast<const Listener<T, Method>&>(other);
+    const Listener<T, Method>& convert = static_cast<const Listener<T, Method>&>(other);
     if (auto lp = obj_.lock()) {
         if (auto otherLp = convert.obj_.lock()) {
             return lp == otherLp && method_ == convert.method_;

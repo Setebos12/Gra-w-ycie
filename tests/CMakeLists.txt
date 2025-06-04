@@ -6,6 +6,8 @@ set(Sources
 	BoardTest.cpp
 	ContainerTest.cpp
 	PointHandleTest.cpp
+	ParserTest.cpp
+	EventTest.cpp
 )
 
 add_executable(${This} ${Sources})
@@ -17,6 +19,7 @@ target_link_libraries(${This} PUBLIC
 	LogicModel
 	Renderer
 	ui
+	Util
 )
 
 add_test(

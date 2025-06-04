@@ -25,7 +25,11 @@ int main(int argc, char *argv[])
 	auto readPath = optReadPath.has_value() ? optReadPath.value() : "";
 	auto writePath = optWritePath.has_value() ? optWritePath.value() : "";
 
-	FileIO::init(readPath, writePath);
+	try {
+		FileIO::init(readPath, writePath);
+	} catch (runtime_error err) {
+		std::cerr << "Failed read/write of FileIO:  " << err.what() << std::endl;
+	}
 
 	std::shared_ptr<MVC::Simulation> sim = std::make_shared<MVC::Simulation>(lvl);
 
