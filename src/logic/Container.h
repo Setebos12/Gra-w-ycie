@@ -14,7 +14,7 @@ public:
     std::pair<int, int> findMinMaxX() const;
     std::pair<int, int> findMinMaxY() const;
 private:
-    std::vector<std::vector<bool>> grid;
-    int width;
-    int height;
+    std::vector<std::vector<bool>> grid_;
+    int width_;
+    int height_;
 };

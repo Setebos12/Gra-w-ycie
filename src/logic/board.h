@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../core/gameobject.h"
-#include "Container.h"
-#include "PointHandle.h"
+#include "container.h"
+#include "pointHandle.h"
 #include <memory>
 
 class Board : public MVC::GameObject {
@@ -24,17 +24,17 @@ public:
     std::string printString() const override;
     void readString(const std::string& read) override;
 
-    void enableInput() { inputEnabled = true; }
-    void disableInput() { inputEnabled = false; }
-    auto getInputEnabled() const { return inputEnabled; }
+    void enableInput() { inputEnabled_ = true; }
+    void disableInput() { inputEnabled_ = false; }
+    auto getInputEnabled() const { return inputEnabled_; }
 private:
-    std::unique_ptr<Container> container;
-    std::unique_ptr<PointHandle> pointHandle;
-    int generationCount;
+    std::unique_ptr<Container> container_;
+    std::unique_ptr<PointHandle> pointHandle_;
+    int generationCount_;
 
-    bool inputEnabled = false;
+    bool inputEnabled_ = false;
 
-    bool erasing = false;
+    bool erasing_ = false;
 
     void incrementGeneration();
 };
