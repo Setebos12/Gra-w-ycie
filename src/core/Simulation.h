@@ -22,11 +22,15 @@ namespace MVC {
 class Simulation {
 public:
   Simulation();
-  void initWindow(std::weak_ptr<MVC::Simulation>&& selfRef);
+  void initWindow(const std::weak_ptr<MVC::Simulation>& selfRef);
 
   void run();
 private:
   void stopRun() { running_ = false; }
+
+  void save();
+  void load();
+
   bool running_;
   std::shared_ptr<sf::RenderWindow> window_;
 

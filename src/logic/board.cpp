@@ -13,8 +13,11 @@ std::string toString(const T& value) {
     return oss.str();
 }
 
-Board::Board(const std::string& name, int width, int height, std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent)
-    : GameObject(name, logEvent),
+Board::Board(const std::string& name,
+             int width, int height,
+             std::shared_ptr<Util::Event<const std::string&,
+             Util::Level>>& logEvent)
+    : GameObject(name, logEvent, true),
     container(std::make_unique<Container>(width, height)),
     pointHandle(std::make_unique<PointHandle>(*container)),
     generationCount(0) {

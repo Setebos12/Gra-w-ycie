@@ -20,7 +20,6 @@ namespace MVC {
 		void increaseSpeed();
 		void decreaseSpeed();
 
-
 		void start();
 		void pause();
 

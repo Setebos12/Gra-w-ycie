@@ -14,11 +14,12 @@
 Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent,
     const sf::Vector2u& windowSize, int uiPanelWidth, int margin, int boardWidth,
     int boardHeight,
-    std::weak_ptr<MVC::Logic> logic,
-    std::weak_ptr<Board> board,
-    Util::Event<> && simEndEvent)
-    : MVC::GameObject("Uipanel", logEvent)
-{
+    const std::weak_ptr<MVC::Logic>& logic,
+    const std::weak_ptr<Board>& board,
+    Util::Event<> && simEndEvent,
+    Util::Event<>&& saveEvent,
+    Util::Event<>&& loadEvent)
+    : MVC::GameObject("Uipanel", logEvent) {
     float buttonX = static_cast<float>(windowSize.x - uiPanelWidth + margin);
     float buttonWidth = 180.f;
     float buttonHeight = 60.f;
@@ -96,6 +97,22 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonWidth, buttonHeight },
         "ENABLE DRAW",
         std::move(toggleDraw)
+    ));
+
+    inputbuttons.emplace_back(std::make_unique<InputButton>(
+        "SaveButton",
+        Vector2f{ buttonX, buttonY - 210.f },
+        Vector2f{ buttonWidth, buttonHeight },
+        "SAVE",
+        std::move(saveEvent)
+    ));
+
+    inputbuttons.emplace_back(std::make_unique<InputButton>(
+        "LoadButton",
+        Vector2f{ buttonX, buttonY - 280.f },
+        Vector2f{ buttonWidth, buttonHeight },
+        "LOAD",
+        std::move(loadEvent)
     ));
 }
 

@@ -10,10 +10,10 @@
 using namespace Util;
 
 void Logger::log(const std::string &message, Level level) const {
-  if (level >= loggerLevel_) {
+  if (level <= loggerLevel_) {
     if (level == Level::ERROR)
-      std::cerr << message;
+      std::cerr << message << std::endl;
     else
-      std::cerr << message;
+      std::cout << message << std::endl;
   }
 }

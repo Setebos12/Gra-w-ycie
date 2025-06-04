@@ -27,9 +27,11 @@ public:
         int margin,
         int boardWidth,
         int boardHeight,
-        std::weak_ptr<MVC::Logic> logic,
-        std::weak_ptr<Board> board,
-        Util::Event<> && simEndEvent);
+        const std::weak_ptr<MVC::Logic>& logic,
+        const std::weak_ptr<Board>& board,
+        Util::Event<> && simEndEvent,
+        Util::Event<>&& saveEvent,
+        Util::Event<>&& loadEvent);
 
     void draw(Render::Drawer& drawer) override;
     void update() override;

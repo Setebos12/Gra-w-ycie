@@ -11,19 +11,26 @@
 #include "../input/InputButton.h"
 #include "../logic/board.h"
 #include "../ui/hud.h"
+#include "../util/fileIO.h"
 
 using namespace MVC;
 
 Simulation::Simulation()
     : logic_(std::make_unique<Logic>()),
-    logger_(std::make_shared<Util::Logger>(Util::Level::INFO)) {
+    logger_(std::make_shared<Util::Logger>(Util::Level::INFO)),
+    running_(true) {
     logEvent_ = std::make_shared<Util::Event<const std::string&, Util::Level>>();
     logEvent_->subscribe<Util::Logger>(std::weak_ptr(logger_), &Util::Logger::log);
 }
 
-void Simulation::initWindow(std::weak_ptr<MVC::Simulation>&& selfRef) {
+void Simulation::initWindow(const std::weak_ptr<MVC::Simulation>& selfRef) {
     Util::Event<> simEndEvent;
-    simEndEvent.subscribe<MVC::Simulation>(std::move(selfRef), &MVC::Simulation::stopRun);
+    simEndEvent.subscribe<MVC::Simulation>(std::weak_ptr(selfRef), &MVC::Simulation::stopRun);
+
+    Util::Event<> saveEvent;
+    saveEvent.subscribe<MVC::Simulation>(std::weak_ptr(selfRef), &MVC::Simulation::save);
+    Util::Event<> loadEvent;
+    loadEvent.subscribe<MVC::Simulation>(std::weak_ptr(selfRef), &MVC::Simulation::load);
 
     logEvent_->invoke("game started", Util::Level::INFO);
 
@@ -48,8 +55,6 @@ void Simulation::initWindow(std::weak_ptr<MVC::Simulation>&& selfRef) {
     input_ = std::make_unique<Input>(window_);
     render_ = std::make_unique<MVC::Renderer>(window_);
 
-    running_ = true;
-
     auto board = std::make_shared<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_);
     
     //gameobjects
@@ -62,7 +67,9 @@ void Simulation::initWindow(std::weak_ptr<MVC::Simulation>&& selfRef) {
         boardHeight,
         std::weak_ptr(logic_),
         std::weak_ptr(board),
-        std::move(simEndEvent));
+        std::move(simEndEvent),
+        std::move(saveEvent),
+        std::move(loadEvent));
     gameobjects_.emplace_back(panel);
 
     gameobjects_.emplace_back(std::move(board));
@@ -76,6 +83,30 @@ void Simulation::run() {
       logic_->step(gameobjects_);
       render_->draw(gameobjects_);
 
-      logEvent_->invoke("frame\n", Util::Level::INFO);
+      logEvent_->invoke("frame\n", Util::Level::DEBUG);
   }
+}
+
+void Simulation::save() {
+    try {
+        FileIO io;
+        for (auto& go : gameobjects_) {
+            if (go->getSaveState())
+                io.write<GameObject>(*go);
+        }
+    } catch (const std::runtime_error& err) {
+        logEvent_->invoke("ERROR: Can't save state: " + std::string(err.what()), Util::Level::ERROR);
+    }
+}
+
+void Simulation::load() {
+    try {
+        FileIO io;
+        for (auto& go : gameobjects_) {
+            if (go->getSaveState())
+                io.read<GameObject>(*go);
+        }
+    } catch (const std::runtime_error& err) {
+        logEvent_->invoke("ERROR: Can't load state: " + std::string(err.what()), Util::Level::ERROR);
+    }
 }
