@@ -32,7 +32,7 @@ public:
 
     void draw(Render::Drawer& drawer) override;
 
-    void update() override { setPressed(false); }
+    void update() override {}
 
     std::string printString() const override { return " "; }
     void readString(const std::string& read) override {}
