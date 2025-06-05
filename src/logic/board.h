@@ -36,7 +36,7 @@ public:
     auto getInputEnabled() const { return inputEnabled_; }
 
     template<typename T>
-    std::string static toString(const T& value) {
+    std::string toString(const T& value) {
         std::ostringstream oss;
         oss << value;
         return oss.str();
