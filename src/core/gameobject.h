@@ -33,7 +33,7 @@ public:
     // recivers renderer object where it will be able to call drawing methods
     virtual void draw(Render::Drawer& drawer) override = 0;
     virtual void update() = 0;
-    virtual bool input(InputToken& events) { return false; }
+    virtual bool input(const InputToken& events) { return false; }
 
     const auto& getName() const { return name_; }
     void setName(const std::string& name) { name_ = name; }

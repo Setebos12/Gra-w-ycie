@@ -38,7 +38,7 @@ namespace UI {
 
         void draw(Render::Drawer& drawer) override;
         void update() override;
-        bool input(InputToken& events) override;
+        bool input(const InputToken& events) override;
 
         std::string printString() const override;
         void readString(const std::string& read) override;

@@ -8,28 +8,30 @@
 
 
 #include "InputPoller.h"
+
 using namespace INPUT;
 
+InputPoller::InputPoller(std::shared_ptr<sf::RenderWindow> window) : window_(std::move(window)),
+    onMouseReleased_([this](const sf::Event::MouseButtonReleased& mousePressed) {
+        tokens_.emplace(InputToken(TokenType::LEFT_MOUSE_RELEASED, sf::Mouse::getPosition(*window_)));
+    }),
+    onMousePressed_([this](const sf::Event::MouseButtonPressed& mousePressed) {
+        tokens_.emplace(InputToken(TokenType::LEFT_MOUSE_PRESSED, sf::Mouse::getPosition(*window_)));
+    }) {
+}
+
 std::queue<InputToken> InputPoller::processClicks() {
-    std::queue<InputToken> tokens;
+    while (!tokens_.empty()) tokens_.pop();
 
-    if (!window_ || !window_->hasFocus()) return tokens;
+    if (!window_ || !window_->hasFocus()) return tokens_;
 
-    const auto onMouseReleased = [this, &tokens](const sf::Event::MouseButtonReleased& mousePressed) {
-        tokens.emplace(InputToken(TokenType::LEFT_MOUSE_RELEASED, sf::Mouse::getPosition(*window_)));
-        };
-
-    const auto onMousePressed = [this, &tokens](const sf::Event::MouseButtonPressed& mousePressed) {
-        tokens.emplace(InputToken(TokenType::LEFT_MOUSE_PRESSED, sf::Mouse::getPosition(*window_)));
-        };
-
-    window_->handleEvents(onMouseReleased, onMousePressed);
+    window_->handleEvents(onMouseReleased_, onMousePressed_);
 
     bool mousePressedNow = sf::Mouse::isButtonPressed(sf::Mouse::Button::Left);
 
     if (mousePressedNow) {
-        tokens.emplace(InputToken(TokenType::LEFT_MOUSE_DOWN, sf::Mouse::getPosition(*window_)));
+        tokens_.emplace(InputToken(TokenType::LEFT_MOUSE_DOWN, sf::Mouse::getPosition(*window_)));
     }
 
-    return tokens;
+    return tokens_;
 }

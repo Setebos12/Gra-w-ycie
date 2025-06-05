@@ -44,7 +44,7 @@ namespace UI {
         void setPressed(bool pressed) { pressed_ = pressed; }
         bool isPressed() const { return pressed_; }
 
-        bool input(InputToken& token) override;
+        bool input(const InputToken& token) override;
 
         sf::Vector2f position_;
         sf::Vector2f size_;

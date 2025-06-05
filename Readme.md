@@ -30,12 +30,12 @@ vectors as containers for gameobjects (and listeners in events)
 queue for taking input arguments and proccessing them
 std::remove_if for unsubscribing from events
 Iterator loops (for example for event to call methods on listeners)
+std::function is used for creating lambdas to pass into SFML handleEvents method
 
 We use a lot of smart pointers for the entire project mainly:
 - unique_ptr for holding long lived classes that are mostly self-contained
 - shared_ptr for gameobjects and other things that need logging, as weak_ptr needs to be created for events
 - weak_ptr in events
-
 ---
 
 ## Exceptions

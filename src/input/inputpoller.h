@@ -20,11 +20,15 @@ namespace INPUT {
 
     class InputPoller {
     public:
-        InputPoller(std::shared_ptr<sf::RenderWindow> window) : window_(std::move(window)) {}
+        InputPoller(std::shared_ptr<sf::RenderWindow> window);
 
         std::queue<InputToken> processClicks();
 
     private:
         std::shared_ptr<sf::RenderWindow> window_;
+
+        const std::function<void(const sf::Event::MouseButtonReleased&)> onMouseReleased_;
+        const std::function<void(const sf::Event::MouseButtonPressed&)> onMousePressed_;
+        std::queue<InputToken> tokens_;
     };
 }

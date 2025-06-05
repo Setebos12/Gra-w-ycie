@@ -151,7 +151,7 @@ void Board::readString(const std::string& read) {
     }
 }
 
-bool Board::input(InputToken& token) {
+bool Board::input(const InputToken& token) {
     if (!inputEnabled_) return false;
     if (!(token.getType() == TokenType::LEFT_MOUSE_DOWN) && !(token.getType() == TokenType::LEFT_MOUSE_PRESSED))
         return false;

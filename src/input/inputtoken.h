@@ -18,8 +18,8 @@ class InputToken {
 public:
 	InputToken(TokenType type, sf::Vector2i mousePos) : tokenType_(type), mousePos_(mousePos) {}
 
-	auto getType() { return tokenType_; }
-	const auto& getMousePos() { return mousePos_; }
+	auto getType() const { return tokenType_; }
+	const auto& getMousePos() const { return mousePos_; }
 private:
 	TokenType tokenType_;
 	sf::Vector2i mousePos_;

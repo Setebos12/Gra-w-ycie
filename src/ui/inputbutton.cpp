@@ -27,7 +27,7 @@ void InputButton::draw(Render::Drawer& drawer)  {
 }
 
 
-bool InputButton::input(InputToken& token) {
+bool InputButton::input(const InputToken& token) {
     sf::FloatRect rect(position_, size_);
     if (!rect.contains(sf::Vector2f(token.getMousePos()))) {
         return false;
@@ -35,7 +35,7 @@ bool InputButton::input(InputToken& token) {
 
     if (token.getType() == TokenType::LEFT_MOUSE_PRESSED) {
         setPressed(true);
-        logEvent_.value()->invoke(std::string("Button clicked: ") + getName() + std::string("\n"), Util::Level::INFO);
+        logEvent_.value()->invoke(std::string("Button clicked: ") + getName(), Util::Level::INFO);
         return false;
     }
 

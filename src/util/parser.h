@@ -20,7 +20,7 @@ public:
         }
     }
 
-    inline bool getFlag(const std::string& flag) {
+    inline bool getFlag(const std::string& flag) const {
         for (const auto& arg : arguments_) {
             if (arg == flag)
                 return true;
@@ -28,7 +28,7 @@ public:
         return false;
     }
 
-    template <typename T> std::optional<T> getArg(const std::string& flag) {
+    template <typename T> std::optional<T> getArg(const std::string& flag) const {
         for (auto it = arguments_.begin(); it != arguments_.end(); ++it) {
             if (*it == flag) {
                 if ((it + 1) != arguments_.end()) {

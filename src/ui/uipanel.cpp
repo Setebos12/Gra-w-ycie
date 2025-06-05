@@ -130,7 +130,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
         logEvent
 
     ));
-    logEvent_.value()->invoke("Uipanel initialized\n", Util::Level::INFO);
+    logEvent_.value()->invoke("Uipanel initialized", Util::Level::INFO);
 }
 
 
@@ -148,7 +148,7 @@ void Uipanel::update() {
     }
 }
 
-bool Uipanel::input(InputToken& token) {
+bool Uipanel::input(const InputToken& token) {
     if (hud) hud->input(token);
     for (auto& btn : inputbuttons) {
         if (btn) btn->input(token);
