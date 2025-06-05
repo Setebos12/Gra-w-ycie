@@ -1,4 +1,4 @@
-﻿# Game of Life - Documentation 1.0
+﻿# Game of Life - Documentation 2.0
 ---
 Authors:
 - **Piotr Pyrak**
@@ -8,115 +8,186 @@ Authors:
 ---
 
 ## Premises
-<p>We will implement the Conway's Game of Life as descriped on [Wikipedia](https://en.wikipedia.org/wiki/Conway's_Game_of_Life).<br>
+<p>We will implement the Conway's Game of Life as descriped on [Wikipedia](https://en.wikipedia.org/wiki/Conway's_Game_of_Life). We use SFML to interact with hardware.<br>
 First the user will specify the starting conditions and start the simulation in a GUI. The simulation can be stopped, the alive population edited and then started again. While the simulation is stopped it can also be saved and loaded from file.<br>
-During the runtime of the program log messages are written to file or terminal (which can be specified via input arguments). Some statisctics eg. generation count will also be visible in GUI.</p>
+During the runtime of the program log messages are written to terminal. Generation count will also be visible in GUI.</p>
+
+---
+
+## Tutorial
+###### InputArguments
+--level Level           Possible Levels are: error, info, debug. Specifies the level of log messages.
+--read filename         Read button will read from this
+--write filename        Write button will write to this
+###### Simulation
+Enable draw button allows for drawing on the board. Clicking and draging there will turn cells alive.
+If an alive cell is clicked it will be killed.
+
+---
+
+## STL used
+vectors as containers for gameobjects (and listeners in events)
+queue for taking input arguments and proccessing them
+std::remove_if for unsubscribing from events
+Iterator loops (for example for event to call methods on listeners)
+
+We use a lot of smart pointers for the entire project mainly:
+- unique_ptr for holding long lived classes that are mostly self-contained
+- shared_ptr for gameobjects and other things that need logging, as weak_ptr needs to be created for events
+- weak_ptr in events
+
+---
+
+## Exceptions
+
+FileIO is a class that throws exceptions if it fails to read or write to fail in any way. Those are intercepted in simulation (as this class uses FilIO), to log.
+Other non-standard situations are handled without exceptions as other situations are recoverable in the class that produced those situations.
+
+---
+
+## Testing
+
+Board, Container, Event, Parser, PointHandle are tested. This way we test main simulation logic, along with util helper functions.
+We test those classes without accessing private members, so black box testing.
+We don't test classess interacting with SFML as it would require a lot of mocking and may not be even possible.
 
 ---
 
 ## Project Structure
-The following files, each containing a singular class unless stated otherwise, are planned:
+The following files, each containing a singular class unless stated otherwise, are implemented:
 
-#### **Simulation**
-- Gives control to Input, Logic, and Renderer in a main loop, passes neccessary data between them.
-- Holds a vector of unique_ptr to gameobjects that are updated and rendered.
-- Holds a uniqe_ptr to Logger
-- Has a public run() method that starts the Simulation (currently supposed to be called from main directly).
-- Has constructor that initalizes all objects according to input arguments from main
+### **Util**
 
-#### **Input**
-- Has unique_ptr to ParserKeyboard.
-- Has a CollectInput method that returns a CurrentInput object.
+#### **Parser**
+- Takes argc and argv in constructor
+- Able to parse out flags with and without arguments
 
-#### **CurrentInput**
-- Has a collection of InputTokens (enums).
-- Has methods for managing the Collection (adding pressed tokens and clearing).
-- Created by Input passed to Logic.
+#### **Event**
+- Generic implementation of observer pattern
+- An event can be subscribed to with a method on an object (unsubscribed also)
+- Can be invoked with arguments to call the method
+- Holds objects as weak pointers so no memory leaks are created
 
-#### **ParserKeyboard**
-- Collects user input and creates a CurrentInput object.
-- The object is supposed to be passed to Input.
-- Has method KeyboardInput that creates CurrentInput collection and returns it.
-- Interacts with the keyboard directly.
-- Converts the pressed keys into tokens.
-- Implements rule of 5 (as interacting directly (more directly than rest of the program) with keyboard)
+#### **Logger**
+- Class for logging messages.
+- Has enum for message levels.
+- Displays only log messages that are specified in constructor as enum.
+- Also in construtor has mode of output (terminal, file, both, none).
 
-#### **InputToken**
-- An enum that has actions that can be emitted and acted upon by Logic
+#### **FileIO**
+- Static strings of paths from input arguments
+- Has methods to write and load to and from file an object (template functions).
+- A single object opens streams only once
+- Implements rule of five to close the stream
 
-#### **Logic**
-- Has Step method that taking a CurrentInput object and a vector of unique_ptr to gameobjects, updates the state.
-- This method is supposed to be called from Simulation
-- Has methods for pausing and starting the simulation
+---
+
+### **Core**
 
 #### **GameObject**
 - An abstract base class that all objects interacting with the main loop inherit.
 - Has virtual draw (taking Drawer& as reference) and update methods called by Renderer and Logic, respectively. Both are required to be inherited.
+- Has virtual input (taking InputToken& as reference) to proccess input tokens
 - Has a name(std::string) and getter and setter for it.
-- Overloads << and >> operators, used for log messages and saving loading simulation, both also must be implemented.
+- Overloads << and >> operators, used for saving and loading simulation, both also must be implemented.
 
-#### **HUD**
-- Displays statistics in the GUI.
-- Inherits GameObject.
-- Stores values to be displayed.
-- Has a method for updating those values, manually
-- That method is called during update
-- In constructor takes a reference to the Board
-If one class won't be enough to display everything it can be easily split into several others.
+---
 
-#### **Board**
-- Inherits GameObject.
-- Has a unique_ptr to Container.
-- Has getters for statistics concering generations (generation number and population count).
-- Uses PointHandle for updates
+### **Simulation**
 
-#### **Container**
-- Is a template class with a T type (allows for quickly changing the stored type)
-- Has a vector<vector<T>> that is representing the board.
-- Methods for managing the collection (set and get for a cell of coordiantes).
-- Getters for width and height and private fields for them.
-- Constructor that takes width and height as arguments.
-- Has a method for generating neighbours.
+#### **Simulation**
+- Gives control to Input, Logic, and Renderer in a main loop, passes neccessary data between them.
+- Holds a vector of shared_ptr (not unique for logs) to gameobjects that are updated and rendered.
+- Holds a uniqe_ptr to Logger
+- Has a public run() method that starts the Simulation.
+- Has constructor that initalizes all objects according to input arguments from main
+- Methods to save and load state
 
-#### **PointHandle**
-- Stateless class that has a template method for deciding wheter a cell should be alive in the next generation, taking it and its neighbours as arguments.
+---
 
-#### **Renderer**
-- Has a draw method that takes a vector of unique_ptr to GameObjects (from main loop).
-- To draw uses methods from drawer.
-- Has a unique_ptr to Drawer class.
-- The Drawer is passed as a reference to draw methods.
+### **Render**
 
 #### **Drawer**
 - Interacts with the display directly.
 - Has methods for refreshing the screen.
 - Has methods for drawing Shapes (Rectangles and Text) for GameObjects to use.
-- Implements Rule of Five (To always close the window correctly)
+- Holds shared_ptr to window.
 
-#### **Main**
-- Parses console arguments:
-    - Wheter to log to terminal, console, both or none
-    - What log messages to display
-    - Wheter to load from file the starting state
-    - The file to save to
-- Creates Simulation object and calls run on it.
+#### **IRenderObject**
+- Virtual Pure class requiring methods that are used by Render (draw method)
 
-#### **Logger**
-- Class for logging messages.
-- Has enum for message types.
-- Has enum for mode.
-- Displays only log messages that are specified in a vector in constructor.
-- Also in construtor has mode of output (terminal, file, both, none).
-
-#### **FileIO**
-- Stateless static class.
-- Has methods to write and load to and from file, taking collection from main loop as argument.
-- Has private template methods for writing and reading from stream, taking the type of object to be streamed as a template argument.
+#### **Renderer**
+- Has a draw method that takes a vector of shared_ptr to GameObjects (from main loop).
+- To draw uses methods from drawer.
+- Has a unique_ptr to Drawer class.
+- The Drawer is passed as a reference to draw methods.
 
 ---
 
-### Header and Implementation split
-- **Piotr**: `Renderer`, `GameObject`, `HUD`, `Logic`, `FileIO`, `Main`.
-- **Bartosz**: `Board`, `Container`, `PointHandle`, `GameState`.
-- **Krzysztof**: `Simulation`, `Logger`, `Input`, `CurrentInput`.
-Tests will be written by the person that is below the class.
+### **Ui**
+
+#### **HUD**
+- Its method for updating generation count listens to event in board
+- Draws the generation count
+
+#### **UiPanel**
+- Inherits GameObject.
+- Container class that passess control of input, draw and logic to its components
+- In constructor takes a references to create events and pass to buttons
+
+#### **InputButton**
+- Holds an Event to invoke when clicked
+- Implements input to deduce from the input token if it is clicked
+
+---
+
+### **Logic**
+
+#### **Board**
+- Inherits GameObject.
+- Has a unique_ptr to Container.
+- Uses PointHandle for updates
+- Implements input to draw cells
+- Counts generations
+
+#### **Container**
+- Has a vector<vector> that is representing the board.
+- Methods for managing the collection (set and get for a cell of coordiantes).
+- Getters for width and height and private fields for them.
+- Constructor that takes width and height as arguments.
+
+#### **Logic**
+- Has Step method that taking a CurrentInput object and a vector of shared_ptr to gameobjects, updates the state.
+- This method is supposed to be called from simulation
+- Has methods for pausing, starting, speeding up and down the simulation
+
+#### **PointHandle**
+- Stateless class that has a method for deciding wheter a cell should be alive in the next generation, taking it and its neighbours as arguments.
+
+---
+
+### **Input**
+
+#### **Input**
+- Calls input methods on gameobjects passing input tokens
+- Those input tokens are taken from a queue which is previously constructed from polling events from InputPoller
+
+#### **InputPoller**
+- Has shared_ptr to window
+- Method to proccess clicks
+- Creates lambdas to emplace token on actions and passess it to SFML window.handleEvents()
+- Checks at the end of polling if mouse is still pressed, if so it emits a token of mouse held down
+
+#### **InputToken**
+- An object holding an enum with action type and mouse position
+
+---
+
+### **Main**
+- Parses console arguments:
+    - What log messages to display
+    - The file to save to and load from
+- Creates Simulation object and calls run on it.
+- Inits FileIO
+
+---
