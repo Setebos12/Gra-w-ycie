@@ -46,10 +46,8 @@ Conway’s Game of Life is a zero-player game where the system evolves based on 
 
 ## Demo Video
 
-<video width="640" height="360" controls>
-  <source src="https://gitlab-stud.elka.pw.edu.pl/projproject/gra-w-zycie/vdemo/Gameoflifedemo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+📂 [Click here to watch](vdemo/Gameoflifedemo.mp4)
+
 
 
 ---
