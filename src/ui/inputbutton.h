@@ -16,7 +16,7 @@
 #include <functional>
 
 
-namespace UI {
+namespace Ui {
 
     class InputButton : public MVC::GameObject {
     public:
@@ -44,7 +44,7 @@ namespace UI {
         void setPressed(bool pressed) { pressed_ = pressed; }
         bool isPressed() const { return pressed_; }
 
-        bool input(const InputToken& token) override;
+        bool input(const InputPoll::InputToken& token) override;
 
         sf::Vector2f position_;
         sf::Vector2f size_;

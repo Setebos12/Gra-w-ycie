@@ -8,6 +8,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
+namespace InputPoll {
 enum class TokenType {
 	LEFT_MOUSE_RELEASED,
 	LEFT_MOUSE_PRESSED,
@@ -24,3 +25,4 @@ private:
 	TokenType tokenType_;
 	sf::Vector2i mousePos_;
 };
+} // namespace InputPoll

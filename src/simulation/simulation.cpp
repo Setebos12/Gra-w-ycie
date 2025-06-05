@@ -58,7 +58,7 @@ void Simulation::initWindow(const std::weak_ptr<MVC::Simulation>& selfRef) {
     auto board = std::make_shared<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_);
     
     //gameobjects
-    auto panel = std::make_shared<UI::Uipanel>(
+    auto panel = std::make_shared<Ui::Uipanel>(
         logEvent_,
         windowSize,
         uiPanelWidth,

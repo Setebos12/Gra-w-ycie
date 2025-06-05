@@ -16,7 +16,7 @@
 #include <queue>
 #include "InputToken.h"
 
-namespace INPUT {
+namespace InputPoll {
 
     class InputPoller {
     public:
@@ -31,4 +31,4 @@ namespace INPUT {
         const std::function<void(const sf::Event::MouseButtonPressed&)> onMousePressed_;
         std::queue<InputToken> tokens_;
     };
-}
+} // namespace InputPoll

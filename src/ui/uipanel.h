@@ -19,8 +19,7 @@
 #include <functional>
 
 
-namespace UI {
-
+namespace Ui {
     class Uipanel : public MVC::GameObject {
     public:
         Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent,
@@ -38,13 +37,13 @@ namespace UI {
 
         void draw(Render::Drawer& drawer) override;
         void update() override;
-        bool input(const InputToken& events) override;
+        bool input(const InputPoll::InputToken& events) override;
 
         std::string printString() const override;
         void readString(const std::string& read) override;
 
     private:
-        std::vector<std::unique_ptr<UI::InputButton>> inputbuttons;
+        std::vector<std::unique_ptr<Ui::InputButton>> inputbuttons;
         std::shared_ptr<Hud> hud;
     };
 }

@@ -151,9 +151,9 @@ void Board::readString(const std::string& read) {
     }
 }
 
-bool Board::input(const InputToken& token) {
+bool Board::input(const InputPoll::InputToken& token) {
     if (!inputEnabled_) return false;
-    if (!(token.getType() == TokenType::LEFT_MOUSE_DOWN) && !(token.getType() == TokenType::LEFT_MOUSE_PRESSED))
+    if (!(token.getType() == InputPoll::TokenType::LEFT_MOUSE_DOWN) && !(token.getType() == InputPoll::TokenType::LEFT_MOUSE_PRESSED))
         return false;
 
     int cellSize = 10;
@@ -168,7 +168,7 @@ bool Board::input(const InputToken& token) {
     int x = static_cast<int>((token.getMousePos().x - boardRect.position.x) / cellSize);
     int y = static_cast<int>((token.getMousePos().y - boardRect.position.y) / cellSize);
 
-    if (token.getType() == TokenType::LEFT_MOUSE_PRESSED) {
+    if (token.getType() == InputPoll::TokenType::LEFT_MOUSE_PRESSED) {
         erasing_ = container_->getCellState(x, y);
     }
 

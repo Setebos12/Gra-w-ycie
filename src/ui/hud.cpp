@@ -5,7 +5,7 @@
 //Author: Piotr Pyrak, Krzysztof Rutkowski
 
 #include "hud.h"
-using namespace UI;
+using namespace Ui;
 void Hud::draw(Render::Drawer& drawer) {
     std::ostringstream ss;
     ss << "Generation: " << generation_;

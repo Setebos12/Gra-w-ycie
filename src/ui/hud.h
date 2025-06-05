@@ -11,7 +11,7 @@
 #include <sstream>
 
 
-namespace UI {
+namespace Ui {
     class Hud : public MVC::GameObject {
     public:
         Hud(const std::string& name, const sf::Vector2f& pos)

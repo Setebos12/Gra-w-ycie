@@ -23,7 +23,7 @@ public:
     void update() override;
 
     void toggleCellState(int x, int y);
-    bool input(const InputToken& token) override;
+    bool input(const InputPoll::InputToken& token) override;
 
     void resetBoard();
     int getGenerationCount() const;

@@ -10,7 +10,7 @@
 
 #include "InputButton.h"
 
-using namespace UI;
+using namespace Ui;
 
 void InputButton::draw(Render::Drawer& drawer)  {
     sf::Color color = pressed_ ? sf::Color::Red : sf::Color::Green;
@@ -27,19 +27,19 @@ void InputButton::draw(Render::Drawer& drawer)  {
 }
 
 
-bool InputButton::input(const InputToken& token) {
+bool InputButton::input(const InputPoll::InputToken& token) {
     sf::FloatRect rect(position_, size_);
     if (!rect.contains(sf::Vector2f(token.getMousePos()))) {
         return false;
     }
 
-    if (token.getType() == TokenType::LEFT_MOUSE_PRESSED) {
+    if (token.getType() == InputPoll::TokenType::LEFT_MOUSE_PRESSED) {
         setPressed(true);
         logEvent_.value()->invoke(std::string("Button clicked: ") + getName(), Util::Level::INFO);
         return false;
     }
 
-    if (!(token.getType() == TokenType::LEFT_MOUSE_RELEASED)) {
+    if (!(token.getType() == InputPoll::TokenType::LEFT_MOUSE_RELEASED)) {
         return false;
     }
 

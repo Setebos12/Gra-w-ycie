@@ -9,7 +9,7 @@
 
 #include "InputPoller.h"
 
-using namespace INPUT;
+using namespace InputPoll;
 
 InputPoller::InputPoller(std::shared_ptr<sf::RenderWindow> window) : window_(std::move(window)),
     onMouseReleased_([this](const sf::Event::MouseButtonReleased& mousePressed) {
