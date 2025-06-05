@@ -33,6 +33,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
     Util::Event<> resetBoard;
     resetBoard.subscribe(std::weak_ptr<Board>(board), &Board::resetBoard);
     resetBoard.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::pause);
+    resetBoard.subscribe(std::weak_ptr<Hud>(hud), &Hud::reset);
+
     inputbuttons.emplace_back(std::make_unique<InputButton>(
         "ResetButton",
         Vector2f{ buttonX, 20.f },

@@ -28,6 +28,9 @@ public:
     void readString(const std::string& read) override {
     }
 
+
+    void reset() { generation_ = 0; }
+
 private:
     sf::Vector2f position_;
     int generation_;
