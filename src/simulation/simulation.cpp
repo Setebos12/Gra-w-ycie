@@ -91,7 +91,7 @@ void Simulation::run() {
 void Simulation::save() {
     logEvent_->invoke("attempt to save", Util::Level::INFO);
     try {
-        FileIO io;
+        Util::FileIO io;
         for (auto& go : gameobjects_) {
             if (go->getSaveState()) {
                 logEvent_->invoke("save successful", Util::Level::INFO);
@@ -106,7 +106,7 @@ void Simulation::save() {
 void Simulation::load() {
     logEvent_->invoke("attempt to load", Util::Level::INFO);
     try {
-        FileIO io;
+        Util::FileIO io;
         for (auto& go : gameobjects_) {
             if (go->getSaveState()) {
                 logEvent_->invoke("load successful", Util::Level::INFO);

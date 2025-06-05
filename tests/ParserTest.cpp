@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include "parser.h"
 
-Parser constructParser(std::initializer_list<const char*> argsList) {
+Util::Parser constructParser(std::initializer_list<const char*> argsList) {
     std::vector<const char*> argv;
     argv.push_back("prog");
     argv.insert(argv.end(), argsList.begin(), argsList.end());
-    return Parser(static_cast<int>(argv.size()), argv.data());
+    return Util::Parser(static_cast<int>(argv.size()), argv.data());
 }
 
 TEST(ParseTest, Flag) {

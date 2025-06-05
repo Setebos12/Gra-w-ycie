@@ -24,8 +24,8 @@ public:
                std::optional<std::shared_ptr<Util::Event<const std::string&, Util::Level>>> logEvent = std::nullopt,
                bool saveState = false)
         : name_(name), logEvent_(std::move(logEvent)), saveState_(saveState) {
-        if (logEvent.has_value()) {
-            logEvent.value()->invoke("Created gameobject named: " + name, Util::Level::DEBUG);
+        if (logEvent_.has_value()) {
+            logEvent_.value()->invoke("Created gameobject named: " + name, Util::Level::DEBUG);
         }
     }
     virtual ~GameObject() = default;

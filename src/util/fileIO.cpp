@@ -6,6 +6,8 @@
 
 #include "fileIO.h"
 
+using namespace Util;
+
 void FileIO::init(const std::string &readFilePath,
                   const std::string &writeFilePath) {
     try {
