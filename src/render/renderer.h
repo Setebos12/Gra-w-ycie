@@ -16,16 +16,15 @@
 namespace MVC {
 class Renderer {
 public:
-  Renderer(std::unique_ptr<Render::Drawer> &&drawer)
-      : drawer_(std::move(drawer)) {}
-  Renderer(std::shared_ptr<sf::RenderWindow> window)
-      : drawer_(std::make_unique<Render::Drawer>(window)) {}
+  Renderer(std::shared_ptr<sf::RenderWindow> window, const std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent)
+      : drawer_(std::make_unique<Render::Drawer>(window, logEvent)), logEvent_(logEvent) {}
   template <typename T>
   void draw(const std::vector<std::shared_ptr<T>> &all_objects)
     requires std::is_base_of_v<Render::IRenderObject, T>;
 
 private:
   std::unique_ptr<Render::Drawer> drawer_;
+  std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent_;
 };
 } // namespace MVC
 #include "renderer.impl.h"

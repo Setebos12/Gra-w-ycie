@@ -9,12 +9,11 @@
 
 #pragma once
 
-#include "../input/InputButton.h"
-#include "../logic/board.h"
-#include "../logic/logic.h"
-#include "../core/gameobject.h"
+#include "inputbutton.h"
+#include "board.h"
+#include "logic.h"
+#include "gameobject.h"
 #include "hud.h"
-
 #include <vector>
 #include <memory>
 #include <functional>

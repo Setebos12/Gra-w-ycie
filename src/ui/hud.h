@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "../core/gameobject.h"
-#include "../render/drawer.h"
+#include "gameobject.h"
+#include "drawer.h"
 #include <sstream>
 
 class Hud : public MVC::GameObject {

@@ -1,17 +1,20 @@
 # src/core/CMakeLists.txt
 
-# Add a library for the logic module
-add_library(CoreTarget
-    Simulation.cpp
+project(Core)
+
+set(SOURCE
 	gameobject.cpp
 )
 
+# Add a library for the logic module
+add_library(${PROJECT_NAME} ${SOURCE})
+
 # Include the current directory for header files
-target_include_directories(CoreTarget PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(CoreTarget PRIVATE SFML::Graphics)
-target_link_libraries(CoreTarget PRIVATE Renderer)
-target_link_libraries(CoreTarget PRIVATE LogicModel)
-target_link_libraries(CoreTarget PRIVATE InputTarget)
-target_link_libraries(CoreTarget PRIVATE ui)
-
+target_link_libraries(${PROJECT_NAME}
+PUBLIC
+	Util
+	Renderer
+	Input
+)

@@ -14,8 +14,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../core/gameobject.h"
-#include "../input/InputPoller.h"
+#include "gameobject.h"
+#include "InputPoller.h"
 
 namespace MVC {
 class Input {

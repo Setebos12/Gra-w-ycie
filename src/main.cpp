@@ -2,10 +2,10 @@
 //
 // Author: Piotr Pyrak
 
-#include "core/Simulation.h"
-#include "util/parser.h"
-#include "util/logger.h"
-#include "util/fileIO.h"
+#include "simulation.h"
+#include "parser.h"
+#include "logger.h"
+#include "fileIO.h"
 
 using namespace std;
 

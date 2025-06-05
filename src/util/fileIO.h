@@ -31,7 +31,7 @@ public:
       : readFile_(std::move(other.readFile_)),
       writeFile_(std::move(other.writeFile_)) {
   }
-  FileIO& operator=(FileIO&& other) {
+  FileIO& operator=(FileIO&& other) noexcept {
       if (this != &other) {
           readFile_.close();
           writeFile_.close();

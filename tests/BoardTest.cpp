@@ -3,7 +3,8 @@
 #include "Container.h"
 #include "PointHandle.h"
 
-std::shared_ptr<Util::Event<const std::string&, Util::Level>> nullEvent = nullptr;
+std::shared_ptr<Util::Event<const std::string&, Util::Level>> nullEvent =
+    std::make_shared<Util::Event<const std::string&, Util::Level>>();
 
 TEST(BoardTest, ConstructorInitializesEmptyBoard) {
     Board board("Test", 5, 5, nullEvent);

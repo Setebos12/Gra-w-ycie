@@ -9,6 +9,8 @@ template <typename T>
 void Renderer::draw(const std::vector<std::shared_ptr<T>>& all_objects)
     requires std::is_base_of_v<Render::IRenderObject, T>
 {
+  logEvent_->invoke("draw step", Util::Level::DEBUG);
+
   for (const auto &obj : all_objects) {
     obj->draw(*drawer_);
   }

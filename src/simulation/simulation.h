@@ -9,13 +9,13 @@
 
 #pragma once
 
-#include "../input/Input.h"
-#include "../logic/logic.h"
-#include "../render/renderer.h"
-#include "../util/logger.h"
-#include "../util/event.h"
+#include "input.h"
+#include "logic.h"
+#include "renderer.h"
+#include "logger.h"
+#include "event.h"
 #include <memory>
-#include "../ui/uipanel.h"
+#include "uipanel.h"
 
 
 namespace MVC {

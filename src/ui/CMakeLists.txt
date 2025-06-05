@@ -1,14 +1,13 @@
 # src/ui/CMakeLists.txt
-project("ui")
+project("Ui")
 
-# Add a library for the input module
 set(SOURCE
 	hud.cpp
- uipanel.cpp)
+	uipanel.cpp
+	inputbutton.cpp
+)
 
-# Include the current directory for header files
 add_library(${PROJECT_NAME} ${SOURCE})
 
-# Include the current directory for header files
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(${PROJECT_NAME} PUBLIC SFML::Graphics)
+target_link_libraries(${PROJECT_NAME} PUBLIC SFML::Graphics Core PRIVATE LogicModel)
