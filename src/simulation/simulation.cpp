@@ -94,8 +94,8 @@ void Simulation::save() {
         Util::FileIO io;
         for (auto& go : gameobjects_) {
             if (go->getSaveState()) {
-                logEvent_->invoke("save successful", Util::Level::INFO);
                 io.write<GameObject>(*go);
+                logEvent_->invoke("save successful", Util::Level::INFO);
             }
         }
     } catch (const std::runtime_error& err) {
@@ -109,8 +109,8 @@ void Simulation::load() {
         Util::FileIO io;
         for (auto& go : gameobjects_) {
             if (go->getSaveState()) {
-                logEvent_->invoke("load successful", Util::Level::INFO);
                 io.read<GameObject>(*go);
+                logEvent_->invoke("load successful", Util::Level::INFO);
             }
         }
     } catch (const std::runtime_error& err) {
