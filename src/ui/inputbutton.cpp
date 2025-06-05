@@ -10,7 +10,7 @@
 
 #include "InputButton.h"
 
-using namespace INPUT;
+using namespace UI;
 
 void InputButton::draw(Render::Drawer& drawer)  {
     sf::Color color = pressed_ ? sf::Color::Red : sf::Color::Green;

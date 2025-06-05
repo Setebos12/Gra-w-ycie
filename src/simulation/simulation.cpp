@@ -7,11 +7,11 @@
 // Authors: Piotr Pyrak, Krzysztof Rutkowski, Bartosz Paszkiewicz
 
 
-#include "Simulation.h"
-#include "../input/InputButton.h"
-#include "../logic/board.h"
-#include "../ui/hud.h"
-#include "../util/fileIO.h"
+#include "simulation.h"
+#include "inputbutton.h"
+#include "board.h"
+#include "hud.h"
+#include "fileIO.h"
 
 using namespace MVC;
 
@@ -32,7 +32,7 @@ void Simulation::initWindow(const std::weak_ptr<MVC::Simulation>& selfRef) {
     Util::Event<> loadEvent;
     loadEvent.subscribe<MVC::Simulation>(std::weak_ptr(selfRef), &MVC::Simulation::load);
 
-    logEvent_->invoke("game started\n", Util::Level::INFO);
+    logEvent_->invoke("simulation started", Util::Level::INFO);
 
     constexpr int boardWidth = 100;
     constexpr int boardHeight = 100;
@@ -53,7 +53,7 @@ void Simulation::initWindow(const std::weak_ptr<MVC::Simulation>& selfRef) {
 
     //mvc
     input_ = std::make_unique<Input>(window_, logEvent_);
-    render_ = std::make_unique<MVC::Renderer>(window_);
+    render_ = std::make_unique<MVC::Renderer>(window_, logEvent_);
 
     auto board = std::make_shared<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_);
     
@@ -84,16 +84,19 @@ void Simulation::run() {
       logic_->step(gameobjects_);
       render_->draw(gameobjects_);
 
-      logEvent_->invoke("frame\n", Util::Level::DEBUG);
+      logEvent_->invoke("frame end", Util::Level::DEBUG);
   }
 }
 
 void Simulation::save() {
+    logEvent_->invoke("attempt to save", Util::Level::INFO);
     try {
-        FileIO io;
+        Util::FileIO io;
         for (auto& go : gameobjects_) {
-            if (go->getSaveState())
+            if (go->getSaveState()) {
+                logEvent_->invoke("save successful", Util::Level::INFO);
                 io.write<GameObject>(*go);
+            }
         }
     } catch (const std::runtime_error& err) {
         logEvent_->invoke("ERROR: Can't save state: " + std::string(err.what()), Util::Level::ERROR);
@@ -101,11 +104,14 @@ void Simulation::save() {
 }
 
 void Simulation::load() {
+    logEvent_->invoke("attempt to load", Util::Level::INFO);
     try {
-        FileIO io;
+        Util::FileIO io;
         for (auto& go : gameobjects_) {
-            if (go->getSaveState())
+            if (go->getSaveState()) {
+                logEvent_->invoke("load successful", Util::Level::INFO);
                 io.read<GameObject>(*go);
+            }
         }
     } catch (const std::runtime_error& err) {
         logEvent_->invoke("ERROR: Can't load state: " + std::string(err.what()), Util::Level::ERROR);

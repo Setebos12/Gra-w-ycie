@@ -2,16 +2,16 @@
 //
 // Author: Piotr Pyrak
 
-#include "core/Simulation.h"
-#include "util/parser.h"
-#include "util/logger.h"
-#include "util/fileIO.h"
+#include "simulation.h"
+#include "parser.h"
+#include "logger.h"
+#include "fileIO.h"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-	Parser parser(argc, argv);
+	Util::Parser parser(argc, argv);
 
 	Util::Level lvl {Util::Level::DEBUG};
 	auto optlvl {parser.getArg<Util::Level>("--level")};
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	auto writePath = optWritePath.has_value() ? optWritePath.value() : "";
 
 	try {
-		FileIO::init(readPath, writePath);
+		Util::FileIO::init(readPath, writePath);
 	} catch (runtime_error err) {
 		std::cerr << "Failed read/write of FileIO:  " << err.what() << std::endl;
 	}

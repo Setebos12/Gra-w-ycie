@@ -7,25 +7,26 @@
 
 #pragma once
 
-#include "../render/irenderobj.h"
-#include "../util/event.h"
-#include "../util/logger.h"
+#include "irenderobj.h"
+#include "event.h"
+#include "logger.h"
 #include <istream>
 #include <optional>
 #include <ostream>
 #include <string>
-#include "../input/InputPoller.h"
-#include "../input/InputToken.h"
+#include "inputtoken.h"
 
 
 namespace MVC {
 class GameObject : public Render::IRenderObject {
 public:
     GameObject(const std::string& name,
-               std::optional<
-               std::shared_ptr<Util::Event<const std::string&, Util::Level>>>
-               logEvent = std::nullopt, bool saveState = false)
-        : name_(name), logEvent_(logEvent), saveState_(saveState) {
+               std::optional<std::shared_ptr<Util::Event<const std::string&, Util::Level>>> logEvent = std::nullopt,
+               bool saveState = false)
+        : name_(name), logEvent_(std::move(logEvent)), saveState_(saveState) {
+        if (logEvent_.has_value()) {
+            logEvent_.value()->invoke("Created gameobject named: " + name, Util::Level::DEBUG);
+        }
     }
     virtual ~GameObject() = default;
 
@@ -34,13 +35,13 @@ public:
     virtual void update() = 0;
     virtual bool input(InputToken& events) { return false; }
 
-    const auto& getName() { return name_; }
+    const auto& getName() const { return name_; }
     void setName(const std::string& name) { name_ = name; }
 
     virtual std::string printString() const = 0;
     virtual void readString(const std::string& read) = 0;
 
-    auto getSaveState() { return saveState_; }
+    auto getSaveState() const { return saveState_; }
 protected:
     friend std::ostream& operator<<(std::ostream& write,
                                     const GameObject& gameObj);

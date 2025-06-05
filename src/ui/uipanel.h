@@ -9,12 +9,11 @@
 
 #pragma once
 
-#include "../input/InputButton.h"
-#include "../logic/board.h"
-#include "../logic/logic.h"
-#include "../core/gameobject.h"
+#include "inputbutton.h"
+#include "board.h"
+#include "logic.h"
+#include "gameobject.h"
 #include "hud.h"
-
 #include <vector>
 #include <memory>
 #include <functional>
@@ -45,7 +44,7 @@ namespace UI {
         void readString(const std::string& read) override;
 
     private:
-        std::vector<std::unique_ptr<INPUT::InputButton>> inputbuttons;
+        std::vector<std::unique_ptr<UI::InputButton>> inputbuttons;
         std::shared_ptr<Hud> hud;
     };
 }

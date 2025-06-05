@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../core/gameobject.h"
+#include "gameobject.h"
 #include "container.h"
 #include "pointHandle.h"
 #include <memory>
@@ -17,7 +17,7 @@ class Board : public MVC::GameObject {
 public:
     Board(const std::string& name,
           int width, int height,
-          std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent);
+          const std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent);
 
     void draw(Render::Drawer& drawer) override;
     void update() override;

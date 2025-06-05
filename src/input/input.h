@@ -14,14 +14,14 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../core/gameobject.h"
-#include "../input/InputPoller.h"
+#include "gameobject.h"
+#include "InputPoller.h"
 
 namespace MVC {
 class Input {
 public:
     Input(std::shared_ptr<sf::RenderWindow> window, std::optional<std::shared_ptr<Util::Event<const std::string&, Util::Level>>> logEvent)
-        : ip(INPUT::InputPoller(window)), logEvent_(logEvent) {}
+        : ip(INPUT::InputPoller(window)), logEvent_(std::move(logEvent)) {}
 
     void pollEvents(std::vector<std::shared_ptr<MVC::GameObject>>& all_objects);
 

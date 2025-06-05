@@ -16,7 +16,7 @@
 #include <functional>
 
 
-namespace INPUT {
+namespace UI {
 
     class InputButton : public MVC::GameObject {
     public:

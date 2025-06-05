@@ -18,7 +18,7 @@ target_link_libraries(${This} PUBLIC
 	gtest_main
 	LogicModel
 	Renderer
-	ui
+	Ui
 	Util
 )
 

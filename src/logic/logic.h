@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <memory>
-#include "../core/gameobject.h"
+#include "gameobject.h"
 #include "board.h"
 
 namespace MVC {
@@ -23,7 +23,7 @@ namespace MVC {
 		void start();
 		void pause();
 
-		bool isRunning() { return running_; }
+		bool isRunning() const { return running_; }
 	private:
 		bool running_;
 

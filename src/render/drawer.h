@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "event.h"
+#include "logger.h"
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -16,7 +18,7 @@
 namespace Render {
 class Drawer {
 public:
-  Drawer(std::shared_ptr<sf::RenderWindow> window) : window_(window) {}
+  Drawer(std::shared_ptr<sf::RenderWindow> window, const std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent) : window_(window), logEvent_(logEvent) {}
   void refresh();
 
   // methods for gameobjects to use (will add more as needed)
@@ -27,5 +29,7 @@ public:
 private:
   std::shared_ptr<sf::RenderWindow> window_;
   std::vector<std::shared_ptr<sf::Drawable>> buffer_;
+
+  std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent_;
 };
 } // namespace Render
