@@ -11,7 +11,7 @@
 #include <memory>
 #include "../logic/board.h"
 
-Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent,
+Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent,
     const sf::Vector2u& windowSize, int uiPanelWidth, int margin, int boardWidth,
     int boardHeight,
     const std::weak_ptr<MVC::Logic>& logic,
@@ -33,12 +33,15 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
     Util::Event<> resetBoard;
     resetBoard.subscribe(std::weak_ptr<Board>(board), &Board::resetBoard);
     resetBoard.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::pause);
+    resetBoard.subscribe(std::weak_ptr<Hud>(hud), &Hud::reset);
+
     inputbuttons.emplace_back(std::make_unique<InputButton>(
         "ResetButton",
         Vector2f{ buttonX, 20.f },
         Vector2f{ buttonWidth, buttonHeight },
         "RESET",
-        std::move(resetBoard)
+        std::move(resetBoard),
+        logEvent
     ));
 
     Util::Event<> increaseSpeed, decreaseSpeed;
@@ -50,7 +53,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY - 140.f },
         Vector2f{ buttonWidth, buttonHeight },
         "SPEED UP",
-        std::move(increaseSpeed)
+        std::move(increaseSpeed),
+        logEvent
     ));
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
@@ -58,7 +62,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY - 70.f },
         Vector2f{ buttonWidth, buttonHeight },
         "SPEED DOWN",
-        std::move(decreaseSpeed)
+        std::move(decreaseSpeed),
+        logEvent
     ));
 
     Util::Event<> start, stop;
@@ -71,7 +76,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY },
         Vector2f{ buttonWidth, buttonHeight },
         "START",
-        std::move(start)
+        std::move(start),
+        logEvent
     ));
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
@@ -79,7 +85,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY + 100.f },
         Vector2f{ buttonWidth, buttonHeight },
         "STOP",
-        std::move(stop)
+        std::move(stop),
+        logEvent
     ));
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
@@ -87,7 +94,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY + 200.f },
         Vector2f{ buttonWidth, buttonHeight },
         "END",
-        std::move(simEndEvent)
+        std::move(simEndEvent),
+        logEvent
     ));
 
     Util::Event<> toggleDraw;
@@ -98,7 +106,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY + 300.f },
         Vector2f{ buttonWidth, buttonHeight },
         "ENABLE DRAW",
-        std::move(toggleDraw)
+        std::move(toggleDraw),
+        logEvent
     ));
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
@@ -106,7 +115,8 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY - 210.f },
         Vector2f{ buttonWidth, buttonHeight },
         "SAVE",
-        std::move(saveEvent)
+        std::move(saveEvent),
+        logEvent
     ));
 
     inputbuttons.emplace_back(std::make_unique<InputButton>(
@@ -114,8 +124,11 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> l
         Vector2f{ buttonX, buttonY - 280.f },
         Vector2f{ buttonWidth, buttonHeight },
         "LOAD",
-        std::move(loadEvent)
+        std::move(loadEvent),
+        logEvent
+
     ));
+    logEvent_.value()->invoke("Uipanel initialized\n", Util::Level::INFO);
 }
 
 

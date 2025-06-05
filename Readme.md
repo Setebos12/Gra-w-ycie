@@ -1,4 +1,4 @@
-# Game of Life - Documentation 1.0
+﻿# Game of Life - Documentation 1.0
 ---
 Authors:
 - **Piotr Pyrak**

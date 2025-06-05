@@ -33,6 +33,7 @@ bool InputButton::input(InputToken& token) {
 
     if (token.getType() == TokenType::LEFT_MOUSE_PRESSED) {
         setPressed(true);
+        logEvent_.value()->invoke(std::string("Button clicked: ") + getName() + std::string("\n"), Util::Level::INFO);
         return false;
     }
 

@@ -21,8 +21,9 @@ public:
         const sf::Vector2f& position,
         const sf::Vector2f& size,
         const std::string& label,
-        Util::Event<>&& onClick)
-        : MVC::GameObject(name),
+        Util::Event<>&& onClick,
+        std::optional<std::shared_ptr<Util::Event<const std::string&, Util::Level>>> logEvent = std::nullopt)
+        : MVC::GameObject(name, logEvent),
         position_(position),
         size_(size),
         label_(label),
