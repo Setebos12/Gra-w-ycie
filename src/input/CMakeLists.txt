@@ -3,7 +3,7 @@
 project("Input")
 
 set(SOURCE
-    Input.cpp
+    input.cpp
     inputpoller.cpp
 )
 

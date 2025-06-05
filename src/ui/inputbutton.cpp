@@ -8,7 +8,7 @@
 
 
 
-#include "InputButton.h"
+#include "inputbutton.h"
 
 using namespace Ui;
 

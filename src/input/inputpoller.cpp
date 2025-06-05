@@ -7,7 +7,7 @@
 // Authors: Krzysztof Rutkowski, Piotr Pyrak
 
 
-#include "InputPoller.h"
+#include "inputpoller.h"
 
 using namespace InputPoll;
 

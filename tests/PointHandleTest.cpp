@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "board.h"
-#include "Container.h"
-#include "PointHandle.h"
+#include "container.h"
+#include "pointhandle.h"
 
 TEST(PointHandleTest, CellDiesWithZeroNeighbors) {
     Container c(3, 3);

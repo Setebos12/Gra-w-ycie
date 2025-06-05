@@ -14,7 +14,7 @@
 #include <functional>
 #include <iostream>
 #include <queue>
-#include "InputToken.h"
+#include "inputtoken.h"
 
 namespace InputPoll {
 

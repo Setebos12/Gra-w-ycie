@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "board.h"
-#include "Container.h"
-#include "PointHandle.h"
+#include "container.h"
+#include "pointhandle.h"
 
 std::shared_ptr<Util::Event<const std::string&, Util::Level>> nullEvent =
     std::make_shared<Util::Event<const std::string&, Util::Level>>();

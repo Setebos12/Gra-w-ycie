@@ -4,8 +4,8 @@ project("LogicModel")
 
 set(SOURCE
 	board.cpp
-	Container.cpp
-	PointHandle.cpp
+	container.cpp
+	pointhandle.cpp
 	logic.cpp
 )
 

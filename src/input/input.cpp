@@ -5,8 +5,8 @@
 //     events to game objects using InputTokens.
 //
 // Authors: Krzysztof Rutkowski, Piotr Pyrak
-#include "Input.h"
-#include "InputToken.h"
+#include "input.h"
+#include "inputtoken.h"
 
 void MVC::Input::pollEvents(std::vector<std::shared_ptr<GameObject>>& all_objects) {
     logEvent_.value()->invoke("Polling events", Util::Level::DEBUG);

@@ -4,7 +4,7 @@
 //
 //Author: Bartosz Paszkiewicz
 
-#include "pointHandle.h"
+#include "pointhandle.h"
 
 PointHandle::PointHandle(const Container& container) 
 	: container_(container) {}

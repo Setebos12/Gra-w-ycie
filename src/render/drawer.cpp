@@ -18,18 +18,6 @@ void Drawer::drawRect(const sf::Vector2f &position, const sf::Vector2f &size,
   rect->setPosition(position);
   rect->setFillColor(fill);
 
-
-  std::stringstream ss;
-  ss << "Drawing rect, pos: (" << position.x << ", " << position.y << ") "
-      << "size: (" << size.x << ", " << size.y << ") "
-      << "fill: (r=" << fill.r
-      << ", g=" << fill.g
-      << ", b=" << fill.b
-      << ", a=" << fill.a << ")";
-
-  logEvent_->invoke(ss.str(), Util::Level::DEBUG);
-
-
   buffer_.emplace_back(std::move(rect));
 }
 
@@ -52,19 +40,6 @@ void Drawer::drawText(const std::string & textStr, const sf::Vector2f & position
     text->setCharacterSize(fontSize);
     text->setFillColor(color);
     text->setPosition(position);
-
-
-    std::stringstream ss;
-    ss << "Drawing text: \"" << textStr << "\" "
-        << "at position: (" << position.x << ", " << position.y << ") "
-        << "size: " << fontSize << " "
-        << "color: (r=" << color.r
-        << ", g=" << color.g
-        << ", b=" << color.b
-        << ", a=" << color.a << ")";
-
-    logEvent_->invoke(ss.str(), Util::Level::DEBUG);
-
 
     buffer_.emplace_back(std::move(text));
 }

@@ -10,7 +10,7 @@
 
 #include "gameobject.h"
 #include "container.h"
-#include "pointHandle.h"
+#include "pointhandle.h"
 #include <memory>
 
 class Board : public MVC::GameObject {
