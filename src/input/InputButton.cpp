@@ -35,5 +35,6 @@ bool InputButton::input(InputToken& token) {
 
 
     setPressed(true);
+    logEvent_.value()->invoke(std::string("Button clicked: ") + getName() + std::string("\n"), Util::Level::INFO);
     return true;
 }

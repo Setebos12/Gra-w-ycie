@@ -21,7 +21,7 @@
 
 class Uipanel : public MVC::GameObject {
 public:
-    Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>> logEvent,
+    Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent,
         const sf::Vector2u& windowSize,
         int uiPanelWidth,
         int margin,

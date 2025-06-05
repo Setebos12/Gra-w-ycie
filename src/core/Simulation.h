@@ -27,7 +27,7 @@ public:
   void run();
 private:
   void stopRun() { running_ = false; }
-  bool running_;
+  bool running_ = false;
   std::shared_ptr<sf::RenderWindow> window_;
 
   std::shared_ptr<Util::Logger> logger_;

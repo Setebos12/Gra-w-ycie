@@ -25,7 +25,7 @@ void Simulation::initWindow(std::weak_ptr<MVC::Simulation>&& selfRef) {
     Util::Event<> simEndEvent;
     simEndEvent.subscribe<MVC::Simulation>(std::move(selfRef), &MVC::Simulation::stopRun);
 
-    logEvent_->invoke("game started", Util::Level::INFO);
+    logEvent_->invoke("game started\n", Util::Level::INFO);
 
     constexpr int boardWidth = 100;
     constexpr int boardHeight = 100;
@@ -45,7 +45,7 @@ void Simulation::initWindow(std::weak_ptr<MVC::Simulation>&& selfRef) {
     window_->setFramerateLimit(maxFps);
 
     //mvc
-    input_ = std::make_unique<Input>(window_);
+    input_ = std::make_unique<Input>(window_, logEvent_);
     render_ = std::make_unique<MVC::Renderer>(window_);
 
     running_ = true;

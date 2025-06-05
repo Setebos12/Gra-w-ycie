@@ -20,12 +20,14 @@
 namespace MVC {
 class Input {
 public:
-    Input(std::shared_ptr<sf::RenderWindow> window)
-        : ip(InputPoller(window)) {}
+    Input(std::shared_ptr<sf::RenderWindow> window, std::optional<std::shared_ptr<Util::Event<const std::string&, Util::Level>>> logEvent)
+        : ip(InputPoller(window)), logEvent_(logEvent) {}
 
     void pollEvents(std::vector<std::shared_ptr<MVC::GameObject>>& all_objects);
 
 private:
     InputPoller ip;
+    std::optional<std::shared_ptr<Util::Event<const std::string&, Util::Level>>>
+        logEvent_;
 };
 } // namespace MVC
