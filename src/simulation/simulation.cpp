@@ -52,7 +52,7 @@ void Simulation::initWindow(const std::weak_ptr<MVC::Simulation>& selfRef) {
     window_->setFramerateLimit(maxFps);
 
     //mvc
-    input_ = std::make_unique<Input>(window_);
+    input_ = std::make_unique<Input>(window_, logEvent_);
     render_ = std::make_unique<MVC::Renderer>(window_, logEvent_);
 
     auto board = std::make_shared<Board>("Game of Life Board", boardWidth, boardHeight, logEvent_);
