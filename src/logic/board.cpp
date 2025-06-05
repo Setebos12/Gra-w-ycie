@@ -1,3 +1,9 @@
+//Filename: board.cpp
+//
+// Implements board methods
+//
+//Author: Bartosz Paszkiewicz
+
 #include "board.h"
 #include <utility>
 #include <sstream>
@@ -13,25 +19,27 @@ std::string toString(const T& value) {
     return oss.str();
 }
 
-Board::Board(const std::string& name, int width, int height, std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent)
-    : GameObject(name, logEvent),
-    container(std::make_unique<Container>(width, height)),
-    pointHandle(std::make_unique<PointHandle>(*container)),
-    generationCount(0) {
+Board::Board(const std::string& name,
+             int width, int height,
+             std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent)
+    : GameObject(name, logEvent, true),
+    container_(std::make_unique<Container>(width, height)),
+    pointHandle_(std::make_unique<PointHandle>(*container_)),
+    generationCount_(0) {
 }
 
 void Board::update()
 {
-    if (!container || !pointHandle) return;
+    if (!container_ || !pointHandle_) return;
 
-    int width = container->getWidth();
-    int height = container->getHeight();
+    int width = container_->getWidth();
+    int height = container_->getHeight();
 
-    int min_x = container->findMinMaxX().first;
-    int max_x = container->findMinMaxX().second;
+    int min_x = container_->findMinMaxX().first;
+    int max_x = container_->findMinMaxX().second;
 
-    int min_y = container->findMinMaxY().first;
-    int max_y = container->findMinMaxY().second;
+    int min_y = container_->findMinMaxY().first;
+    int max_y = container_->findMinMaxY().second;
 
     std::vector<std::pair<int, int>> cellsToToggle;
 
@@ -39,7 +47,7 @@ void Board::update()
     {
         for (int y = min_y; y < max_y; ++y)
         {
-            if (container->getCellState(x, y) != pointHandle->shouldCellLive(x, y))
+            if (container_->getCellState(x, y) != pointHandle_->shouldCellLive(x, y))
             {
                 cellsToToggle.push_back(std::make_pair(x, y));
             }
@@ -56,33 +64,34 @@ void Board::update()
 
 void Board::toggleCellState(int x, int y)
 {
-    bool currentState = container->getCellState(x, y);
-    container->setCellState(x, y, !currentState);
+    bool currentState = container_->getCellState(x, y);
+    container_->setCellState(x, y, !currentState);
 }
 
 void Board::resetBoard()
 {
-    container->resetContainer();
+    container_->resetContainer();
 }
 
 int Board::getGenerationCount() const
 {
-    return generationCount;
+    return generationCount_;
 }
 
 void Board::incrementGeneration()
 {
-    generationCount++;
+    ++generationCount_;
+    updateGenEvent_.invoke(generationCount_);
 }
 
 void Board::draw(Render::Drawer& drawer) {
-    if (!container) return;
+    if (!container_) return;
 
     float cellSize = 10.0f;
 
-    for (int x = 0; x < container->getWidth(); ++x) {
-        for (int y = 0; y < container->getHeight(); ++y) {
-            bool alive = container->getCellState(x, y);
+    for (int x = 0; x < container_->getWidth(); ++x) {
+        for (int y = 0; y < container_->getHeight(); ++y) {
+            bool alive = container_->getCellState(x, y);
 
             sf::Vector2f position(x * cellSize, y * cellSize);
             sf::Vector2f size(cellSize, cellSize);
@@ -99,12 +108,12 @@ std::string Board::printString() const {
     int aliveCount = 0;
     std::string gridData;
 
-    int width = container->getWidth();
-    int height = container->getHeight();
+    int width = container_->getWidth();
+    int height = container_->getHeight();
 
     for (int x = 0; x < width; ++x) {
         for (int y = 0; y < height; ++y) {
-            bool alive = container->getCellState(x, y);
+            bool alive = container_->getCellState(x, y);
             if (alive) aliveCount++;
             gridData += alive ? '1' : '0';
         }
@@ -112,7 +121,7 @@ std::string Board::printString() const {
 
     result += toString(width) + " ";
     result += toString(height) + " ";
-    result += toString(generationCount) + " ";
+    result += toString(generationCount_) + " ";
     result += toString(aliveCount) + " ";
     result += gridData;
 
@@ -124,9 +133,9 @@ void Board::readString(const std::string& read) {
     int width, height, generation, aliveCount;
     iss >> width >> height >> generation >> aliveCount;
 
-    container = std::make_unique<Container>(width, height);
-    pointHandle = std::make_unique<PointHandle>(*container);
-    generationCount = generation;
+    container_ = std::make_unique<Container>(width, height);
+    pointHandle_ = std::make_unique<PointHandle>(*container_);
+    generationCount_ = generation;
 
     std::string gridData;
     iss >> gridData;
@@ -136,20 +145,20 @@ void Board::readString(const std::string& read) {
         for (int y = 0; y < height; ++y) {
             if (index < gridData.size()) {
                 bool state = gridData[index++] == '1';
-                container->setCellState(x, y, state);
+                container_->setCellState(x, y, state);
             }
         }
     }
 }
 
 bool Board::input(InputToken& token) {
-    if (!inputEnabled) return false;
+    if (!inputEnabled_) return false;
     if (!(token.getType() == TokenType::LEFT_MOUSE_DOWN) && !(token.getType() == TokenType::LEFT_MOUSE_PRESSED))
         return false;
 
     int cellSize = 10;
     sf::Vector2f v1(0.f, 0.f);
-    sf::Vector2f v2(container->getWidth() * cellSize, container->getHeight() * cellSize);
+    sf::Vector2f v2(container_->getWidth() * cellSize, container_->getHeight() * cellSize);
     sf::FloatRect boardRect(v1, v2);
 
     sf::FloatRect rect(v1, v2);
@@ -160,10 +169,10 @@ bool Board::input(InputToken& token) {
     int y = static_cast<int>((token.getMousePos().y - boardRect.position.y) / cellSize);
 
     if (token.getType() == TokenType::LEFT_MOUSE_PRESSED) {
-        erasing = container->getCellState(x, y);
+        erasing_ = container_->getCellState(x, y);
     }
 
-    if (container->getCellState(x, y) == erasing)
+    if (container_->getCellState(x, y) == erasing_)
         toggleCellState(x, y);
 
     return true;

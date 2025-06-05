@@ -8,24 +8,26 @@
 
 void FileIO::init(const std::string &readFilePath,
                   const std::string &writeFilePath) {
-  readFilePath_ = readFilePath;
-  writeFilePath_ = writeFilePath;
+    try {
+        readFilePath_ = readFilePath;
+        writeFilePath_ = writeFilePath;
 
-  std::fstream readCheck{readFilePath_};
-  if (readFilePath_ != "" && !readCheck.is_open()) {
-    throw std::runtime_error("Failed to open file: " + readFilePath_);
-  }
-  std::fstream writeCheck{writeFilePath_};
-  if (writeFilePath_ != "" && !writeCheck.is_open()) {
-    throw std::runtime_error("Failed to open file: " + writeFilePath_);
-  }
+        std::fstream readCheck{ readFilePath_ };
+        if (readFilePath_ != "" && !readCheck.is_open()) {
+            throw std::runtime_error("Failed to open file: " + readFilePath_);
+        }
+        std::fstream writeCheck{ writeFilePath_, std::fstream::out };
+        if (writeFilePath_ != "" && !writeCheck.is_open()) {
+            throw std::runtime_error("Failed to open file: " + writeFilePath_);
+        }
+    } catch (...) { throw; }
 }
 
 bool FileIO::openStream(std::fstream &stream, const std::string &path) {
   if (path != "" && !stream.is_open()) {
-    std::fstream stream{path};
+    stream = std::fstream{path};
 
-    if (!stream.is_open())
+    if (!stream.is_open() || stream.fail())
       return false;
   }
   return true;

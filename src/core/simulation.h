@@ -21,13 +21,17 @@
 namespace MVC {
 class Simulation {
 public:
-  Simulation();
-  void initWindow(std::weak_ptr<MVC::Simulation>&& selfRef);
+  Simulation(Util::Level log);
+  void initWindow(const std::weak_ptr<MVC::Simulation>& selfRef);
 
   void run();
 private:
   void stopRun() { running_ = false; }
-  bool running_ = false;
+
+  void save();
+  void load();
+
+  bool running_;
   std::shared_ptr<sf::RenderWindow> window_;
 
   std::shared_ptr<Util::Logger> logger_;

@@ -1,12 +1,18 @@
-#include "PointHandle.h"
+//Filename: pointHandle.cpp
+//
+//Implementation of pointHandle methods
+//
+//Author: Bartosz Paszkiewicz
+
+#include "pointHandle.h"
 
 PointHandle::PointHandle(const Container& container) 
-	: container(container) {}
+	: container_(container) {}
 
 bool PointHandle::shouldCellLive(int x, int y) const
 {
     int liveNeighbors = countLiveNeighbors(x, y);
-    bool isAlive = container.getCellState(x, y);
+    bool isAlive = container_.getCellState(x, y);
 
     // Conway's Game of Life rules:
     // 1. Any live cell with 2 or 3 neighbors survives.
@@ -19,8 +25,8 @@ bool PointHandle::shouldCellLive(int x, int y) const
 int PointHandle::countLiveNeighbors(int x, int y) const
 {
 	int count = 0;
-	const int width = container.getWidth();
-	const int height = container.getHeight();
+	const int width = container_.getWidth();
+	const int height = container_.getHeight();
 	
     // we check all cell in 3x3 square around
     for (int dx = -1; dx <= 1; ++dx)
@@ -34,7 +40,7 @@ int PointHandle::countLiveNeighbors(int x, int y) const
 
             if (nx >= 0 && nx < width && ny >= 0 && ny < height)
             {
-                if (container.getCellState(nx, ny))
+                if (container_.getCellState(nx, ny))
                 {
                     count++;
                 }

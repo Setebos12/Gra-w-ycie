@@ -10,29 +10,55 @@
 
 class FileIO {
 public:
-  static void init(const std::string &readFilePath,
-                   const std::string &writeFilePath);
+  static void init(const std::string& readFilePath,
+                   const std::string& writeFilePath);
 
-  const auto &getReadFile() { return readFilePath_; }
-  const auto &getWriteFile() { return writeFilePath_; }
+  const auto& getReadFile() { return readFilePath_; }
+  const auto& getWriteFile() { return writeFilePath_; }
 
   FileIO() = default;
-
-  template <typename T> bool read(T &obj) {
-    if (!openStream(readFile_, readFilePath_))
-      return false;
-    readFile_ >> obj;
-    if (readFile_.fail())
-      return false;
-    return true;
+  ~FileIO() {
+      readFile_.close();
+      writeFile_.close();
   }
-  template <typename T> bool write(const T &obj) {
-    if (!openStream(writeFile_, writeFilePath_))
-      return false;
-    writeFile_ << obj;
-    if (writeFile_.fail())
-      return false;
-    return true;
+
+  //copy
+  FileIO(const FileIO&) = delete;
+  FileIO& operator=(const FileIO&) = delete;
+
+  //move
+  FileIO(FileIO&& other) noexcept
+      : readFile_(std::move(other.readFile_)),
+      writeFile_(std::move(other.writeFile_)) {
+  }
+  FileIO& operator=(FileIO&& other) {
+      if (this != &other) {
+          readFile_.close();
+          writeFile_.close();
+          readFile_ = std::move(other.readFile_);
+          writeFile_ = std::move(other.writeFile_);
+      }
+      return *this;
+  }
+
+  template <typename T> void read(T& obj) {
+      try {
+          if (!openStream(readFile_, readFilePath_))
+              throw std::runtime_error("Failed to open file: " + readFilePath_);
+          readFile_ >> obj;
+          if (readFile_.fail())
+              throw std::runtime_error("Failed to read from file: " + readFilePath_);
+      } catch (...) { throw; }
+  }
+
+  template <typename T> void write(const T& obj) {
+      try {
+          if (!openStream(writeFile_, writeFilePath_))
+              throw std::runtime_error("Failed to open file: " + writeFilePath_);
+          writeFile_ << obj;
+          if (writeFile_.fail())
+              throw std::runtime_error("Failed to write to file: " + writeFilePath_);
+      } catch (...) { throw; }
   }
 
 private:

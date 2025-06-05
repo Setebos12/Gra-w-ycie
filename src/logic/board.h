@@ -1,13 +1,23 @@
+//Filename: board.h
+//
+// Class that represents board of the game, maintains
+// its state and takes input. Ihnerits from gameobject and implements
+// override methods
+//
+//Author: Bartosz Paszkiewicz
+
 #pragma once
 
 #include "../core/gameobject.h"
-#include "Container.h"
-#include "PointHandle.h"
+#include "container.h"
+#include "pointHandle.h"
 #include <memory>
 
 class Board : public MVC::GameObject {
 public:
-    Board(const std::string& name, int width, int height, std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent);
+    Board(const std::string& name,
+          int width, int height,
+          std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent);
 
     void draw(Render::Drawer& drawer) override;
     void update() override;
@@ -21,17 +31,21 @@ public:
     std::string printString() const override;
     void readString(const std::string& read) override;
 
-    void enableInput() { inputEnabled = true; }
-    void disableInput() { inputEnabled = false; }
-    auto getInputEnabled() { return inputEnabled; }
+    void enableInput() { inputEnabled_ = true; }
+    void disableInput() { inputEnabled_ = false; }
+    auto getInputEnabled() const { return inputEnabled_; }
+
+    auto& getUpdateGenEvent() { return updateGenEvent_; }
 private:
-    std::unique_ptr<Container> container;
-    std::unique_ptr<PointHandle> pointHandle;
-    int generationCount;
+    std::unique_ptr<Container> container_;
+    std::unique_ptr<PointHandle> pointHandle_;
+    int generationCount_;
 
-    bool inputEnabled = false;
+    bool inputEnabled_ = false;
 
-    bool erasing = false;
+    bool erasing_ = false;
 
     void incrementGeneration();
+
+    Util::Event<int> updateGenEvent_;
 };

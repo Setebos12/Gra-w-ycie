@@ -6,21 +6,20 @@
 
 #include "gameobject.h"
 
-using namespace MVC;
-
-std::ostream &operator<<(std::ostream &write, const GameObject &gameObj) {
+namespace MVC {
+std::ostream& operator<<(std::ostream& write, const GameObject& gameObj) {
 	write << gameObj.printString();
 
 	return write;
 }
 
-std::istream &operator>>(std::istream &read, GameObject &gameObj) {
+std::istream& operator>>(std::istream& read, GameObject& gameObj) {
 	if (read.fail())
 		return read;
-	
+
 	std::string readString;
 
-	read >> readString;
+	std::getline(read, readString);
 
 	if (read.fail())
 		return read;
@@ -29,3 +28,4 @@ std::istream &operator>>(std::istream &read, GameObject &gameObj) {
 
 	return read;
 }
+} // namespace MVC
