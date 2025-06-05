@@ -35,6 +35,13 @@ public:
     void disableInput() { inputEnabled_ = false; }
     auto getInputEnabled() const { return inputEnabled_; }
 
+    template<typename T>
+    std::string toString(const T& value) {
+        std::ostringstream oss;
+        oss << value;
+        return oss.str();
+    }
+
     auto& getUpdateGenEvent() { return updateGenEvent_; }
 private:
     std::unique_ptr<Container> container_;

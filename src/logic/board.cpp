@@ -12,12 +12,7 @@
 #include <string>
 #include <iostream>
 
-template<typename T>
-std::string toString(const T& value) {
-    std::ostringstream oss;
-    oss << value;
-    return oss.str();
-}
+
 
 Board::Board(const std::string& name,
              int width, int height,
