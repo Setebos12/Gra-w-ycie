@@ -19,29 +19,33 @@
 #include <memory>
 #include <functional>
 
-class Uipanel : public MVC::GameObject {
-public:
-    Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent,
-        const sf::Vector2u& windowSize,
-        int uiPanelWidth,
-        int margin,
-        int boardWidth,
-        int boardHeight,
-        const std::weak_ptr<MVC::Logic>& logic,
-        const std::weak_ptr<Board>& board,
-        Util::Event<> && simEndEvent,
-        Util::Event<>&& saveEvent,
-        Util::Event<>&& loadEvent,
-        Util::Event<int>& updateGenEvent);
 
-    void draw(Render::Drawer& drawer) override;
-    void update() override;
-    bool input(InputToken& events) override;
+namespace UI {
 
-    std::string printString() const override;
-    void readString(const std::string& read) override;
+    class Uipanel : public MVC::GameObject {
+    public:
+        Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent,
+            const sf::Vector2u& windowSize,
+            int uiPanelWidth,
+            int margin,
+            int boardWidth,
+            int boardHeight,
+            const std::weak_ptr<MVC::Logic>& logic,
+            const std::weak_ptr<Board>& board,
+            Util::Event<>&& simEndEvent,
+            Util::Event<>&& saveEvent,
+            Util::Event<>&& loadEvent,
+            Util::Event<int>& updateGenEvent);
 
-private:
-    std::vector<std::unique_ptr<InputButton>> inputbuttons;
-    std::shared_ptr<Hud> hud;
-};
+        void draw(Render::Drawer& drawer) override;
+        void update() override;
+        bool input(InputToken& events) override;
+
+        std::string printString() const override;
+        void readString(const std::string& read) override;
+
+    private:
+        std::vector<std::unique_ptr<INPUT::InputButton>> inputbuttons;
+        std::shared_ptr<Hud> hud;
+    };
+}

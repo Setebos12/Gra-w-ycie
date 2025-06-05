@@ -16,12 +16,15 @@
 #include <queue>
 #include "InputToken.h"
 
-class InputPoller {
-public:
-    InputPoller(std::shared_ptr<sf::RenderWindow> window) : window_(std::move(window)) {}
+namespace INPUT {
 
-    std::queue<InputToken> processClicks();
+    class InputPoller {
+    public:
+        InputPoller(std::shared_ptr<sf::RenderWindow> window) : window_(std::move(window)) {}
 
-private:
-    std::shared_ptr<sf::RenderWindow> window_;
-};
+        std::queue<InputToken> processClicks();
+
+    private:
+        std::shared_ptr<sf::RenderWindow> window_;
+    };
+}

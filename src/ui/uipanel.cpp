@@ -11,6 +11,8 @@
 #include <memory>
 #include "../logic/board.h"
 
+using namespace UI;
+
 Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& logEvent,
     const sf::Vector2u& windowSize, int uiPanelWidth, int margin, int boardWidth,
     int boardHeight,
@@ -35,7 +37,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
     resetBoard.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::pause);
     resetBoard.subscribe(std::weak_ptr<Hud>(hud), &Hud::reset);
 
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "ResetButton",
         Vector2f{ buttonX, 20.f },
         Vector2f{ buttonWidth, buttonHeight },
@@ -48,7 +50,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
     increaseSpeed.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::increaseSpeed);
     decreaseSpeed.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::decreaseSpeed);
 
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "SpeedUpButton",
         Vector2f{ buttonX, buttonY - 140.f },
         Vector2f{ buttonWidth, buttonHeight },
@@ -57,7 +59,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
         logEvent
     ));
 
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "SpeedDownButton",
         Vector2f{ buttonX, buttonY - 70.f },
         Vector2f{ buttonWidth, buttonHeight },
@@ -71,7 +73,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
     start.subscribe(std::weak_ptr<Board>(board), &Board::disableInput);
     stop.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::pause);
 
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "StartButton",
         Vector2f{ buttonX, buttonY },
         Vector2f{ buttonWidth, buttonHeight },
@@ -80,7 +82,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
         logEvent
     ));
 
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "StopButton",
         Vector2f{ buttonX, buttonY + 100.f },
         Vector2f{ buttonWidth, buttonHeight },
@@ -89,7 +91,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
         logEvent
     ));
 
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "EndButton",
         Vector2f{ buttonX, buttonY + 200.f },
         Vector2f{ buttonWidth, buttonHeight },
@@ -101,7 +103,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
     Util::Event<> toggleDraw;
     toggleDraw.subscribe(std::weak_ptr<MVC::Logic>(logic), &MVC::Logic::pause);
     toggleDraw.subscribe(std::weak_ptr<Board>(board), &Board::enableInput);
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "ToggleDrawButton",
         Vector2f{ buttonX, buttonY + 300.f },
         Vector2f{ buttonWidth, buttonHeight },
@@ -110,7 +112,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
         logEvent
     ));
 
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "SaveButton",
         Vector2f{ buttonX, buttonY - 210.f },
         Vector2f{ buttonWidth, buttonHeight },
@@ -119,7 +121,7 @@ Uipanel::Uipanel(std::shared_ptr<Util::Event<const std::string&, Util::Level>>& 
         logEvent
     ));
 
-    inputbuttons.emplace_back(std::make_unique<InputButton>(
+    inputbuttons.emplace_back(std::make_unique<INPUT::InputButton>(
         "LoadButton",
         Vector2f{ buttonX, buttonY - 280.f },
         Vector2f{ buttonWidth, buttonHeight },

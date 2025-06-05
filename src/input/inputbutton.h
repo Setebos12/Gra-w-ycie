@@ -15,40 +15,44 @@
 #include <string>
 #include <functional>
 
-class InputButton : public MVC::GameObject {
-public:
-    InputButton(const std::string& name,
-        const sf::Vector2f& position,
-        const sf::Vector2f& size,
-        const std::string& label,
-        Util::Event<>&& onClick,
-        std::optional<std::shared_ptr<Util::Event<const std::string&, Util::Level>>> logEvent = std::nullopt)
-        : MVC::GameObject(name, logEvent),
-        position_(position),
-        size_(size),
-        label_(label),
-        pressed_(false),
-        onClick_(std::move(onClick)) {
-    }
 
-    void draw(Render::Drawer& drawer) override;
+namespace INPUT {
 
-    void update() override {}
+    class InputButton : public MVC::GameObject {
+    public:
+        InputButton(const std::string& name,
+            const sf::Vector2f& position,
+            const sf::Vector2f& size,
+            const std::string& label,
+            Util::Event<>&& onClick,
+            std::optional<std::shared_ptr<Util::Event<const std::string&, Util::Level>>> logEvent = std::nullopt)
+            : MVC::GameObject(name, logEvent),
+            position_(position),
+            size_(size),
+            label_(label),
+            pressed_(false),
+            onClick_(std::move(onClick)) {
+        }
 
-    std::string printString() const override { return " "; }
-    void readString(const std::string& read) override {}
+        void draw(Render::Drawer& drawer) override;
 
-    void setPressed(bool pressed) { pressed_ = pressed; }
-    bool isPressed() const { return pressed_; }
+        void update() override {}
 
-    bool input(InputToken& token) override;
+        std::string printString() const override { return " "; }
+        void readString(const std::string& read) override {}
 
-    sf::Vector2f position_;
-    sf::Vector2f size_;
-    std::string label_;
+        void setPressed(bool pressed) { pressed_ = pressed; }
+        bool isPressed() const { return pressed_; }
 
-private:
-    bool pressed_;
+        bool input(InputToken& token) override;
 
-    Util::Event<> onClick_;
-};
+        sf::Vector2f position_;
+        sf::Vector2f size_;
+        std::string label_;
+
+    private:
+        bool pressed_;
+
+        Util::Event<> onClick_;
+    };
+}

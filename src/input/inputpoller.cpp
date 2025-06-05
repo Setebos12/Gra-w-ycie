@@ -8,6 +8,7 @@
 
 
 #include "InputPoller.h"
+using namespace INPUT;
 
 std::queue<InputToken> InputPoller::processClicks() {
     std::queue<InputToken> tokens;
