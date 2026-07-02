@@ -7,6 +7,13 @@ Authors:
 
 ---
 
+## Video Demonstration
+###### Preview
+See the simulation in action and learn how to use the interface:
+* [Game of Life - YouTube Video Demonstration](https://www.youtube.com/watch?v=xxtkpe55a6U)
+    
+---
+
 ## Premises
 <p>We will implement the Conway's Game of Life as descriped on [Wikipedia](https://en.wikipedia.org/wiki/Conway's_Game_of_Life). We use SFML to interact with hardware.<br>
 First the user will specify the starting conditions and start the simulation in a GUI. The simulation can be stopped, the alive population edited and then started again. While the simulation is stopped it can also be saved and loaded from file.<br>
@@ -23,15 +30,6 @@ During the runtime of the program log messages are written to terminal. Generati
 Enable draw button allows for drawing on the board. Clicking and draging there will turn cells alive.
 If an alive cell is clicked it will be killed.
 
----
-
-Video Demonstration
-Preview
-
-See the simulation in action and learn how to use the interface:
-
-    Game of Life - YouTube Video Demonstration (https://www.youtube.com/watch?v=xxtkpe55a6U)
-    
 ---
 
 ## STL used
