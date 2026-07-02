@@ -25,6 +25,15 @@ If an alive cell is clicked it will be killed.
 
 ---
 
+Video Demonstration
+Preview
+
+See the simulation in action and learn how to use the interface:
+
+    Game of Life - YouTube Video Demonstration (https://www.youtube.com/watch?v=xxtkpe55a6U)
+    
+---
+
 ## STL used
 vectors as containers for gameobjects (and listeners in events)
 queue for taking input arguments and proccessing them
